@@ -11,7 +11,8 @@ ebaucheModel : ebaucheModel.cpp
 
 ebaucheVue : ebaucheVue.cpp
 	$(CPP) -c ebaucheVue.cpp
-	g++ -o ebaucheVue ebaucheVue.o -lsfml-system -lsfml-graphics -lsfml-window
+	g++ -o ebaucheVue ebaucheVue.o  -lsfml-system -lsfml-graphics -lsfml-window
+	install_name_tool -add_rpath /usr/local/lib ebaucheVue
 	./ebaucheVue
 
 clean :

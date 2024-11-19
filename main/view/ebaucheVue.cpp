@@ -15,7 +15,7 @@ int main()
 	// définition d'un panneau "central"
 	RectangleShape centralPane(Vector2f(NB_COL * TILE_SIZE, NB_LIGNE * TILE_SIZE));
 	centralPane.setPosition(MARGIN_LEFT, MARGIN_TOP);
-	centralPane.setFillColor(Color::Black);
+	centralPane.setFillColor(Color::Cyan);
 	// plus une trame (lignes horizontales+verticales). En SFML on peut passer par VertexArray
 	// Lines est une sf::enum, VertexArray encapsule autant de points que nécessaires pour ces lignes
 	VertexArray trame(Lines, (NB_COL + 1 + NB_LIGNE + 1) * 2);
@@ -55,8 +55,7 @@ int main()
 		Vector2f mouseWorldPos = window.mapPixelToCoords(mousePos);
 		string message = "Mouse Position: (" + to_string(int(mouseWorldPos.x)) + ", " +
 										 to_string(int(mouseWorldPos.y)) + ")";
-
-		if (centralPane.getGlobalBounds().contains(mouseWorldPos)) // si la souris est dans le cadre
+		if (centralPane.getGlobalBounds().contains(mouseWorldPos))
 		{
 			Vector2f topLeft = centralPane.getPosition();
 			trig_x = (mouseWorldPos.x - topLeft.x) / TILE_SIZE;
@@ -66,13 +65,12 @@ int main()
 		window.setTitle(message);
 
 		Event event;
-
 		while (window.pollEvent(event))
 		{
 			if (event.type == Event::Closed ||
-					(event.type == Event::KeyPressed && event.key.code == Keyboard::Escape)) // fermeture de la fenêtre
+					(event.type == Event::KeyPressed && event.key.code == Keyboard::Escape))
 				window.close();
-			if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left && centralPane.getGlobalBounds().contains(mouseWorldPos)) // clic gauche
+			if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left && centralPane.getGlobalBounds().contains(mouseWorldPos))
 			{
 				cout << "trigger " << trig_x << " " << trig_y << endl;
 				// création d'un sprite pour afficher une case d'exemple
