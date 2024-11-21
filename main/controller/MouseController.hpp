@@ -20,6 +20,7 @@ public:
   MouseController();
   MouseController(RenderWindow &window);
   ~MouseController();
+  void handleMousePress();
   Vector2i const getMousePos();
   Vector2f const getMouseWorldPos();
 };

@@ -4,6 +4,47 @@ using namespace std;
 using namespace sf;
 // ce code a juste été écrit pour une étude de faisabilité. Il vous faudra structurer les choses à votre façon.
 
+void draw(RenderWindow &window, vector<Drawable *> &scene_generale, vector<Drawable *> &scene_particuliere)
+{
+	window.clear();
+	window.setView(window.getDefaultView());
+	// dessin de la scène
+	for (Drawable *x : scene_generale)
+		window.draw(*x);
+	for (Drawable *x : scene_particuliere)
+		window.draw(*x);
+	window.display();
+}
+
+void keyEventPressed(Event &event, RenderWindow &window, vector<Drawable *> &scene_generale, vector<Drawable *> &scene_particuliere)
+{
+	if (event.type == Event::Closed ||
+			(event.type == Event::KeyPressed && event.key.code == Keyboard::Escape))
+		window.close();
+}
+
+void mouseEventPressed(Event &event, RenderWindow &window, vector<Drawable *> &scene_generale, vector<Drawable *> &scene_particuliere, int trig_x, int trig_y, Texture texture_rouge, RectangleShape centralPane, int TILE_SIZE, Vector2f mouseWorldPos)
+{
+	if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left && centralPane.getGlobalBounds().contains(mouseWorldPos))
+	{
+		cout << "trigger " << trig_x << " " << trig_y << endl;
+		// création d'un sprite pour afficher une case d'exemple
+		Sprite *sprite = new Sprite;
+		sprite->setTexture(texture_rouge);
+		Vector2u textureSize = texture_rouge.getSize();
+		sprite->setScale(static_cast<float>(TILE_SIZE) / textureSize.x,
+										 static_cast<float>(TILE_SIZE) / textureSize.y);
+		sprite->setPosition(centralPane.getPosition() + Vector2f(trig_x * TILE_SIZE, trig_y * TILE_SIZE));
+		scene_particuliere.push_back(sprite);
+	}
+}
+
+void mousePosition(RenderWindow &window, Vector2f mouseWorldPos)
+{
+	Vector2i mousePos = Mouse::getPosition(window);
+	mouseWorldPos = window.mapPixelToCoords(mousePos);
+}
+
 int main()
 {
 	// Parametres graphiques, à replacer au bon endroit
@@ -48,6 +89,7 @@ int main()
 	}
 	// Opérations graphiques générales
 	RenderWindow window{VideoMode{nbPix_x, nbPix_y}, "Piece Out"};
+
 	while (window.isOpen())
 	{
 		int trig_x = -1, trig_y = -1;
@@ -55,45 +97,26 @@ int main()
 		Vector2f mouseWorldPos = window.mapPixelToCoords(mousePos);
 		string message = "Mouse Position: (" + to_string(int(mouseWorldPos.x)) + ", " +
 										 to_string(int(mouseWorldPos.y)) + ")";
-		if (centralPane.getGlobalBounds().contains(mouseWorldPos))
+
+		if (centralPane.getGlobalBounds().contains(mouseWorldPos)) // si la souris est dans le cadre
 		{
 			Vector2f topLeft = centralPane.getPosition();
 			trig_x = (mouseWorldPos.x - topLeft.x) / TILE_SIZE;
 			trig_y = (mouseWorldPos.y - topLeft.y) / TILE_SIZE;
 			message += " case :" + to_string(trig_x) + " ; " + to_string(trig_y);
 		}
+
 		window.setTitle(message);
 
+		// gestion des événements
 		Event event;
 		while (window.pollEvent(event))
 		{
-			if (event.type == Event::Closed ||
-					(event.type == Event::KeyPressed && event.key.code == Keyboard::Escape))
-				window.close();
-			if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left && centralPane.getGlobalBounds().contains(mouseWorldPos))
-			{
-				cout << "trigger " << trig_x << " " << trig_y << endl;
-				// création d'un sprite pour afficher une case d'exemple
-				Sprite *sprite = new Sprite;
-				sprite->setTexture(texture_rouge);
-				Vector2u textureSize = texture_rouge.getSize();
-				sprite->setScale(static_cast<float>(TILE_SIZE) / textureSize.x,
-												 static_cast<float>(TILE_SIZE) / textureSize.y);
-				sprite->setPosition(centralPane.getPosition() + Vector2f(trig_x * TILE_SIZE, trig_y * TILE_SIZE));
-				scene_particuliere.push_back(sprite);
-			}
+			keyEventPressed(event, window, scene_generale, scene_particuliere);
+			mouseEventPressed(event, window, scene_generale, scene_particuliere, trig_x, trig_y, texture_rouge, centralPane, TILE_SIZE, mouseWorldPos);
 		}
-
-		window.clear();
-		window.setView(window.getDefaultView());
-
 		// les affichages
-		for (Drawable *x : scene_generale)
-			window.draw(*x);
-		for (Drawable *x : scene_particuliere)
-			window.draw(*x);
-
-		window.display();
+		draw(window, scene_generale, scene_particuliere);
 	}
 	// Remarquez que la destruction des objets n'est pas faites
 	// et que dans ce code il ne suffit pas de détruire scene_generale et scene_particuliere car on y a ajouté des objets créés par new et d'autre déclarés dans un bloc... ce qui n'est pas malin.
