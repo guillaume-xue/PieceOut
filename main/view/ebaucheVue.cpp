@@ -67,7 +67,7 @@ void EbaucheVue::initCentralPane()
 
 void EbaucheVue::initTexture()
 {
-	if (!texture_rouge.loadFromFile("texture.jpg"))
+	if (!texture_rouge.loadFromFile("../../ressources/texture.jpg"))
 	{
 		cerr << "Erreur lors du chargement de l'image" << endl;
 	}
