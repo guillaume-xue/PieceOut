@@ -12,14 +12,10 @@ using namespace sf;
 class KeyboardController : public Keyboard
 {
 private:
-  RenderWindow &window;
-  Event event;
-
 public:
   KeyboardController();
-  KeyboardController(RenderWindow &window);
-  ~KeyboardController();
-  void handleKeyPress(vector<Drawable *> &scene_generale, vector<Drawable *> &scene_particuliere);
+  void updateKeyboardEvent(RenderWindow &window);
+  Event event;
 };
 
 #endif

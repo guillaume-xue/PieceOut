@@ -5,6 +5,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "../controllers/MouseController.hpp"
+#include "../controllers/KeyboardController.hpp"
 
 using namespace std;
 using namespace sf;
@@ -24,10 +26,8 @@ private:
   vector<Drawable *> scene_generale;
   vector<Drawable *> scene_particuliere;
 
-  Event event;
-
-  Vector2i mousePos;
-  Vector2f mouseWorldPos;
+  MouseController mouseController;
+  KeyboardController keyboardController;
 
   RectangleShape centralPane;
   VertexArray trame;
@@ -36,10 +36,9 @@ private:
 
 public:
   EbaucheVue();
+
   void init();
   void draw(RenderWindow &window);
-  void handleKeyboardEvent(RenderWindow &window);
-  void handleMouseEvent(RenderWindow &window);
   void updateTitle(RenderWindow &window);
   void addSprite();
   void initTexture();

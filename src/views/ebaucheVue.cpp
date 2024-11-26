@@ -15,11 +15,11 @@ void EbaucheVue::init()
 
 	while (window.isOpen())
 	{
-		handleMouseEvent(window);
+		mouseController.updateMousePosition(window);
 		updateTitle(window);
-		while (window.pollEvent(event))
+		while (window.pollEvent(keyboardController.event))
 		{
-			handleKeyboardEvent(window);
+			keyboardController.updateKeyboardEvent(window);
 			addSprite();
 		}
 		draw(window);
@@ -52,7 +52,6 @@ void EbaucheVue::initTrame()
 		trame[n++].position = Vector2f(MARGIN_LEFT + i * TILE_SIZE, nbPix_y - MARGIN_BOTTOM);
 	}
 	// on peut (ou pas) distinguer la scène générale cadre+frame et la scène particulière (les cases actuelles)
-
 	scene_generale.push_back(&trame);
 }
 
@@ -67,7 +66,7 @@ void EbaucheVue::initCentralPane()
 
 void EbaucheVue::initTexture()
 {
-	if (!texture_rouge.loadFromFile("../../ressources/texture.jpg"))
+	if (!texture_rouge.loadFromFile("resources/texture.jpg"))
 	{
 		cerr << "Erreur lors du chargement de l'image" << endl;
 	}
@@ -75,7 +74,7 @@ void EbaucheVue::initTexture()
 
 void EbaucheVue::addSprite()
 {
-	if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left && centralPane.getGlobalBounds().contains(mouseWorldPos)) // clic gauche
+	if (keyboardController.event.type == Event::MouseButtonPressed && keyboardController.event.mouseButton.button == Mouse::Left && centralPane.getGlobalBounds().contains(mouseController.getMouseWorldPos())) // clic gauche
 	{
 		cout << "trigger " << trig_x << " " << trig_y << endl;
 		// création d'un sprite pour afficher une case d'exemple
@@ -91,14 +90,14 @@ void EbaucheVue::addSprite()
 
 void EbaucheVue::updateTitle(RenderWindow &window)
 {
-	string message = "Mouse Position: (" + to_string(int(mouseWorldPos.x)) + ", " +
-									 to_string(int(mouseWorldPos.y)) + ")";
+	string message = "Mouse Position: (" + to_string(int(mouseController.getMouseWorldPos().x)) + ", " +
+									 to_string(int(mouseController.getMouseWorldPos().y)) + ")";
 
-	if (centralPane.getGlobalBounds().contains(mouseWorldPos)) // si la souris est dans le cadre
+	if (centralPane.getGlobalBounds().contains(mouseController.getMouseWorldPos())) // si la souris est dans le cadre
 	{
 		Vector2f topLeft = centralPane.getPosition();
-		trig_x = (mouseWorldPos.x - topLeft.x) / TILE_SIZE;
-		trig_y = (mouseWorldPos.y - topLeft.y) / TILE_SIZE;
+		trig_x = (mouseController.getMouseWorldPos().x - topLeft.x) / TILE_SIZE;
+		trig_y = (mouseController.getMouseWorldPos().y - topLeft.y) / TILE_SIZE;
 		message += " case :" + to_string(trig_x) + " ; " + to_string(trig_y);
 	}
 	window.setTitle(message);
@@ -116,23 +115,4 @@ void EbaucheVue::draw(RenderWindow &window)
 		window.draw(*x);
 
 	window.display();
-}
-
-void EbaucheVue::handleKeyboardEvent(RenderWindow &window)
-{
-	if (event.type == Event::Closed ||
-			(event.type == Event::KeyPressed && event.key.code == Keyboard::Escape)) // fermeture de la fenêtre
-		window.close();
-}
-
-void EbaucheVue::handleMouseEvent(RenderWindow &window)
-{
-	mousePos = Mouse::getPosition(window);
-	mouseWorldPos = window.mapPixelToCoords(mousePos);
-}
-
-int main()
-{
-	EbaucheVue ebaucheVue = EbaucheVue();
-	return EXIT_SUCCESS;
 }

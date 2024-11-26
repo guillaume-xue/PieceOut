@@ -12,17 +12,13 @@ using namespace sf;
 class MouseController : public Mouse
 {
 private:
-  RenderWindow &window;
   Vector2i mousePos;
   Vector2f mouseWorldPos;
 
 public:
   MouseController();
-  MouseController(RenderWindow &window);
-  ~MouseController();
-  void handleMousePress();
-  Vector2i const getMousePos();
-  Vector2f const getMouseWorldPos();
+  void updateMousePosition(RenderWindow &window);
+  Vector2f getMouseWorldPos();
 };
 
 #endif
