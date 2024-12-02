@@ -4,12 +4,9 @@ CXXFLAGS = -std=c++11 -Wall
 LDFLAGS = -lsfml-system -lsfml-graphics -lsfml-window
 MACLDFLAGS = install_name_tool -add_rpath /usr/local/lib ebaucheVue
 DIRMAIN = src
-CONTROLLER = $(DIRMAIN)/controllers
-VIEW = $(DIRMAIN)/views
-MODEL = $(DIRMAIN)/models
-SOURCES = $(VIEW)/ebaucheVue.cpp $(CONTROLLER)/MouseController.cpp $(CONTROLLER)/KeyboardController.cpp
-HEADERS = $(VIEW)/ebaucheVue.hpp $(CONTROLLER)/MouseController.hpp $(CONTROLLER)/KeyboardController.hpp
-OBJECTS = $(SOURCES:.cpp=.o)
+SOURCES = $(wildcard $(DIRMAIN)/**/*.cpp) $(wildcard $(DIRMAIN)/*.cpp)
+HEADERS = $(wildcard $(DIRMAIN)/**/*.hpp)
+OBJECTS = $(patsubst %.cpp, %.o, $(SOURCES))
 EXECUTABLE = main
 
 # Règles
@@ -21,13 +18,13 @@ $(EXECUTABLE): $(OBJECTS)
 %.o: %.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-mac : src/Main.cpp  $(SOURCES) $(HEADERS)
-	$(CXX) $(CXXFLAGS) -c src/Main.cpp $(SOURCES) $(HEADERS)
+mac: $(SOURCES) $(HEADERS)
+	$(CXX) $(CXXFLAGS) -c $(SOURCES)
 	g++ -o Main *.o $(LDFLAGS)
 	install_name_tool -add_rpath /usr/local/lib Main
 	./Main
 	
 clean:
-	rm -f $(OBJECTS) $(EXECUTABLE) $(SOURCES:.cpp=.hpp.gch) *.o test
+	rm -f $(OBJECTS) $(EXECUTABLE) $(DIRMAIN)/*.o
 
 .PHONY: all clean

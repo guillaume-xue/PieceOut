@@ -7,6 +7,7 @@
 #include <string>
 #include "../controllers/MouseController.hpp"
 #include "../controllers/KeyboardController.hpp"
+#include "../models/Maps.hpp"
 
 using namespace std;
 using namespace sf;
@@ -14,9 +15,9 @@ using namespace sf;
 class EbaucheVue
 {
 private:
-  const int MARGIN_LEFT = 100, MARGIN_RIGHT = 100, MARGIN_TOP = 100, MARGIN_BOTTOM = 100;
-  const int TILE_SIZE = 64;
-  const int NB_COL = 8, NB_LIGNE = 10;
+  const int MARGIN_LEFT = 0, MARGIN_RIGHT = 0, MARGIN_TOP = 50, MARGIN_BOTTOM = 50;
+  const int TILE_SIZE = 200;
+  const int NB_COL = 3, NB_LIGNE = 3;
   unsigned int nbPix_x = MARGIN_LEFT + MARGIN_RIGHT + NB_COL * TILE_SIZE;
   unsigned int nbPix_y = MARGIN_TOP + MARGIN_BOTTOM + NB_LIGNE * TILE_SIZE;
 
@@ -33,11 +34,16 @@ private:
   VertexArray trame;
 
   Texture texture_rouge;
+  RectangleShape button;
+  Text buttonText;
+
+  Maps map;
 
 public:
   EbaucheVue();
 
   void init();
+  void initButton();
   void draw(RenderWindow &window);
   void updateTitle(RenderWindow &window);
   void addSprite();
@@ -45,6 +51,8 @@ public:
   void initCentralPane();
   void initTrame();
   void initWindow(RenderWindow &window);
+  void initCentralSquares();
+  void initNewTerrain();
 };
 
 #endif

@@ -4,6 +4,8 @@
 #include "Piece.hpp"
 
 class OperateurDeplacement;
+// class OperateurRotation;
+// class OperateurSymetrie;
 
 class PieceOperateur : public Piece {
     public:
@@ -16,23 +18,45 @@ class PieceOperateur : public Piece {
         virtual void mapPosition(pair<int, int> &) const = 0; 
         virtual void visit(PieceConcrete &p) const;
         virtual void visit(OperateurDeplacement &) const = 0;
-        //virtual void visit(OperateurRotation &) const =0;
-	    //virtual void visit(OperateurSymetrie &) const =0;
+        // virtual void visit(OperateurRotation &) const =0;
+	    // virtual void visit(OperateurSymetrie &) const =0;
         virtual void accept(const PieceOperateur &v) = 0;
 };
 
 enum OrientationDeplacement {NORD, SUD, EST, OUEST};
+enum OrientationRotation {HORAIRE, ANTI_HORAIRE};
+enum OrientationSymetrie {HORIZONTALE, VERTICALE};
 
 class OperateurDeplacement : public PieceOperateur {
     public:
         OrientationDeplacement sens;
         OperateurDeplacement(Piece & source, const pair<int,int> & position, OrientationDeplacement sens);
         virtual void accept(const PieceOperateur &v);
-        //virtual void visit(OperateurRotation &x) const;
-	    //virtual void visit(OperateurSymetrie &x) const;
         virtual void mapPosition(pair<int, int> & pos) const;
+        // void visit(OperateurSymetrie &x) const override;
         void visit(OperateurDeplacement &x) const override;
-        
+        // void visit(OperateurRotation &x) const override;
 };
+
+// class OperateurRotation : public PieceOperateur {
+//     public:
+        
+//         OperateurRotation(Piece & source, const pair<int,int> & position);
+//         virtual void accept(const PieceOperateur &v);
+//         // void visit(OperateurSymetrie &x) const override;
+//         // void visit(OperateurDeplacement &x) const override;
+//         void visit(OperateurRotation &x) const override;
+//         virtual void mapPosition(pair<int, int> & pos) const;
+// };
+
+// class OperateurSymetrie : public PieceOperateur {
+//     public:
+//         OperateurSymetrie(Piece & source, const pair<int,int> & position);
+//         virtual void accept(const PieceOperateur &v);
+//         void visit(OperateurSymetrie &x) const override;
+//         // void visit(OperateurDeplacement &x) const override;
+//         // void visit(OperateurRotation &x) const override;
+//         virtual void mapPosition(pair<int, int> & pos) const;
+// };
 
 #endif

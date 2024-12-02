@@ -36,5 +36,41 @@ void OperateurDeplacement::mapPosition(pair<int, int> & pos) const {
     }
 }
 
+// OperateurRotation
+// OperateurRotation::OperateurRotation(Piece & source, const pair<int,int> & position) 
+//     : PieceOperateur(source,position) {}
+
+// void OperateurRotation::accept(const PieceOperateur &v) {
+//     v.visit(*this);
+// }
+
+// void OperateurRotation::visit(OperateurRotation &x) const {
+//     mapPosition(x.position);
+//     x.source.accept(*this);
+// }
+
+// void OperateurRotation::mapPosition(pair<int, int> & pos) const {
+//     int x = pos.first;
+//     pos.first = -pos.second;
+//     pos.second = x;
+// }
+
+// // OperateurSymetrie
+// OperateurSymetrie::OperateurSymetrie(Piece & source, const pair<int,int> & position) 
+//     : PieceOperateur(source,position) {}
+
+// void OperateurSymetrie::accept(const PieceOperateur &v) {
+//     v.visit(*this);
+// }
+
+// void OperateurSymetrie::visit(OperateurSymetrie &x) const {
+//     mapPosition(x.position);
+//     x.source.accept(*this);
+// }
+
+// void OperateurSymetrie::mapPosition(pair<int, int> & pos) const {
+//     pos.first = -pos.first;
+// }
+
 
 
