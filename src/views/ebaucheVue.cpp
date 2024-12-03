@@ -2,13 +2,12 @@
 
 EbaucheVue::EbaucheVue()
 {
-	map.init();
 	init();
 }
 
 void EbaucheVue::init()
 {
-	
+	map = new Maps();
 	RenderWindow window;
 	window.setFramerateLimit(30);
 	initCentralPane();
@@ -98,18 +97,6 @@ void EbaucheVue::initTexture()
 
 void EbaucheVue::addSprite()
 {
-	// if (keyboardController.event.type == Event::MouseButtonPressed && keyboardController.event.mouseButton.button == Mouse::Left && centralPane.getGlobalBounds().contains(mouseController.getMouseWorldPos())) // clic gauche
-	// {
-	// 	cout << "trigger " << trig_x << " " << trig_y << endl;
-	// 	// création d'un sprite pour afficher une case d'exemple
-	// 	Sprite *sprite = new Sprite;
-	// 	sprite->setTexture(texture_rouge);
-	// 	Vector2u textureSize = texture_rouge.getSize();
-	// 	sprite->setScale(static_cast<float>(TILE_SIZE) / textureSize.x,
-	// 									 static_cast<float>(TILE_SIZE) / textureSize.y);
-	// 	sprite->setPosition(centralPane.getPosition() + Vector2f(trig_x * TILE_SIZE, trig_y * TILE_SIZE));
-	// 	scene_particuliere.push_back(sprite);
-	// }
 
 	if (keyboardController.event.type == Event::MouseButtonPressed && keyboardController.event.mouseButton.button == Mouse::Left)
     {
@@ -119,6 +106,7 @@ void EbaucheVue::addSprite()
         if (button.getGlobalBounds().contains(mousePos))
         {
             scene_particuliere.clear();
+			pieces.clear();
             initCentralSquares();
             return;
         }
@@ -138,6 +126,28 @@ void EbaucheVue::addSprite()
 					return;
 				}
 			}
+		else if(!scene_particuliere.empty())
+			for (RectangleShape *piece : pieces){
+				if (piece->getGlobalBounds().contains(mousePos))
+				{
+					cout << "Piece clicked at position: " << piece->getPosition().x << ", " << piece->getPosition().y << endl;
+					selectedPiece = piece;
+					offset = mousePos - piece->getPosition();
+					isDragging = true;
+					return;
+				}
+			}
+		
+    }
+	else if (keyboardController.event.type == Event::MouseButtonReleased && keyboardController.event.mouseButton.button == Mouse::Left)
+    {
+        isDragging = false;
+        selectedPiece = nullptr;
+    }
+    else if (keyboardController.event.type == Event::MouseMoved && isDragging && selectedPiece)
+    {
+        Vector2f mousePos = mouseController.getMouseWorldPos();
+        selectedPiece->setPosition(mousePos - offset);
     }
 }
 
@@ -170,6 +180,10 @@ void EbaucheVue::draw(RenderWindow &window)
     {
         for (Drawable *x : scene_particuliere)
             window.draw(*x);
+
+        // Dessiner les pièces par-dessus la carte
+        for (RectangleShape *piece : pieces)
+            window.draw(*piece);
     }
 
 	// Dessiner le bouton
@@ -200,35 +214,41 @@ void EbaucheVue::initCentralSquares()
 
 void EbaucheVue::initNewTerrain()
 {
-	// if(map.piece->getCoordinates().empty())
-	// 	cout << "piece est null" << endl;
-	
-	// Ajouter la pièce sur la première case de la carte
 
-	// const vector<pair<int, int>>& coords2 = map.piece->getCoordinates();
-    // for (const auto& coord : coords2) {
-    //     cout << "(" << coord.first << ", " << coord.second << ")" << endl;
-    // }
 
-	// // Initialiser la carte
-	// map.map1();
 
-	// // Calculer les positions de départ pour centrer la carte
-	// float startX = (nbPix_x - map.nbCol * map.TILE_SIZE) / 2;
-	// float startY = (nbPix_y - map.nbLigne * map.TILE_SIZE) / 2;
+	// Initialiser la carte
+	map->map1();
 
-	// // Créer les cases de la carte
-	// for (int i = 0; i < map.nbLigne; ++i)
-	// {
-	// 	for (int j = 0; j < map.nbCol; ++j)
-	// 	{
-	// 		RectangleShape *square = new RectangleShape(Vector2f(map.TILE_SIZE, map.TILE_SIZE));
-	// 		square->setPosition(startX + j * map.TILE_SIZE, startY + i * map.TILE_SIZE);
-	// 		square->setFillColor(Color::White); // Couleur de remplissage des cases
-	// 		square->setOutlineColor(Color::Black); // Couleur du bord
-	// 		square->setOutlineThickness(1); // Épaisseur du bord
-	// 		scene_particuliere.push_back(square);
-	// 	}
-	// }
+	// Calculer les positions de départ pour centrer la carte
+	float startX = (nbPix_x - map->nbCol * map->TILE_SIZE) / 2;
+	float startY = (nbPix_y - map->nbLigne * map->TILE_SIZE) / 2;
+
+	// Créer les cases de la carte
+	for (int i = 0; i < map->nbLigne; ++i)
+	{
+		for (int j = 0; j < map->nbCol; ++j)
+		{
+			RectangleShape *square = new RectangleShape(Vector2f(map->TILE_SIZE, map->TILE_SIZE));
+			square->setPosition(startX + j * map->TILE_SIZE, startY + i * map->TILE_SIZE);
+			square->setFillColor(Color::White); // Couleur de remplissage des cases
+			square->setOutlineColor(Color::Black); // Couleur du bord
+			square->setOutlineThickness(1); // Épaisseur du bord
+			scene_particuliere.push_back(square);
+		}
+	}
+
+	// Ajouter les pièces par-dessus la carte
+    const vector<pair<int, int>>& coords = map->piece->getCoordinates();
+    for (const auto& coord : coords)
+    {
+        int x = coord.first;
+        int y = coord.second;
+        RectangleShape *piece = new RectangleShape(Vector2f(map->TILE_SIZE, map->TILE_SIZE));
+        piece->setPosition(startX + x * map->TILE_SIZE, startY + y * map->TILE_SIZE);
+        piece->setFillColor(Color::Red); // Couleur de la pièce
+        piece->setOutlineThickness(1); // Épaisseur du bord
+        pieces.push_back(piece);
+    }
 	
 }

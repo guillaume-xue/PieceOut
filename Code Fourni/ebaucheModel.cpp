@@ -1,6 +1,8 @@
 #include <utility> // pour pair
 #include <vector>
+#include <iostream>
 using namespace std;
+
 class PieceOperateur;
 class Piece {
 	public :

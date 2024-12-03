@@ -26,9 +26,13 @@ private:
 
   vector<Drawable *> scene_generale;
   vector<Drawable *> scene_particuliere;
-
+  vector<RectangleShape *> pieces;
   MouseController mouseController;
   KeyboardController keyboardController;
+
+  bool isDragging = false;
+  RectangleShape* selectedPiece = nullptr;
+  Vector2f offset;
 
   RectangleShape centralPane;
   VertexArray trame;
@@ -37,10 +41,12 @@ private:
   RectangleShape button;
   Text buttonText;
 
-  Maps map;
+  Maps *map;
 
 public:
   EbaucheVue();
+
+  ~EbaucheVue() { cout << "EbaucheVue deleted" << endl; }
 
   void init();
   void initButton();

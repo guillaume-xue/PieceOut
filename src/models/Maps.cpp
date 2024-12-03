@@ -3,15 +3,16 @@
 using namespace std;
 
 Maps::Maps(){
-    init();
+    vector<pair<int, int>> coords = { {0, 0} };
+    PieceConcrete* carre_1x1 = new PieceConcrete(coords);
+    piece = new OperateurDeplacement(*carre_1x1, {0, 0}, OUEST);
+    // cout << "Maps created" << endl;
+    // const vector<pair<int, int>>& coord = piece->getCoordinates();
+    // for (const auto& c : coord) {
+    //     cout << "(" << c.first << ", " << c.second << ")" << endl;
+    // }
 }
 
-void Maps::init(){
-    vector<pair<int, int>> coords = { {0, 0} };
-    PieceConcrete carre_1x1(coords);
-    piece = new OperateurDeplacement(carre_1x1, {0, 0}, OUEST);
-    
-}
 
 void Maps::map1(){
     nbCol = 6;
@@ -28,10 +29,10 @@ void Maps::map1(){
         cout << "piece est null" << endl;
     
     // Ajouter la pièce sur la première case de la carte
-    const vector<pair<int, int>>& coords = piece->getCoordinates();
-    for (const auto& coord : coords) {
-        cout << "(" << coord.first << ", " << coord.second << ")" << endl;
-    }
+    // const vector<pair<int, int>>& coords = piece->getCoordinates();
+    // for (const auto& coord : coords) {
+    //     cout << "(" << coord.first << ", " << coord.second << ")" << endl;
+    // }
     // for (const auto& coord : coords) {
     //     int x = coord.first;
     //     int y = coord.second;

@@ -14,10 +14,10 @@ class Maps
         int nbCol = 0;
         int nbLigne = 0;
         Piece *piece;
-
+        
         Maps();
+        ~Maps() {cout << "Maps deleted" << endl;}
 
-        void init();
         void map1();
 
 };

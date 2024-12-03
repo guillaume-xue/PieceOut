@@ -15,6 +15,8 @@ class PieceOperateur : public Piece {
         const vector<pair<int, int>>& getCoordinates() const {return source.getCoordinates();}
         void trigger(const pair<int,int> & relativePos, Piece &origin);
         
+        ~PieceOperateur() {cout << "PieceOperateur deleted" << endl;}
+
         virtual void mapPosition(pair<int, int> &) const = 0; 
         virtual void visit(PieceConcrete &p) const;
         virtual void visit(OperateurDeplacement &) const = 0;
@@ -36,6 +38,8 @@ class OperateurDeplacement : public PieceOperateur {
         // void visit(OperateurSymetrie &x) const override;
         void visit(OperateurDeplacement &x) const override;
         // void visit(OperateurRotation &x) const override;
+
+        ~OperateurDeplacement() {cout << "OperateurDeplacement deleted" << endl;}
 };
 
 // class OperateurRotation : public PieceOperateur {

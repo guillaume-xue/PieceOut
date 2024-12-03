@@ -3,6 +3,7 @@
 
 #include <utility>
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -14,7 +15,9 @@ class Piece {
         void trigger(const pair<int,int> & coord);
         virtual const vector<pair<int, int>>& getCoordinates() const = 0;
         virtual void accept(const PieceOperateur &v) = 0;
-};
+
+        virtual ~Piece() {cout << "Piece deleted" << endl;}
+};      
 
 class PieceConcrete : public Piece {
     public:
@@ -23,6 +26,8 @@ class PieceConcrete : public Piece {
         const vector<pair<int, int>>& getCoordinates() const { return coordinates; }
         void trigger(const pair<int,int> & coord, Piece &origin);
         void accept(const PieceOperateur & v);
+
+        ~PieceConcrete() {cout << "PieceConcrete deleted" << endl;}
 };
 
 #endif
