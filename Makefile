@@ -25,6 +25,6 @@ mac: $(SOURCES) $(HEADERS)
 	./Main
 	
 clean:
-	rm -f $(OBJECTS) $(EXECUTABLE) $(DIRMAIN)/*.o
+	rm -f $(OBJECTS) $(EXECUTABLE) $(DIRMAIN)/*.o *.o
 
 .PHONY: all clean

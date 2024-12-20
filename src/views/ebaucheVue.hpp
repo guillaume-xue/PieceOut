@@ -31,14 +31,21 @@ private:
   KeyboardController keyboardController;
 
   bool isDragging = false;
-  RectangleShape* selectedPiece = nullptr;
+  RectangleShape *selectedPiece = nullptr;
   Vector2f offset;
 
   RectangleShape centralPane;
-  VertexArray trame;
 
-  Texture texture_rouge;
-  RectangleShape button;
+  Texture directionTexture;
+  Texture rotateTexture;
+  Texture symetricTexture;
+  Texture homeTexture;
+
+  vector<Sprite> directionsSprite;
+  Sprite rotateSprite;
+  Sprite symetricSprite;
+
+  Sprite homeButton;
   Text buttonText;
 
   Maps *map;
@@ -51,13 +58,14 @@ public:
   void init();
   void initButton();
   void draw(RenderWindow &window);
-  void updateTitle(RenderWindow &window);
   void addSprite();
   void initTexture();
+  void initDirectionSprite();
+  void initRotateSprite();
+  void initSymetricSprite();
   void initCentralPane();
-  void initTrame();
   void initWindow(RenderWindow &window);
-  void initCentralSquares();
+  void initSelectPlateau();
   void initNewTerrain();
 };
 
