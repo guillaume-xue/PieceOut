@@ -13,9 +13,6 @@ void EbaucheVue::init()
 	initCentralPane();
 	// initSelectPlateau();
 	initButton();
-	initDirectionSprite();
-	initRotateSprite();
-	initSymetricSprite();
 	initWindow(window);
 
 	while (window.isOpen())
@@ -38,49 +35,10 @@ void EbaucheVue::initWindow(RenderWindow &window)
 
 void EbaucheVue::initTexture()
 {
-	if (!directionTexture.loadFromFile("resources/direction.png"))
-	{
-		cout << "Error loading direction.png" << endl;
-	}
-	if (!rotateTexture.loadFromFile("resources/rotate.png"))
-	{
-		cout << "Error loading rotate.png" << endl;
-	}
-	if (!symetricTexture.loadFromFile("resources/symetric.png"))
-	{
-		cout << "Error loading symetric.png" << endl;
-	}
 	if (!homeTexture.loadFromFile("resources/home.png"))
 	{
 		cout << "Error loading home.png" << endl;
 	}
-}
-
-void EbaucheVue::initDirectionSprite()
-{
-	for (int i = 0; i < 4; ++i)
-	{
-		Sprite sprite;
-		sprite.setTexture(directionTexture);
-		sprite.setScale(0.1, 0.1);
-		sprite.setRotation(i * 90);
-		sprite.setPosition(100 + i * 10, 100);
-		directionsSprite.push_back(sprite);
-	}
-}
-
-void EbaucheVue::initRotateSprite()
-{
-	rotateSprite.setTexture(rotateTexture);
-	rotateSprite.setScale(0.1, 0.1);
-	rotateSprite.setPosition(10, 200);
-}
-
-void EbaucheVue::initSymetricSprite()
-{
-	symetricSprite.setTexture(symetricTexture);
-	symetricSprite.setScale(0.1, 0.1);
-	symetricSprite.setPosition(100, 300);
 }
 
 void EbaucheVue::initButton()
@@ -176,13 +134,6 @@ void EbaucheVue::draw(RenderWindow &window)
 		for (RectangleShape *piece : pieces)
 			window.draw(*piece);
 	}
-
-	for (int i = 0; i < 4; i++)
-	{
-		window.draw(directionsSprite[i]);
-	}
-	window.draw(rotateSprite);
-	window.draw(symetricSprite);
 	// Dessiner le bouton
 	window.draw(homeButton);
 	window.draw(buttonText);

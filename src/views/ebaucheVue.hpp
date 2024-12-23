@@ -36,14 +36,7 @@ private:
 
   RectangleShape centralPane;
 
-  Texture directionTexture;
-  Texture rotateTexture;
-  Texture symetricTexture;
   Texture homeTexture;
-
-  vector<Sprite> directionsSprite;
-  Sprite rotateSprite;
-  Sprite symetricSprite;
 
   Sprite homeButton;
   Text buttonText;
@@ -60,9 +53,6 @@ public:
   void draw(RenderWindow &window);
   void addSprite();
   void initTexture();
-  void initDirectionSprite();
-  void initRotateSprite();
-  void initSymetricSprite();
   void initCentralPane();
   void initWindow(RenderWindow &window);
   void initSelectPlateau();
