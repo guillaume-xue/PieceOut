@@ -16,10 +16,6 @@ class PieceVue
 private:
   Piece &piece;
 
-  int pieceSize;
-  int positionX;
-  int positionY;
-
   Texture directionTexture;
   Texture rotateTexture;
   Texture symetricTexture;
@@ -34,7 +30,7 @@ public:
   void init();
   void initTexture();
   void initSprite(float size);
-  void draw(RenderWindow &window);
+  void draw(RenderWindow &window, int pos_x, int pos_y);
   void update();
 };
 

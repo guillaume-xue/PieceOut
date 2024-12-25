@@ -24,6 +24,7 @@ int main()
   PieceConcrete tetris_L(coords);
   Piece *p = new OperateurDeplacement{tetris_L, {0, 0}, EST};
   p = new OperateurDeplacement{*p, {0, 1}, SUD};
+  p = new OperateurDeplacement{*p, {1, 2}, NORD};
   PieceVue pieceVue(*p);
 
   while (window.isOpen())
@@ -44,7 +45,7 @@ int main()
     for (Drawable *x : scene_generale)
       window.draw(*x);
 
-    pieceVue.draw(window);
+    pieceVue.draw(window, 100, 100);
 
     window.display();
   }
