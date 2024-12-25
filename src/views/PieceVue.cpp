@@ -9,9 +9,7 @@ PieceVue::PieceVue(Piece &piece) : piece(piece)
 void PieceVue::init()
 {
   initTexture();
-  initDirectionSprite();
-  initRotateSprite();
-  initSymetricSprite();
+  initSprite(32);
 }
 
 void PieceVue::initTexture()
@@ -30,37 +28,56 @@ void PieceVue::initTexture()
   }
 }
 
-void PieceVue::initDirectionSprite()
+void PieceVue::initSprite(float size)
 {
+  float new_size = size / directionTexture.getSize().x;
   for (int i = 0; i < 4; ++i)
   {
     Sprite sprite;
     sprite.setTexture(directionTexture);
-    sprite.setScale(0.1, 0.1);
+    sprite.setScale(new_size, new_size);
     sprite.setRotation(i * 90);
-    sprite.setPosition(100 + i * 10, 100);
     directionsSprite.push_back(sprite);
   }
-}
-
-void PieceVue::initRotateSprite()
-{
   rotateSprite.setTexture(rotateTexture);
-  rotateSprite.setScale(0.1, 0.1);
-  rotateSprite.setPosition(10, 200);
-}
-
-void PieceVue::initSymetricSprite()
-{
+  rotateSprite.setScale(new_size, new_size);
   symetricSprite.setTexture(symetricTexture);
-  symetricSprite.setScale(0.1, 0.1);
-  symetricSprite.setPosition(100, 300);
+  symetricSprite.setScale(new_size, new_size);
 }
 
 void PieceVue::draw(RenderWindow &window)
 {
-  for (Sprite x : directionsSprite)
-    window.draw(x);
-  window.draw(rotateSprite);
-  window.draw(symetricSprite);
+  int size = directionsSprite[0].getScale().x * directionTexture.getSize().x;
+  int margin = 20;
+  for (pair<int, int> x : piece.getCoordinates())
+  {
+    RectangleShape carre(Vector2f(size + margin, size + margin));
+    carre.setFillColor(Color::Blue);                                          // Couleur du carré
+    carre.setPosition(x.first * (size + margin), x.second * (size + margin)); // Position du carré
+    window.draw(carre);
+  }
+  for (pair<int, int> x : piece.getCoordinates())
+  {
+    switch (piece.getSens(x, piece))
+    {
+    case NORD:
+      directionsSprite[3].setPosition(x.first * 100 + (margin / 2), x.second * 100 + size + (margin / 2));
+      window.draw(directionsSprite[3]);
+      break;
+    case SUD:
+      directionsSprite[1].setPosition(x.first * 100 + size + (margin / 2), x.second * 100 + (margin / 2));
+      window.draw(directionsSprite[1]);
+      break;
+    case EST: // On affiche la direction vers l'est
+      directionsSprite[0].setPosition(x.first * 100 + (margin / 2), x.second * 100 + (margin / 2));
+      window.draw(directionsSprite[0]);
+      break;
+    case OUEST: //
+      directionsSprite[2].setPosition(x.first * 100 + size + (margin / 2), x.second * 100 + size + (margin / 2));
+      window.draw(directionsSprite[2]);
+      break;
+    default:
+      break;
+    }
+  }
 }

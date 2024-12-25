@@ -7,6 +7,7 @@
 #include <string>
 #include "../models/Piece.hpp"
 #include "../models/PieceOperateur.hpp"
+
 using namespace std;
 using namespace sf;
 
@@ -32,9 +33,7 @@ public:
   ~PieceVue() { cout << "PieceVue deleted" << endl; }
   void init();
   void initTexture();
-  void initDirectionSprite();
-  void initRotateSprite();
-  void initSymetricSprite();
+  void initSprite(float size);
   void draw(RenderWindow &window);
   void update();
 };

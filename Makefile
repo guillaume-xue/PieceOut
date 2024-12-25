@@ -6,8 +6,8 @@ MACLDFLAGS = install_name_tool -add_rpath /usr/local/lib ebaucheVue
 DIRMAIN = src
 DIRTEST = test
 SOURCES = $(wildcard $(DIRMAIN)/**/*.cpp) $(wildcard $(DIRMAIN)/*.cpp)
+SOURCESTEST = $(wildcard $(DIRTEST)/**/*.cpp)
 HEADERS = $(wildcard $(DIRMAIN)/**/*.hpp)
-SOURCESTEST = $(wildcard $(DIRTEST)/**/*.cpp) $(wildcard $(DIRTEST)/*.cpp)
 OBJECTS = $(patsubst %.cpp, %.o, $(SOURCES))
 EXECUTABLE = main
 
@@ -26,13 +26,13 @@ mac: $(SOURCES) $(HEADERS)
 	install_name_tool -add_rpath /usr/local/lib Main
 	./Main
 
-test: $(SOURCESTEST)
-	$(CXX) $(CXXFLAGS) -c $(SOURCESTEST)
-	g++ -o Main *.o $(LDFLAGS)
-	install_name_tool -add_rpath /usr/local/lib Main
-	./Main
+test_main: $(SOURCESTEST) $(HEADERS)
+	$(CXX) $(CXXFLAGS) -c $(SOURCESTEST) $(SOURCES)
+	g++ -o Main_test *.o $(LDFLAGS)
+	install_name_tool -add_rpath /usr/local/lib Main_test
+	./Main_test
 
 clean:
-	rm -f $(OBJECTS) $(EXECUTABLE) $(DIRMAIN)/*.o *.o
+	rm -f $(OBJECTS) $(EXECUTABLE) $(DIRMAIN)/*.o *.o $(DIRTEST)/**/*.o Main Main_test
 
 .PHONY: all clean
