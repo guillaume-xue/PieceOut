@@ -15,7 +15,9 @@ private:
   int MARGIN = 32;
   int nbPix_x, nbPix_y;
   int size;
+  Font font;
   vector<RectangleShape *> carres;
+  vector<Text *> textes;
 
 public:
   MenuVue(int nbPix_x, int nbPix_y, int size);

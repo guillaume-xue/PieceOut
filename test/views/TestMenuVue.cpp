@@ -22,6 +22,8 @@ int main()
           (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape)) // fermeture de la fenêtre
         window.close();
     }
+    if (Mouse::isButtonPressed(Mouse::Left) && menuVue.getNbMapClicked(window.mapPixelToCoords(Mouse::getPosition(window))) != -1)
+      cout << menuVue.getNbMapClicked(window.mapPixelToCoords(Mouse::getPosition(window))) << endl;
 
     window.clear(Color::Black);
     window.setView(window.getDefaultView());
