@@ -13,13 +13,13 @@ using namespace sf;
 class MapVue
 {
 private:
-  Maps *map;
+  int pos_x, pos_y;
+  float size;
 
 public:
-  MapVue(Maps *map) : map(map) { cout << "MapVue created" << endl; }
-  ~MapVue() { cout << "MapVue deleted" << endl; }
-  void draw(RenderWindow &window);
-  void update();
+  MapVue(int pos_x, int pos_y, float size);
+  ~MapVue();
+  void draw(RenderWindow &window, Maps &map);
 };
 
 #endif

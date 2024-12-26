@@ -1,27 +1,20 @@
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include "../../src/views/PieceVue.hpp"
-using namespace std;
-using namespace sf;
+// #include <SFML/Graphics.hpp>
+// #include <iostream>
+// #include "../../src/views/MapVue.hpp"
+// using namespace std;
+// using namespace sf;
 
 // int main()
 // {
 //   // Parametres graphiques, à replacer au bon endroit
-//   int MARGIN_LEFT = 100, MARGIN_RIGHT = 100, MARGIN_TOP = 100, MARGIN_BOTTOM = 100;
-//   int TILE_SIZE = 64;
-//   int NB_COL = 8, NB_LIGNE = 10;
-//   unsigned int nbPix_x = MARGIN_LEFT + MARGIN_RIGHT + NB_COL * TILE_SIZE;
-//   unsigned int nbPix_y = MARGIN_TOP + MARGIN_BOTTOM + NB_LIGNE * TILE_SIZE;
+
+//   unsigned int nbPix_x = 858;
+//   unsigned int nbPix_y = 640;
 //   vector<Drawable *> scene_generale;
-//   scene_generale.push_back(&centralPane);
 //   RenderWindow window{VideoMode{nbPix_x, nbPix_y}, "Piece Out"};
 
-//   vector<pair<int, int>> coords{{0, 0}, {0, 1}, {0, 2}, {1, 2}};
-//   PieceConcrete tetris_L(coords);
-//   Piece *p = new OperateurDeplacement{tetris_L, {0, 0}, EST};
-//   p = new OperateurDeplacement{*p, {0, 1}, SUD};
-//   p = new OperateurDeplacement{*p, {1, 2}, NORD};
-//   PieceVue pieceVue(100, 100, 32);
+//   Maps map;
+//   MapVue mapVue(100, 100, 32);
 
 //   while (window.isOpen())
 //   {
@@ -34,14 +27,14 @@ using namespace sf;
 //         window.close();
 //     }
 
-//     window.clear(Color::White);
+//     window.clear(Color::Black);
 //     window.setView(window.getDefaultView());
 
 //     // les affichages
 //     for (Drawable *x : scene_generale)
 //       window.draw(*x);
 
-//     pieceVue.draw(window, *p);
+//     mapVue.draw(window, map);
 
 //     window.display();
 //   }

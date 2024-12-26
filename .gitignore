@@ -2,3 +2,5 @@ Code\ Fourni/
 *.exe
 *.o
 *.out
+.DS_Store
+.gitignore

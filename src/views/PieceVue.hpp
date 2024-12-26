@@ -14,7 +14,8 @@ using namespace sf;
 class PieceVue
 {
 private:
-  Piece &piece;
+  int pos_x, pos_y;
+  float size;
 
   Texture directionTexture;
   Texture rotateTexture;
@@ -25,13 +26,12 @@ private:
   Sprite symetricSprite;
 
 public:
-  PieceVue(Piece &piece);
-  ~PieceVue() { cout << "PieceVue deleted" << endl; }
+  PieceVue(int pos_x, int pos_y, float size);
+  ~PieceVue();
   void init();
   void initTexture();
-  void initSprite(float size);
-  void draw(RenderWindow &window, int pos_x, int pos_y);
-  void update();
+  void initSprite();
+  void draw(RenderWindow &window, Piece &piece);
 };
 
 #endif

@@ -31,13 +31,12 @@ class OperateurDeplacement : public PieceOperateur
 public:
     OrientationDeplacement sens;
     OperateurDeplacement(Piece &source, const pair<int, int> &position, OrientationDeplacement sens);
-    virtual void accept(const PieceOperateur &v);
-    virtual void mapPosition(pair<int, int> &pos) const;
+    virtual void accept(const PieceOperateur &v) override;
+    virtual void mapPosition(pair<int, int> &pos) const override;
     // void visit(OperateurSymetrie &x) const override;
     void visit(OperateurDeplacement &x) const override;
     // void visit(OperateurRotation &x) const override;
-    OrientationDeplacement getSens(const pair<int, int> &coord, Piece &origin) const;
-
+    OrientationDeplacement getSens(const pair<int, int> &coord, Piece &origin) const override;
     ~OperateurDeplacement() { cout << "OperateurDeplacement deleted" << endl; }
 };
 

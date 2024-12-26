@@ -21,7 +21,6 @@ private:
   unsigned int nbPix_x = MARGIN_LEFT + MARGIN_RIGHT + NB_COL * TILE_SIZE;
   unsigned int nbPix_y = MARGIN_TOP + MARGIN_BOTTOM + NB_LIGNE * TILE_SIZE;
 
-  int trig_x = -1, trig_y = -1;
   string message = "Piece Out";
 
   vector<Drawable *> scene_generale;
@@ -41,8 +40,6 @@ private:
   Sprite homeButton;
   Text buttonText;
 
-  Maps *map;
-
 public:
   EbaucheVue();
 
@@ -56,7 +53,6 @@ public:
   void initCentralPane();
   void initWindow(RenderWindow &window);
   void initSelectPlateau();
-  void initNewTerrain();
 };
 
 #endif

@@ -26,10 +26,10 @@ class PieceConcrete : public Piece
 public:
     vector<pair<int, int>> coordinates;
     PieceConcrete(const vector<pair<int, int>> &coords);
-    const vector<pair<int, int>> &getCoordinates() const { return coordinates; }
-    void trigger(const pair<int, int> &coord, Piece &origin);
-    void accept(const PieceOperateur &v);
-    OrientationDeplacement getSens(const pair<int, int> &coord, Piece &origin) const;
+    const vector<pair<int, int>> &getCoordinates() const override { return coordinates; }
+    void trigger(const pair<int, int> &coord, Piece &origin) override;
+    void accept(const PieceOperateur &v) override;
+    OrientationDeplacement getSens(const pair<int, int> &coord, Piece &origin) const override;
     ~PieceConcrete() { cout << "PieceConcrete deleted" << endl; }
 };
 

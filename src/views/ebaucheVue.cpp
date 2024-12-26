@@ -6,7 +6,6 @@ EbaucheVue::EbaucheVue()
 }
 void EbaucheVue::init()
 {
-	map = new Maps();
 	RenderWindow window;
 	window.setFramerateLimit(30);
 	initTexture();
@@ -84,7 +83,6 @@ void EbaucheVue::addSprite()
 
 					// Cacher scene_generale et afficher scene_particuliere
 					scene_generale.clear();
-					initNewTerrain();
 					return;
 				}
 			}
@@ -157,42 +155,5 @@ void EbaucheVue::initSelectPlateau()
 			square->setFillColor(colors[index++ % 4]);
 			scene_generale.push_back(square);
 		}
-	}
-}
-
-void EbaucheVue::initNewTerrain()
-{
-	// Initialiser la carte
-	map->map1();
-
-	// Calculer les positions de départ pour centrer la carte
-	float startX = (nbPix_x - map->nbCol * map->TILE_SIZE) / 2;
-	float startY = (nbPix_y - map->nbLigne * map->TILE_SIZE) / 2;
-
-	// Créer les cases de la carte
-	for (int i = 0; i < map->nbLigne; ++i)
-	{
-		for (int j = 0; j < map->nbCol; ++j)
-		{
-			RectangleShape *square = new RectangleShape(Vector2f(map->TILE_SIZE, map->TILE_SIZE));
-			square->setPosition(startX + j * map->TILE_SIZE, startY + i * map->TILE_SIZE);
-			square->setFillColor(Color::White);		 // Couleur de remplissage des cases
-			square->setOutlineColor(Color::Black); // Couleur du bord
-			square->setOutlineThickness(1);				 // Épaisseur du bord
-			scene_particuliere.push_back(square);
-		}
-	}
-
-	// Ajouter les pièces par-dessus la carte
-	const vector<pair<int, int>> &coords = map->piece->getCoordinates();
-	for (const auto &coord : coords)
-	{
-		int x = coord.first;
-		int y = coord.second;
-		RectangleShape *piece = new RectangleShape(Vector2f(map->TILE_SIZE, map->TILE_SIZE));
-		piece->setPosition(startX + x * map->TILE_SIZE, startY + y * map->TILE_SIZE);
-		piece->setFillColor(Color::Red); // Couleur de la pièce
-		piece->setOutlineThickness(1);	 // Épaisseur du bord
-		pieces.push_back(piece);
 	}
 }
