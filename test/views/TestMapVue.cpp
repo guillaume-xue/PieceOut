@@ -1,44 +1,39 @@
-// #include <SFML/Graphics.hpp>
-// #include <iostream>
-// #include "../../src/views/MapVue.hpp"
-// using namespace std;
-// using namespace sf;
+#include <SFML/Graphics.hpp>
+#include <iostream>
+#include "../../src/views/MapVue.hpp"
+using namespace std;
+using namespace sf;
 
-// int main()
-// {
-//   // Parametres graphiques, à replacer au bon endroit
+int main()
+{
+  // Parametres graphiques, à replacer au bon endroit
 
-//   unsigned int nbPix_x = 858;
-//   unsigned int nbPix_y = 640;
-//   vector<Drawable *> scene_generale;
-//   RenderWindow window{VideoMode{nbPix_x, nbPix_y}, "Piece Out"};
+  unsigned int nbPix_x = 858;
+  unsigned int nbPix_y = 640;
+  RenderWindow window{VideoMode{nbPix_x, nbPix_y}, "Piece Out"};
 
-//   Maps map;
-//   MapVue mapVue(100, 100, 32);
+  Maps map;
+  MapVue mapVue(100, 100, 32);
 
-//   while (window.isOpen())
-//   {
-//     Event event;
+  while (window.isOpen())
+  {
+    Event event;
 
-//     while (window.pollEvent(event))
-//     {
-//       if (event.type == Event::Closed ||
-//           (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape)) // fermeture de la fenêtre
-//         window.close();
-//     }
+    while (window.pollEvent(event))
+    {
+      if (event.type == Event::Closed ||
+          (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape)) // fermeture de la fenêtre
+        window.close();
+    }
 
-//     window.clear(Color::Black);
-//     window.setView(window.getDefaultView());
+    window.clear(Color::Black);
+    window.setView(window.getDefaultView());
 
-//     // les affichages
-//     for (Drawable *x : scene_generale)
-//       window.draw(*x);
+    mapVue.draw(window, map);
 
-//     mapVue.draw(window, map);
-
-//     window.display();
-//   }
-//   // Remarquez que la destruction des objets n'est pas faites
-//   // et que dans ce code il ne suffit pas de détruire scene_generale et scene_particuliere car on y a ajouté des objets créés par new et d'autre déclarés dans un bloc... ce qui n'est pas malin.
-//   return EXIT_SUCCESS;
-// }
+    window.display();
+  }
+  // Remarquez que la destruction des objets n'est pas faites
+  // et que dans ce code il ne suffit pas de détruire scene_generale et scene_particuliere car on y a ajouté des objets créés par new et d'autre déclarés dans un bloc... ce qui n'est pas malin.
+  return EXIT_SUCCESS;
+}

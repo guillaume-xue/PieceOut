@@ -1,8 +1,7 @@
 #include "MenuVue.hpp"
 
-MenuVue::MenuVue(int nbPix_x, int nbPix_y, int size) : nbPix_x(nbPix_x), nbPix_y(nbPix_y), size(size)
+MenuVue::MenuVue()
 {
-  init();
   cout << "MenuVue created" << endl;
 }
 
@@ -11,7 +10,7 @@ MenuVue::~MenuVue()
   cout << "MenuVue deleted" << endl;
 }
 
-void MenuVue::init()
+void MenuVue::init(int nbPix_x, int nbPix_y, int size)
 {
   int padding_x = (nbPix_x - 3 * size - 2 * MARGIN) / 2;
   int padding_y = (nbPix_y - 3 * size - 2 * MARGIN) / 2;
@@ -33,16 +32,6 @@ void MenuVue::init()
       textes.push_back(texte);
     }
   }
-}
-
-int MenuVue::getNbMapClicked(Vector2f mousePos)
-{
-  for (size_t i = 0; i < carres.size(); i++)
-  {
-    if (carres[i]->getGlobalBounds().contains(mousePos))
-      return i + 1;
-  }
-  return -1;
 }
 
 void MenuVue::draw(RenderWindow &window)

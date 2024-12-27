@@ -9,7 +9,6 @@ class Maps
 {
 private:
     vector<pair<int, int>> plateau;
-    vector<Piece *> pieces;
 
 public:
     Maps();

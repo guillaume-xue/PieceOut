@@ -1,7 +1,7 @@
-#include "views/ebaucheVue.hpp"
+#include "views/GameVue.hpp"
 
-// int main()
-// {
-// 	EbaucheVue ebaucheVue;
-// 	return EXIT_SUCCESS;
-// }
+int main()
+{
+  GameVue gameVue;
+  return EXIT_SUCCESS;
+}
