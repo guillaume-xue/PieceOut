@@ -10,7 +10,7 @@ HeaderVue::~HeaderVue()
   cout << "HeaderVue deleted" << endl;
 }
 
-void HeaderVue::init(int nbPix_x, int nbPix_y)
+void HeaderVue::init(int nbPix_x)
 {
   if (!homeTexture.loadFromFile("resources/home.png"))
   {
@@ -28,4 +28,9 @@ void HeaderVue::draw(RenderWindow &window)
 {
   window.draw(header);
   window.draw(homeButton);
+}
+
+Sprite HeaderVue::getHomeButton()
+{
+  return homeButton;
 }

@@ -14,7 +14,6 @@ using namespace sf;
 class PieceVue
 {
 private:
-  int pos_x, pos_y;
   float size;
 
   Texture directionTexture;
@@ -26,12 +25,12 @@ private:
   Sprite symetricSprite;
 
 public:
-  PieceVue(int pos_x, int pos_y, float size);
+  PieceVue();
   ~PieceVue();
-  void init();
+  void init(float size);
   void initTexture();
   void initSprite();
-  void draw(RenderWindow &window, Piece &piece);
+  void draw(RenderWindow &window, Piece &piece, int pos_x, int pos_y);
 };
 
 #endif

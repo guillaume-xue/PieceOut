@@ -1,6 +1,6 @@
 #include "PieceController.hpp"
 
-PieceController::PieceController(int pos_x, int pos_y, float size) : vue(pos_x, pos_y, size) {}
+PieceController::PieceController() {}
 
 PieceController::~PieceController()
 {

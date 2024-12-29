@@ -12,10 +12,12 @@ using namespace sf;
 class KeyboardController : public Keyboard
 {
 private:
+  Event event;
+
 public:
   KeyboardController();
   void updateKeyboardEvent(RenderWindow &window);
-  Event event;
+  Event getEvent();
 };
 
 #endif

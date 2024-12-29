@@ -10,12 +10,19 @@ MenuController::~MenuController()
   cout << "MenuController deleted" << endl;
 }
 
-int MenuController::getNbMapClicked(Vector2f mousePos, vector<RectangleShape *> carres)
+void MenuController::update(MouseController mouseController, vector<RectangleShape *> carres)
 {
-  for (size_t i = 0; i < carres.size(); i++)
+  if (mouseController.isButtonPressed(Mouse::Left) && nbMapClicked == -1)
   {
-    if (carres[i]->getGlobalBounds().contains(mousePos))
-      return i + 1;
+    for (size_t i = 0; i < carres.size(); i++)
+    {
+      if (carres[i]->getGlobalBounds().contains(mouseController.getMouseWorldPos()))
+        nbMapClicked = i;
+    }
   }
-  return -1;
+}
+
+int MenuController::getNbMapClicked()
+{
+  return nbMapClicked;
 }

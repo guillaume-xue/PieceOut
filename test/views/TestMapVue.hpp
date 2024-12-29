@@ -1,22 +1,22 @@
-#include <SFML/Graphics.hpp>
-#include <iostream>
+#ifndef TEST_MAP_VUE_HPP
+#define TEST_MAP_VUE_HPP
+
+#include "../../src/views/MapVue.hpp"
 #include "../../src/views/PieceVue.hpp"
 using namespace std;
 using namespace sf;
 
-int main()
+void testMapVue()
 {
   unsigned int nbPix_x = 858;
   unsigned int nbPix_y = 640;
 
   RenderWindow window{VideoMode{nbPix_x, nbPix_y}, "Piece Out"};
 
-  vector<pair<int, int>> coords{{0, 0}, {0, 1}, {0, 2}, {1, 2}};
-  PieceConcrete tetris_L(coords);
-  Piece *p = new OperateurDeplacement{tetris_L, {0, 0}, EST};
-  p = new OperateurDeplacement{*p, {0, 1}, SUD};
-  p = new OperateurDeplacement{*p, {1, 2}, NORD};
-  PieceVue pieceVue(100, 100, 32);
+  Maps map;
+  map.map1();
+  MapVue mapVue;
+  mapVue.init(32, map);
 
   while (window.isOpen())
   {
@@ -29,14 +29,15 @@ int main()
         window.close();
     }
 
-    window.clear(Color::White);
+    window.clear(Color::Black);
     window.setView(window.getDefaultView());
 
-    pieceVue.draw(window, *p);
+    mapVue.draw(window, map);
 
     window.display();
   }
   // Remarquez que la destruction des objets n'est pas faites
   // et que dans ce code il ne suffit pas de détruire scene_generale et scene_particuliere car on y a ajouté des objets créés par new et d'autre déclarés dans un bloc... ce qui n'est pas malin.
-  return EXIT_SUCCESS;
 }
+
+#endif

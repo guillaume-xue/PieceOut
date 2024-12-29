@@ -1,7 +1,8 @@
-#include "views/GameVue.hpp"
+#include "controllers/GameController.hpp"
 
 int main()
 {
-  GameVue gameVue;
+  GameController gameController;
+  gameController.run();
   return EXIT_SUCCESS;
 }

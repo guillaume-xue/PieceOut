@@ -19,8 +19,9 @@ private:
 public:
   HeaderVue();
   ~HeaderVue();
-  void init(int nbPix_x, int nbPix_y);
+  void init(int nbPix_x);
   void draw(RenderWindow &window);
+  Sprite getHomeButton();
 };
 
 #endif

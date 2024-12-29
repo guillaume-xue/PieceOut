@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include "../models/Maps.hpp"
+#include "PieceVue.hpp"
 
 using namespace std;
 using namespace sf;
@@ -13,12 +14,13 @@ using namespace sf;
 class MapVue
 {
 private:
-  int pos_x, pos_y;
   float size;
+  vector<PieceVue *> pieces;
 
 public:
-  MapVue(int pos_x, int pos_y, float size);
+  MapVue();
   ~MapVue();
+  void init(float size, Maps &map);
   void draw(RenderWindow &window, Maps &map);
 };
 

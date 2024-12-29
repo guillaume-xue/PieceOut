@@ -22,6 +22,7 @@ public:
   ~MenuVue();
   void init(int nbPix_x, int nbPix_y, int size);
   void draw(RenderWindow &window);
+  vector<RectangleShape *> getCarres() { return carres; }
 };
 
 #endif

@@ -1,9 +1,8 @@
 #include "PieceVue.hpp"
 
-PieceVue::PieceVue(int pos_x, int pos_y, float size) : pos_x(pos_x), pos_y(pos_y), size(size)
+PieceVue::PieceVue()
 {
   cout << "PieceVue created" << endl;
-  init();
 }
 
 PieceVue::~PieceVue()
@@ -11,8 +10,9 @@ PieceVue::~PieceVue()
   cout << "PieceVue deleted" << endl;
 }
 
-void PieceVue::init()
+void PieceVue::init(float size)
 {
+  this->size = size;
   initTexture();
   initSprite();
 }
@@ -50,7 +50,7 @@ void PieceVue::initSprite()
   symetricSprite.setScale(new_size, new_size);
 }
 
-void PieceVue::draw(RenderWindow &window, Piece &piece)
+void PieceVue::draw(RenderWindow &window, Piece &piece, int pos_x, int pos_y)
 {
   int margin = 20;
   for (pair<int, int> x : piece.getCoordinates())

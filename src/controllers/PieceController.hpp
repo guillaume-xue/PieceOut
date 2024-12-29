@@ -17,7 +17,7 @@ private:
   PieceVue vue;
 
 public:
-  PieceController(int pos_x, int pos_y, float size);
+  PieceController();
   ~PieceController();
   void addPiece(Piece *piece);
   void handleEvent(sf::Event &event);

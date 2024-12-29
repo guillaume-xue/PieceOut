@@ -1,14 +1,17 @@
+#ifndef TEST_MENU_VUE_HPP
+#define TEST_MENU_VUE_HPP
+
 #include "../../src/views/MenuVue.hpp"
 using namespace std;
 using namespace sf;
 
-int main()
+void testMenuVue()
 {
-  // Parametres graphiques, à replacer au bon endroit
-
   unsigned int nbPix_x = 858;
   unsigned int nbPix_y = 640;
+
   RenderWindow window{VideoMode{nbPix_x, nbPix_y}, "Piece Out"};
+
   MenuVue menuVue;
   menuVue.init(nbPix_x, nbPix_y, 96);
 
@@ -32,5 +35,6 @@ int main()
   }
   // Remarquez que la destruction des objets n'est pas faites
   // et que dans ce code il ne suffit pas de détruire scene_generale et scene_particuliere car on y a ajouté des objets créés par new et d'autre déclarés dans un bloc... ce qui n'est pas malin.
-  return EXIT_SUCCESS;
 }
+
+#endif
