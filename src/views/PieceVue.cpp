@@ -13,6 +13,7 @@ PieceVue::~PieceVue()
 void PieceVue::init(float size)
 {
   this->size = size;
+  color = Color(rand() % 255, rand() % 255, rand() % 255);
   initTexture();
   initSprite();
 }
@@ -56,7 +57,7 @@ void PieceVue::draw(RenderWindow &window, Piece &piece, int pos_x, int pos_y)
   for (pair<int, int> x : piece.getCoordinates())
   {
     RectangleShape carre(Vector2f(size + margin, size + margin));
-    carre.setFillColor(Color::Blue);                                                              // Couleur du carré
+    carre.setFillColor(color);                                                                    // Couleur du carré
     carre.setPosition(pos_x + (x.first * (size + margin)), pos_y + (x.second * (size + margin))); // Position du carré
     window.draw(carre);
   }

@@ -25,7 +25,8 @@ void GameController::update(RenderWindow &window)
   keyboardController.updateKeyboardEvent(window);
   mouseController.updateMousePosition(window);
   headerController.update(mouseController, headerVue, menuController);
-  menuController.update(mouseController, menuVue.getCarres());
+  menuController.update(mouseController, menuVue.getCarres(), map);
+  pieceController.update(mouseController, map, mapVue);
 }
 
 void GameController::draw(RenderWindow &window)
@@ -33,18 +34,16 @@ void GameController::draw(RenderWindow &window)
   Color gray(194, 197, 204);
   window.clear(gray);
   window.setView(window.getDefaultView());
+
   headerVue.draw(window);
 
-  switch (menuController.getNbMapClicked())
+  if (menuController.getInitMap())
   {
-  case 0:
     mapVue.draw(window, map);
-    break;
-
-  default:
+  }
+  else
+  {
     menuVue.draw(window);
-    menuController.setNbMapClicked(-1);
-    break;
   }
 
   window.display();

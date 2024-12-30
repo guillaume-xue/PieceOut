@@ -14,7 +14,9 @@ using namespace sf;
 class MapVue
 {
 private:
-  float size;
+  int GLOBAL_MARGIN_X, GLOBAL_MARGIN_Y, MARGIN_CARRE = 20;
+  float SIZE_CARRE;
+
   vector<PieceVue *> pieces;
 
 public:
@@ -22,6 +24,11 @@ public:
   ~MapVue();
   void init(float size, Maps &map);
   void draw(RenderWindow &window, Maps &map);
+  vector<PieceVue *> getPieces() { return pieces; }
+  int getGlobalMarginX() { return GLOBAL_MARGIN_X; }
+  int getGlobalMarginY() { return GLOBAL_MARGIN_Y; }
+  int getSizeCarre() { return SIZE_CARRE; }
+  int getMarginCarre() { return MARGIN_CARRE; }
 };
 
 #endif

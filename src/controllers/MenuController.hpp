@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include "MouseController.hpp"
+#include "../models/Maps.hpp"
 
 using namespace std;
 using namespace sf;
@@ -12,14 +13,14 @@ using namespace sf;
 class MenuController
 {
 private:
-  int nbMapClicked = -1;
+  bool init_map = false;
 
 public:
   MenuController();
   ~MenuController();
-  void update(MouseController mouseController, vector<RectangleShape *> carres);
-  int getNbMapClicked();
-  void setNbMapClicked(int nb) { nbMapClicked = nb; }
+  void update(MouseController mouseController, vector<RectangleShape *> carres, Maps &map);
+  bool getInitMap() { return init_map; }
+  void setInitMap(bool b) { init_map = b; }
 };
 
 #endif

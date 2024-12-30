@@ -16,7 +16,7 @@ void HeaderController::update(MouseController &mouseController, HeaderVue &heade
   {
     if (mouseController.isButtonPressed(Mouse::Left))
     {
-      menuController.setNbMapClicked(-1);
+      menuController.setInitMap(false);
     }
   }
 }

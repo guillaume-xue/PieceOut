@@ -20,6 +20,8 @@ private:
   Texture rotateTexture;
   Texture symetricTexture;
 
+  Color color;
+
   vector<Sprite> directionsSprite;
   Sprite rotateSprite;
   Sprite symetricSprite;
@@ -31,6 +33,9 @@ public:
   void initTexture();
   void initSprite();
   void draw(RenderWindow &window, Piece &piece, int pos_x, int pos_y);
+  vector<Sprite> getDirectionsSprite() { return directionsSprite; }
+  Sprite getRotateSprite() { return rotateSprite; }
+  Sprite getSymetricSprite() { return symetricSprite; }
 };
 
 #endif

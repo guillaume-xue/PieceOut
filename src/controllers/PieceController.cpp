@@ -4,28 +4,17 @@ PieceController::PieceController() {}
 
 PieceController::~PieceController()
 {
-  for (Piece *piece : pieces)
+}
+
+void PieceController::update(MouseController &mouseController, Maps &map, MapVue &mapVue)
+{
+  if (mouseController.isButtonPressed(Mouse::Left))
   {
-    delete piece;
+    pair<int, int> coord = make_pair(mouseController.getMouseWorldPos().x, mouseController.getMouseWorldPos().y);
+    coord.first -= mapVue.getGlobalMarginX();
+    coord.second -= mapVue.getGlobalMarginY();
+    coord.first /= mapVue.getSizeCarre() + mapVue.getMarginCarre();
+    coord.second /= mapVue.getSizeCarre() + mapVue.getMarginCarre();
+    map.trigger(coord);
   }
-}
-
-void PieceController::addPiece(Piece *piece)
-{
-  pieces.push_back(piece);
-}
-
-void PieceController::handleEvent(Event &event)
-{
-  // Gérer les événements utilisateur, comme les clics de souris ou les touches du clavier
-  // Exemple :
-  if (event.type == Event::MouseButtonPressed)
-  {
-    // Déplacer une pièce en fonction de la position de la souris
-  }
-}
-
-void PieceController::update()
-{
-  // Mettre à jour les modèles si nécessaire
 }

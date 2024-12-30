@@ -12,7 +12,8 @@ MapVue::~MapVue()
 
 void MapVue::init(float size, Maps &map)
 {
-  this->size = size;
+  this->SIZE_CARRE = size;
+  // Init pieces
   for (size_t i = 0; i < map.getPieces().size(); i++)
   {
     PieceVue *piece = new PieceVue();
@@ -21,42 +22,22 @@ void MapVue::init(float size, Maps &map)
   }
 }
 
-pair<int, int> findMaxFirstAndSecond(const vector<pair<int, int>> &vec)
-{
-  int maxFirst = INT_MIN;
-  int maxSecond = INT_MIN;
-
-  for (const auto &p : vec)
-  {
-    if (p.first > maxFirst)
-    {
-      maxFirst = p.first;
-    }
-    if (p.second > maxSecond)
-    {
-      maxSecond = p.second;
-    }
-  }
-
-  return {maxFirst + 1, maxSecond + 1};
-}
-
 void MapVue::draw(RenderWindow &window, Maps &map)
 {
-  int margin = 20;
-  pair<int, int> maxFirstAndSecond = findMaxFirstAndSecond(map.getPlateau());
-  int pos_x = window.getSize().x / 2 - (maxFirstAndSecond.first * (size + margin)) / 2;
-  int pos_y = window.getSize().y / 2 - (maxFirstAndSecond.second * (size + margin)) / 2;
-
+  // Global margin
+  GLOBAL_MARGIN_X = window.getSize().x / 2 - (map.getSizePlateau().first * (SIZE_CARRE + MARGIN_CARRE)) / 2;
+  GLOBAL_MARGIN_Y = window.getSize().y / 2 - (map.getSizePlateau().second * (SIZE_CARRE + MARGIN_CARRE)) / 2;
+  // Draw plateau
   for (pair<int, int> x : map.getPlateau())
   {
-    RectangleShape carre(Vector2f(size + margin, size + margin));
-    carre.setFillColor(Color::White);                                                             // Couleur du carré
-    carre.setPosition(pos_x + (x.first * (size + margin)), pos_y + (x.second * (size + margin))); // Position du carré
+    RectangleShape carre(Vector2f(SIZE_CARRE + MARGIN_CARRE, SIZE_CARRE + MARGIN_CARRE));
+    carre.setFillColor(Color::White);                                                                                                         // Couleur du carré
+    carre.setPosition(GLOBAL_MARGIN_X + (x.first * (SIZE_CARRE + MARGIN_CARRE)), GLOBAL_MARGIN_Y + (x.second * (SIZE_CARRE + MARGIN_CARRE))); // Position du carré
     window.draw(carre);
   }
+  // Draw pieces
   for (size_t i = 0; i < map.getPieces().size(); i++)
   {
-    pieces[i]->draw(window, *map.getPieces()[i], pos_x, pos_y);
+    pieces[i]->draw(window, *map.getPieces()[i], GLOBAL_MARGIN_X, GLOBAL_MARGIN_Y);
   }
 }

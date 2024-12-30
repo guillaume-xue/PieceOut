@@ -12,6 +12,10 @@ void testMap()
   cout << "---------------" << endl;
   for (auto x : map.getPieces()[0]->getCoordinates())
     cout << x.first << " " << x.second << endl;
+  map.trigger(make_pair(0, 0));
+  cout << "---------------" << endl;
+  for (auto x : map.getPieces()[0]->getCoordinates())
+    cout << x.first << " " << x.second << endl;
 }
 
 #endif
