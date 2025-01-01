@@ -8,14 +8,19 @@ void Piece::trigger(const pair<int, int> &coord)
 }
 
 // PieceConcrete
-PieceConcrete::PieceConcrete(const vector<pair<int, int>> &coords)
-    : coordinates(coords) {}
+PieceConcrete::PieceConcrete(const vector<pair<int, int>> &coords, Maps *map)
+    : coordinates(coords), maps(map) {}
 
-void PieceConcrete::accept(const PieceOperateur &v)
+void PieceConcrete::accept(const PieceOperateur &v, Piece &origin)
 {
-    v.visit(*this);
+    cout << "PieceConcrete::accept" << endl;
+    v.visit(*this, origin);
 }
-
+void PieceConcrete::reAccept(const PieceOperateur &v, Piece &origin)
+{
+    cout << "PieceConcrete::reAccept" << endl;
+    v.reVisit(*this, origin);
+}
 void PieceConcrete::trigger(const pair<int, int> &coord, Piece &origin) {}
 
 OrientationDeplacement PieceConcrete::getSens(const pair<int, int> &coord, Piece &origin) const

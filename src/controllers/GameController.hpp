@@ -26,7 +26,7 @@ class GameController
 private:
   unsigned int nbPix_x = 858;
   unsigned int nbPix_y = 640;
-
+  bool isMousePressed = false;
   MenuController menuController;
   PieceController pieceController;
   KeyboardController keyboardController;

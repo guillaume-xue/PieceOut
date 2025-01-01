@@ -10,7 +10,7 @@ MenuController::~MenuController()
   cout << "MenuController deleted" << endl;
 }
 
-void MenuController::update(MouseController mouseController, vector<RectangleShape *> carres, Maps &map)
+void MenuController::update(MouseController mouseController, vector<RectangleShape *> carres, Maps &map, MapVue &mapVue)
 {
   if (mouseController.isButtonPressed(Mouse::Left) && !init_map)
   {
@@ -22,9 +22,14 @@ void MenuController::update(MouseController mouseController, vector<RectangleSha
         {
         case 0:
           map.map1();
+          mapVue.init(32, map);
           init_map = true;
           break;
-
+        case 1:
+          map.map2();
+          mapVue.init(32, map);
+          init_map = true;
+          break;
         default:
           init_map = false;
           break;

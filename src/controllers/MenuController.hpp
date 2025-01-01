@@ -6,6 +6,7 @@
 #include <vector>
 #include "MouseController.hpp"
 #include "../models/Maps.hpp"
+#include "../views/MapVue.hpp"
 
 using namespace std;
 using namespace sf;
@@ -18,7 +19,7 @@ private:
 public:
   MenuController();
   ~MenuController();
-  void update(MouseController mouseController, vector<RectangleShape *> carres, Maps &map);
+  void update(MouseController mouseController, vector<RectangleShape *> carres, Maps &map, MapVue &mapVue);
   bool getInitMap() { return init_map; }
   void setInitMap(bool b) { init_map = b; }
 };

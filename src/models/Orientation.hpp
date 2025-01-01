@@ -9,10 +9,12 @@ enum OrientationDeplacement
 enum OrientationRotation
 {
   HORAIRE,
-  ANTI_HORAIRE
+  ANTI_HORAIRE,
+  VIDE_2
 };
 enum OrientationSymetrie
 {
   HORIZONTALE,
-  VERTICALE
+  VERTICALE,
+  VIDE_3
 };
