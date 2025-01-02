@@ -22,15 +22,29 @@ void HeaderVue::init(int nbPix_x)
   header.setSize(Vector2f(nbPix_x, 50));
   header.setFillColor(Color::White);
   header.setPosition(0, 0);
+
+  if(!retourTexture.loadFromFile("resources/return.png"))
+  {
+    cout << "Error loading return.png" << endl;
+  }
+  retour.setTexture(retourTexture);
+  retour.setScale(0.1, 0.1);
+  retour.setPosition(50, 5);
 }
 
 void HeaderVue::draw(RenderWindow &window)
 {
   window.draw(header);
   window.draw(homeButton);
+  window.draw(retour);
 }
 
 Sprite HeaderVue::getHomeButton()
 {
   return homeButton;
+}
+
+Sprite HeaderVue::getRetourButton()
+{
+  return retour;
 }

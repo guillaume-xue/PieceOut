@@ -47,6 +47,9 @@ void PieceVue::initSprite()
   }
   rotateSprite.setTexture(rotateTexture);
   rotateSprite.setScale(new_size, new_size);
+  rotateSpriteInverse.setTexture(rotateTexture);
+  rotateSpriteInverse.setOrigin({rotateSpriteInverse.getLocalBounds().width, 0});
+  rotateSpriteInverse.setScale(-new_size, new_size);
   symetricSprite.setTexture(symetricTexture);
   symetricSprite.setScale(new_size, new_size);
 }
@@ -63,26 +66,45 @@ void PieceVue::draw(RenderWindow &window, Piece &piece, int pos_x, int pos_y)
   }
   for (pair<int, int> x : piece.getCoordinates())
   {
-    switch (piece.getSens(x, piece))
-    {
-    case NORD:
-      directionsSprite[3].setPosition(pos_x + (x.first * (size + margin) + (margin / 2)), pos_y + (x.second * (size + margin) + size + (margin / 2)));
-      window.draw(directionsSprite[3]);
-      break;
-    case SUD:
-      directionsSprite[1].setPosition(pos_x + (x.first * (size + margin) + size + (margin / 2)), pos_y + (x.second * (size + margin) + (margin / 2)));
-      window.draw(directionsSprite[1]);
-      break;
-    case EST: // On affiche la direction vers l'est
-      directionsSprite[0].setPosition(pos_x + (x.first * (size + margin) + (margin / 2)), pos_y + (x.second * (size + margin) + (margin / 2)));
-      window.draw(directionsSprite[0]);
-      break;
-    case OUEST: //
-      directionsSprite[2].setPosition(pos_x + (x.first * (size + margin) + size + (margin / 2)), pos_y + (x.second * (size + margin) + size + (margin / 2)));
-      window.draw(directionsSprite[2]);
-      break;
-    default:
-      break;
+    if(OperateurDeplacement *op = dynamic_cast<OperateurDeplacement *>(piece.getSens(x, piece))){
+      switch (op->sens)
+      {
+      case NORD:
+        directionsSprite[3].setPosition(pos_x + (x.first * (size + margin) + (margin / 2)), pos_y + (x.second * (size + margin) + size + (margin / 2)));
+        window.draw(directionsSprite[3]);
+        break;
+      case SUD:
+        directionsSprite[1].setPosition(pos_x + (x.first * (size + margin) + size + (margin / 2)), pos_y + (x.second * (size + margin) + (margin / 2)));
+        window.draw(directionsSprite[1]);
+        break;
+      case EST: // On affiche la direction vers l'est
+        directionsSprite[0].setPosition(pos_x + (x.first * (size + margin) + (margin / 2)), pos_y + (x.second * (size + margin) + (margin / 2)));
+        window.draw(directionsSprite[0]);
+        break;
+      case OUEST: //
+        directionsSprite[2].setPosition(pos_x + (x.first * (size + margin) + size + (margin / 2)), pos_y + (x.second * (size + margin) + size + (margin / 2)));
+        window.draw(directionsSprite[2]);
+        break;
+      default:
+        break;
+      }
     }
+    else if(OperateurRotation *op = dynamic_cast<OperateurRotation *>(piece.getSens(x, piece))){
+      switch (op->sens)
+      {
+      case HORAIRE:
+        rotateSprite.setPosition(pos_x + (x.first * (size + margin) + (margin / 2)), pos_y + (x.second * (size + margin) + (margin / 2)));
+        window.draw(rotateSprite);
+        break;
+      case ANTI_HORAIRE:
+        rotateSpriteInverse.setPosition(pos_x + (x.first * (size + margin) + (margin / 2)), pos_y + (x.second * (size + margin) + (margin / 2)));
+        window.draw(rotateSpriteInverse);
+        break;
+        default:
+        break;
+      }
+
+    }
+    
   }
 }

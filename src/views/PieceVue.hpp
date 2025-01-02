@@ -24,7 +24,9 @@ private:
 
   vector<Sprite> directionsSprite;
   Sprite rotateSprite;
+  Sprite rotateSpriteInverse;
   Sprite symetricSprite;
+  Sprite symetricSpriteInverse;
 
 public:
   PieceVue();

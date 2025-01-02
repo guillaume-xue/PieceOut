@@ -26,7 +26,10 @@ public:
     vector<Piece *> getPieces() { return pieces; }
     pair<int, int> getSizePlateau() { return sizePlateau; }
     vector<Actions *> &getActions() { return actions; }
+    void undo();
     bool verify(Actions *origin);
 };
+
+Piece *R_rota_oneDir(Maps *maps);
 
 #endif

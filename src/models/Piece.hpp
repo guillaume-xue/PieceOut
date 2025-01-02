@@ -16,9 +16,9 @@ public:
     virtual void trigger(const pair<int, int> &coord, Piece &origin) = 0;
     void trigger(const pair<int, int> &coord);
     virtual const vector<pair<int, int>> &getCoordinates() const = 0;
-    virtual void accept(const PieceOperateur &v, Piece &origin) = 0;
-    virtual void reAccept(const PieceOperateur &v, Piece &origin) = 0;
-    virtual OrientationDeplacement getSens(const pair<int, int> &coord, Piece &origin) const = 0;
+    virtual void accept(PieceOperateur &v, Piece &origin) = 0;
+    virtual void reAccept(PieceOperateur &v, Piece &origin) = 0;
+    virtual PieceOperateur *getSens(const pair<int, int> &coord, Piece &origin) const = 0;
     virtual ~Piece() { cout << "Piece deleted" << endl; }
 };
 
@@ -30,9 +30,9 @@ public:
     PieceConcrete(const vector<pair<int, int>> &coords, Maps *map);
     const vector<pair<int, int>> &getCoordinates() const override { return coordinates; }
     void trigger(const pair<int, int> &coord, Piece &origin) override;
-    void accept(const PieceOperateur &v, Piece &origin) override;
-    void reAccept(const PieceOperateur &v, Piece &origin) override;
-    OrientationDeplacement getSens(const pair<int, int> &coord, Piece &origin) const override;
+    void accept(PieceOperateur &v, Piece &origin) override;
+    void reAccept(PieceOperateur &v, Piece &origin) override;
+    PieceOperateur *getSens(const pair<int, int> &coord, Piece &origin) const override;
     ~PieceConcrete() { cout << "PieceConcrete deleted" << endl; }
 };
 

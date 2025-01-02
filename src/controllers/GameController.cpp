@@ -29,7 +29,7 @@ void GameController::update(RenderWindow &window)
         if (!isMousePressed)
         {
             isMousePressed = true;
-            headerController.update(mouseController, headerVue, menuController);
+            headerController.update(mouseController, headerVue, menuController, map);
             menuController.update(mouseController, menuVue.getCarres(), map, mapVue);
             if(menuController.getInitMap())
               pieceController.update(mouseController, map, mapVue);

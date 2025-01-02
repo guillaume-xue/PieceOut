@@ -15,13 +15,15 @@ private:
   Texture homeTexture;
   Sprite homeButton;
   RectangleShape header;
-
+  Sprite retour;
+  Texture retourTexture;
 public:
   HeaderVue();
   ~HeaderVue();
   void init(int nbPix_x);
   void draw(RenderWindow &window);
   Sprite getHomeButton();
+  Sprite getRetourButton();
 };
 
 #endif

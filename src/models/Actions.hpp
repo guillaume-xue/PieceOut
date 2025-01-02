@@ -7,15 +7,15 @@ class Actions
 {
 private:
     PieceConcrete &pc;
-    const PieceOperateur &piece;
+    PieceOperateur &piece;
     Piece *origin = nullptr;
 public:
-    Actions(const PieceOperateur &p, Piece *origin, PieceConcrete &pc) : pc{pc}, piece{p}, origin{origin}  {}
+    Actions(PieceOperateur &p, Piece *origin, PieceConcrete &pc) : pc{pc}, piece{p}, origin{origin}  {}
     ~Actions() {}
 
     PieceConcrete &getPieceConcrete() { return pc; }
     Piece *getOrigin() { return origin; }
-    const PieceOperateur &getPiece() { return piece; }
+    PieceOperateur &getPiece() { return piece; }
 };
 
 #endif
