@@ -5,6 +5,22 @@ Maps::Maps()
     cout << "Maps created" << endl;
 }
 
+void Maps::clean(){
+    for (Piece *p : pieces)
+    {
+        delete p;
+    }
+    for (Actions *a : actions)
+    {
+        delete a;
+    }
+    actions.clear();
+    plateauSet.clear();
+    pieces.clear();
+    plateau.clear();
+    sizePlateau = {0, 0};
+}
+
 pair<int, int> findMaxFirstAndSecond(const vector<pair<int, int>> &vec)
 {
     int maxFirst = INT_MIN;
@@ -27,10 +43,8 @@ pair<int, int> findMaxFirstAndSecond(const vector<pair<int, int>> &vec)
 
 void Maps::map1()
 {
-    actions.clear();
-    plateauSet.clear();
-    pieces.clear();
-    plateau.clear();
+    clean();
+
     vector<pair<int, int>> coords{{0, 0}};
     PieceConcrete *piece = new PieceConcrete(coords, this);
     Piece *p = new OperateurDeplacement(*piece, {0, 0}, EST);
@@ -52,10 +66,8 @@ void Maps::map1()
 
 void Maps::map2()
 {
-    actions.clear();
-    plateauSet.clear();
-    pieces.clear();
-    plateau.clear();
+    clean();
+    
     vector<pair<int, int>> coords{{0, 0}, {1, 0}, {2, 0}, 
                                   {0, 1}, {1, 1}, {2, 1}, 
                                   {0, 2}, {1, 2}, {2, 2}};

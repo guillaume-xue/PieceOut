@@ -28,6 +28,7 @@ public:
     vector<Actions *> &getActions() { return actions; }
     void undo();
     bool verify(Actions *origin);
+    void clean();
 };
 
 Piece *R_rota_oneDir(Maps *maps);
