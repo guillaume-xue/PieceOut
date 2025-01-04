@@ -69,7 +69,8 @@ void PieceVue::draw(RenderWindow &window, Piece &piece, int pos_x, int pos_y)
   }
   for (pair<int, int> x : piece.getCoordinates())
   {
-    if(OperateurDeplacement *op = dynamic_cast<OperateurDeplacement *>(piece.getSens(x, piece))){
+    if (OperateurDeplacement *op = dynamic_cast<OperateurDeplacement *>(piece.getSens(x, piece)))
+    {
       switch (op->sens)
       {
       case NORD:
@@ -92,34 +93,36 @@ void PieceVue::draw(RenderWindow &window, Piece &piece, int pos_x, int pos_y)
         break;
       }
     }
-    else if(OperateurRotation *op = dynamic_cast<OperateurRotation *>(piece.getSens(x, piece))){
+    else if (OperateurRotation *op = dynamic_cast<OperateurRotation *>(piece.getSens(x, piece)))
+    {
       switch (op->sens)
       {
-        case HORAIRE:
-          rotateSprite.setPosition(pos_x + (x.first * (size + margin) + (margin / 2)), pos_y + (x.second * (size + margin) + (margin / 2)));
-          window.draw(rotateSprite);
-          break;
-        case ANTI_HORAIRE:
-          rotateSpriteInverse.setPosition(pos_x + (x.first * (size + margin) + (margin / 2)), pos_y + (x.second * (size + margin) + (margin / 2)));
-          window.draw(rotateSpriteInverse);
-          break;
-        default:
-          break;
+      case HORAIRE:
+        rotateSprite.setPosition(pos_x + (x.first * (size + margin) + (margin / 2)), pos_y + (x.second * (size + margin) + (margin / 2)));
+        window.draw(rotateSprite);
+        break;
+      case ANTI_HORAIRE:
+        rotateSpriteInverse.setPosition(pos_x + (x.first * (size + margin) + (margin / 2)), pos_y + (x.second * (size + margin) + (margin / 2)));
+        window.draw(rotateSpriteInverse);
+        break;
+      default:
+        break;
       }
     }
-    else if(OperateurSymetrie *op = dynamic_cast<OperateurSymetrie *>(piece.getSens(x, piece))){
-      switch(op->sens)
+    else if (OperateurSymetrie *op = dynamic_cast<OperateurSymetrie *>(piece.getSens(x, piece)))
+    {
+      switch (op->sens)
       {
-        case HORIZONTALE:
-          symetricSpriteHoriz.setPosition(pos_x + (x.first * (size + margin) + (margin / 2)), pos_y + (x.second * (size + margin) + (margin / 2)));
-          window.draw(symetricSpriteHoriz);
-          break;
-        case VERTICALE:
-          symetricSprite.setPosition(pos_x + (x.first * (size + margin) + (margin / 2)), pos_y + (x.second * (size + margin) + (margin / 2)));
-          window.draw(symetricSprite);
-          break;
-        default:
-          break;
+      case HORIZONTALE:
+        symetricSpriteHoriz.setPosition(pos_x + (x.first * (size + margin) + size + (margin / 2)), pos_y + (x.second * (size + margin) + (margin / 2)));
+        window.draw(symetricSpriteHoriz);
+        break;
+      case VERTICALE:
+        symetricSprite.setPosition(pos_x + (x.first * (size + margin) + (margin / 2)), pos_y + (x.second * (size + margin) + (margin / 2)));
+        window.draw(symetricSprite);
+        break;
+      default:
+        break;
       }
     }
   }
