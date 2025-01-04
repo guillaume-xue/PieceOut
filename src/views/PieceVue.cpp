@@ -52,9 +52,9 @@ void PieceVue::initSprite()
   rotateSpriteInverse.setScale(-new_size, new_size);
   symetricSprite.setTexture(symetricTexture);
   symetricSprite.setScale(new_size, new_size);
-  symetricSpriteInverse.setTexture(symetricTexture);
-  symetricSpriteInverse.setScale(new_size, new_size);
-  symetricSpriteInverse.setRotation(90);
+  symetricSpriteHoriz.setTexture(symetricTexture);
+  symetricSpriteHoriz.setScale(new_size, new_size);
+  symetricSpriteHoriz.setRotation(90);
 }
 
 void PieceVue::draw(RenderWindow &window, Piece &piece, int pos_x, int pos_y)
@@ -111,8 +111,8 @@ void PieceVue::draw(RenderWindow &window, Piece &piece, int pos_x, int pos_y)
       switch(op->sens)
       {
         case HORIZONTALE:
-          symetricSpriteInverse.setPosition(pos_x + (x.first * (size + margin) + (margin / 2)), pos_y + (x.second * (size + margin) + (margin / 2)));
-          window.draw(symetricSpriteInverse);
+          symetricSpriteHoriz.setPosition(pos_x + (x.first * (size + margin) + (margin / 2)), pos_y + (x.second * (size + margin) + (margin / 2)));
+          window.draw(symetricSpriteHoriz);
           break;
         case VERTICALE:
           symetricSprite.setPosition(pos_x + (x.first * (size + margin) + (margin / 2)), pos_y + (x.second * (size + margin) + (margin / 2)));

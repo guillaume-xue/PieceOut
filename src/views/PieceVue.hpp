@@ -26,7 +26,7 @@ private:
   Sprite rotateSprite;
   Sprite rotateSpriteInverse;
   Sprite symetricSprite;
-  Sprite symetricSpriteInverse;
+  Sprite symetricSpriteHoriz;
 
 public:
   PieceVue();
