@@ -32,5 +32,6 @@ public:
 };
 
 Piece *R_rota_oneDir(Maps *maps);
+Piece *L_rota_sym_oneDir(Maps *maps);
 
 #endif

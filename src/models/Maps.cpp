@@ -67,7 +67,7 @@ void Maps::map1()
 void Maps::map2()
 {
     clean();
-    
+
     vector<pair<int, int>> coords{{0, 0}, {1, 0}, {2, 0}, 
                                   {0, 1}, {1, 1}, {2, 1}, 
                                   {0, 2}, {1, 2}, {2, 2}};
@@ -79,6 +79,7 @@ void Maps::map2()
     pieces.push_back(p4);
 
     pieces.push_back(R_rota_oneDir(this));
+    pieces.push_back(L_rota_sym_oneDir(this));
 
     plateau = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}, {8, 0}, {9, 0},
                {0, 1}, {1, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 1}, {6, 1}, {7, 1}, {8, 1}, {9, 1},
@@ -118,7 +119,7 @@ void Maps::undo()
     if(actions.empty()){
         return;
     }
-    actions.back()->getOrigin()->reAccept(actions.back()->getPiece(), *actions.back()->getOrigin());
+    actions.back()->getOrigin()->accept(actions.back()->getPiece(), *actions.back()->getOrigin(), true);
 }
 
 bool Maps::verify(Actions *origin)
@@ -141,8 +142,8 @@ bool Maps::verify(Actions *origin)
                         tmp = &op->source;
                     if(OperateurRotation *op = dynamic_cast<OperateurRotation *>(tmp))
                         tmp = &op->source;
-                    // if(OperateurSymetrie *op = dynamic_cast<OperateurSymetrie *>(tmp))
-                    //     tmp = &op->source;
+                    if(OperateurSymetrie *op = dynamic_cast<OperateurSymetrie *>(tmp))
+                        tmp = &op->source;
                 }
             }
         }
@@ -165,5 +166,14 @@ Piece *R_rota_oneDir(Maps *map){
     Piece *p = new OperateurRotation(*piece, {6, 7}, HORAIRE);
     Piece *p2 = new OperateurRotation(*p, {7, 7}, ANTI_HORAIRE);
     Piece *p3 = new OperateurDeplacement(*p2, {8, 7}, OUEST);
+    return p3;
+}
+
+Piece *L_rota_sym_oneDir(Maps *map){
+    vector<pair<int, int>> coords{{1, 7}, {2, 6}, {0, 5}, {0, 9}, {0, 7}};
+    PieceConcrete *piece = new PieceConcrete(coords, map);
+    Piece *p = new OperateurDeplacement(*piece, {0, 9}, NORD);
+    Piece *p2 = new OperateurSymetrie(*p, {1, 7}, HORIZONTALE);
+    Piece *p3 = new OperateurSymetrie(*p2, {2, 6}, VERTICALE);
     return p3;
 }

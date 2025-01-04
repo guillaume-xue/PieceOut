@@ -6,31 +6,11 @@ PieceOperateur::PieceOperateur(Piece &source, const pair<int, int> &position)
 
 void PieceOperateur::trigger(const pair<int, int> &relativePos, Piece &origin)
 {
-    // cout << "PieceOperateur::trigger" << endl;
     if (relativePos == position) {
-        origin.accept(*this, origin);
+        origin.accept(*this, origin, false);
     } else {
         source.trigger(relativePos, origin);
     }
-}
-
-void PieceOperateur::visit(PieceConcrete &p, Piece &origin)
-{
-    // cout << "PieceOperateur::visit" << endl;
-    for (pair<int, int> &x : p.coordinates)
-        mapPosition(x);
-    // cout << "PieceOperateur::visit" << endl;
-    Actions *action = new Actions(*this, &origin, p);
-    p.maps->getActions().push_back(action);
-    // cout << "PieceOperateur::visit: " << p.maps->getActions().size() << endl;
-}
-
-void PieceOperateur::reVisit(PieceConcrete &p, Piece &origin)
-{
-    // cout << "PieceOperateur::reVisit" << endl;
-    for (pair<int, int> &x : p.coordinates)
-        mapPositionReverse(x);
-    p.maps->getActions().pop_back();
 }
 
 PieceOperateur* OperateurDeplacement::getSens(const pair<int, int> &coord, Piece &origin) const
@@ -58,404 +38,366 @@ PieceOperateur* OperateurSymetrie::getSens(const pair<int, int> &coord, Piece &o
     }
 }
 
-void PieceOperateur::visit(PieceOperateur *x, Piece &origin)
-{
-    mapPosition(x);
-    x->source.accept(*this, origin);
-}
-
-void PieceOperateur::reVisit(PieceOperateur *x, Piece &origin)
-{
-    mapPositionReverse(x);
-    x->source.reAccept(*this, origin);
-}
-
-void PieceOperateur::accept(PieceOperateur &v, Piece &origin)
-{
-    v.visit(this, origin);
-}
-
-void PieceOperateur::reAccept(PieceOperateur &v, Piece &origin)
-{
-    v.reVisit(this, origin);
-}
-
 // OperateurDeplacement
 OperateurDeplacement::OperateurDeplacement(Piece &source, const pair<int, int> &position, OrientationDeplacement sens)
     : PieceOperateur(source, position), sens{sens} {}
 
-// void OperateurDeplacement::accept(const PieceOperateur &v, Piece &origin)
-// {
-//     // cout << "OperateurDeplacement::accept" << endl;
-//     v.visit(*this, origin);
-// }
-
-// void OperateurDeplacement::visit(OperateurDeplacement &x, Piece &origin) 
-// {
-//     // cout << "OperateurDeplacement::visit" << endl;
-//     mapPosition(x.position);
-//     x.source.accept(*this, origin);
-// }
-// void OperateurDeplacement::reAccept(const PieceOperateur &v, Piece &origin)
-// {
-//     // cout << "OperateurDeplacement::reAccept" << endl;
-//     v.reVisit(*this, origin);
-// }
-// void OperateurDeplacement::reVisit(OperateurDeplacement &x, Piece &origin)
-// {
-//     // cout << "OperateurDeplacement::reVisit" << endl;
-//     mapPositionReverse(x.position);
-//     x.source.reAccept(*this, origin);
-// }
-
-void PieceOperateur::mapPosition(PieceOperateur *x)
+void OperateurDeplacement::visit(OperateurDeplacement &x, Piece &origin, bool reverse)
 {
-    pair<int, int> &pos = x->position;
-    if(OperateurDeplacement *op = dynamic_cast<OperateurDeplacement *>(this)){
-        switch (op->sens)
-        {
-        case NORD:
-            pos.second--;
-            break;
-        case SUD:
-            pos.second++;
-            break;
-        case EST:
-            pos.first++;
-            break;
-        case OUEST:
-            pos.first--;
-            break;
-        default:
-            break;
-        }
-    } else if (OperateurRotation *op = dynamic_cast<OperateurRotation *>(this)){
-        int x2 = pos.first;
-        int y = pos.second;
-        int x_c = this->position.first;
-        int y_c = this->position.second;
-        x2 -= x_c;
-        y -= y_c;
-        int xtemp = x2;
-        int ytemp = y;
-        
-        switch (op->sens)
-        {
-        case HORAIRE:
-            x2 = -ytemp;
-            y = xtemp;
-            x2 += x_c;
-            y += y_c;
-            pos = {x2, y};
-            changeSensRot(x, HORAIRE);
-            break;
-        case ANTI_HORAIRE:
-            x2 = ytemp;
-            y = -xtemp;
-            x2 += x_c;
-            y += y_c;
-            pos = {x2, y};
-            changeSensRot(x, ANTI_HORAIRE);
-            break;
-        default:
-            break;
-        }
-    }
-
+    mapPosition(x, reverse);    
+    x.source.accept(*this, origin, reverse);
 }
 
-void PieceOperateur::mapPositionReverse(PieceOperateur *x)
+void OperateurDeplacement::visit(OperateurRotation &x, Piece &origin, bool reverse)
 {
-    pair<int, int> &pos = x->position;
-    if(OperateurDeplacement *op = dynamic_cast<OperateurDeplacement *>(this)){
-        switch (op->sens)
-        {
+    mapPosition(x, reverse);    
+    x.source.accept(*this, origin, reverse);
+}
+
+void OperateurDeplacement::visit(OperateurSymetrie &x, Piece &origin, bool reverse)
+{
+    mapPosition(x, reverse);    
+    x.source.accept(*this, origin, reverse);
+}
+
+void OperateurDeplacement::visit(PieceConcrete &p, Piece &origin, bool reverse)
+{
+    mapPosition(p, reverse);
+    if(reverse) {
+        p.maps->getActions().pop_back();
+    } else {
+        Actions *action = new Actions(*this, &origin, p);
+        p.maps->getActions().push_back(action);
+    }
+}
+
+void OperateurDeplacement::accept(PieceOperateur &v, Piece &origin, bool reverse)
+{
+    v.visit(*this, origin, reverse);
+}
+void OperateurDeplacement::mapPosition(OperateurDeplacement &op, bool reverse)
+{
+    mapPosition(op.position, reverse);
+}
+void OperateurDeplacement::mapPosition(OperateurRotation &op, bool reverse)
+{
+    mapPosition(op.position, reverse);
+}
+void OperateurDeplacement::mapPosition(OperateurSymetrie &op, bool reverse)
+{
+    mapPosition(op.position, reverse);
+}
+void OperateurDeplacement::mapPosition(PieceConcrete &op, bool reverse)
+{
+    for (pair<int, int> &x : op.coordinates)
+        mapPosition(x, reverse);
+}
+void OperateurDeplacement::mapPosition(pair<int, int> &p, bool reverse){
+    OrientationDeplacement tmp = this->sens;
+    if(reverse) tmp = getReverseSens();
+    switch (tmp)
+    {
+    case NORD:
+        p.second--;
+        break;
+    case SUD:
+        p.second++;
+        break;
+    case EST:
+        p.first++;
+        break;
+    case OUEST:
+        p.first--;
+        break;
+    default:
+        break;
+    }
+}
+
+OrientationDeplacement OperateurDeplacement::getReverseSens(){
+    switch(this->sens){
         case NORD:
-            pos.second++;
-            break;
+            return SUD;
         case SUD:
-            pos.second--;
-            break;
+            return NORD;
         case EST:
-            pos.first--;
-            break;
-        case OUEST:
-            pos.first++;
-            break;
+            return OUEST;
         default:
-            break;
-        }
-    } else if (OperateurRotation *op = dynamic_cast<OperateurRotation *>(this)){
-        int x2 = pos.first;
-        int y = pos.second;
-        int x_c = this->position.first;
-        int y_c = this->position.second;
-
-        x2 -= x_c;
-        y -= y_c;
-
-        int xtemp = x2;
-        int ytemp = y;
-
-        switch (op->sens)
-        {
-        case ANTI_HORAIRE:
-            x2 = -ytemp;
-            y = xtemp;
-            x2 += x_c;
-            y += y_c;
-            pos = {x2, y};
-            changeSensRot(x, HORAIRE);
-            break;
-        case HORAIRE:
-            x2 = ytemp;
-            y = -xtemp;
-            x2 += x_c;
-            y += y_c;
-            pos = {x2, y};
-            changeSensRot(x, ANTI_HORAIRE);
-            break;
-        default:
-            break;
-        }
+            return EST;
     }
 }
 
 // OperateurRotation
-
 OperateurRotation::OperateurRotation(Piece &source, const pair<int, int> &position, OrientationRotation sens)
     : PieceOperateur(source, position), sens{sens} {}
 
-// void OperateurRotation::accept(const PieceOperateur &v, Piece &origin){
-//     v.visit(*this, origin);
-// }
+void OperateurRotation::visit(OperateurDeplacement &x, Piece &origin, bool reverse)
+{
+    mapPosition(x, reverse);
+    changeSens(x, reverse);    
+    x.source.accept(*this, origin, reverse);
+}
 
-// void OperateurRotation::visit(OperateurRotation &x, Piece &origin) const
-// {
-//     mapPosition(x.position);
-//     x.source.accept(*this, origin);
-// }
+void OperateurRotation::visit(OperateurRotation &x, Piece &origin, bool reverse)
+{
+    mapPosition(x, reverse);    
+    x.source.accept(*this, origin, reverse);
+}
 
-// void OperateurRotation::reAccept(const PieceOperateur &v, Piece &origin)
-// {
-//     v.reVisit(*this, origin);
-// }
+void OperateurRotation::visit(OperateurSymetrie &x, Piece &origin, bool reverse)
+{
+    mapPosition(x, reverse); 
+    changeSens(x, reverse);   
+    x.source.accept(*this, origin, reverse);
+}
 
-// void OperateurRotation::reVisit(OperateurRotation &x, Piece &origin) const
-// {
-//     mapPositionReverse(x.position);
-//     x.source.reAccept(*this, origin);
-// }
+void OperateurRotation::visit(PieceConcrete &p, Piece &origin, bool reverse)
+{
+    mapPosition(p, reverse);
+    if(reverse) {
+        p.maps->getActions().pop_back();
+    } else {
+        Actions *action = new Actions(*this, &origin, p);
+        p.maps->getActions().push_back(action);
+    }
+}
 
-// void OperateurRotation::mapPosition(pair<int, int> &pos) const
-// {
-//     int x = pos.first;
-//     int y = pos.second;
-//     int x_c = this->position.first;
-//     int y_c = this->position.second;
+void OperateurRotation::accept(PieceOperateur &v, Piece &origin, bool reverse)
+{
+    v.visit(*this, origin, reverse);
+}
+void OperateurRotation::mapPosition(OperateurDeplacement &op, bool reverse)
+{
+    mapPosition(op.position, reverse);
+}
+void OperateurRotation::mapPosition(OperateurRotation &op, bool reverse)
+{
+    mapPosition(op.position, reverse);
+}
+void OperateurRotation::mapPosition(OperateurSymetrie &op, bool reverse)
+{
+    mapPosition(op.position, reverse);
+}
+void OperateurRotation::mapPosition(PieceConcrete &op, bool reverse)
+{
+    for (pair<int, int> &x : op.coordinates)
+        mapPosition(x, reverse);
+}
+void OperateurRotation::mapPosition(pair<int, int> &p, bool reverse){
+    int x = p.first;
+    int y = p.second;
+    int x_c = this->position.first;
+    int y_c = this->position.second;
+    x -= x_c;
+    y -= y_c;
+    int xtemp = x;
+    int ytemp = y;
+    OrientationRotation tmp = this->sens;
+    if(reverse) tmp = getReverseSens();
+    switch (tmp)
+    {
+    case HORAIRE:
+        x = -ytemp;
+        y = xtemp;
+        break;
+    case ANTI_HORAIRE:
+        x = ytemp;
+        y = -xtemp;
+        break;
+    default:
+        break;
+    }
+    x += x_c;
+    y += y_c;
+    p = {x, y};
+}
 
-//     switch (sens)
-//     {
-//     case HORAIRE:
-//         pos = {y - y_c + x_c, x_c - x + y_c};
-//         break;
-//     case ANTI_HORAIRE:
-//         pos = {y_c - y + x_c, x - x_c + y_c};
-//         break;
-//     default:
-//         break;
-//     }
-// }
+OrientationRotation OperateurRotation::getReverseSens(){
+    switch (this->sens)
+    {
+    case HORAIRE:
+        return ANTI_HORAIRE;
+    default:
+        return HORAIRE;
+    }
+}
 
-// void OperateurRotation::mapPositionReverse(pair<int, int> &pos) const
-// {
-//     int x = pos.first;
-//     int y = pos.second;
-//     int x_c = this->position.first;
-//     int y_c = this->position.second;
+void OperateurRotation::changeSens(OperateurDeplacement &x, bool reverse)
+{
+    OrientationRotation tmp = this->sens;
+    if(reverse) tmp = getReverseSens();
+    if(tmp == ANTI_HORAIRE){
+        switch (x.sens)
+        {
+        case NORD:
+            x.sens = OUEST;
+            break;
+        case SUD:
+            x.sens = EST;
+            break;
+        case EST:
+            x.sens = NORD;
+            break;
+        case OUEST:
+            x.sens = SUD;
+            break;
+        default:
+            break;
+        }
+    }else{
+        switch (x.sens)
+        {
+        case NORD:
+            x.sens = EST;
+            break;
+        case SUD:
+            x.sens = OUEST;
+            break;
+        case EST:
+            x.sens = SUD;
+            break;
+        case OUEST:
+            x.sens = NORD;
+            break;
+        default:
+            break;
+        }
+    }
+}
 
-//     switch (sens)
-//     {
-//     case HORAIRE:
-//         pos = {y_c - y + x_c, x - x_c + y_c};
-//         break;
-//     case ANTI_HORAIRE:
-//         pos = {y - y_c + x_c, x_c - x + y_c};
-//         break;
-//     default:
-//         break;
-//     }
-// }
+void OperateurRotation::changeSens(OperateurSymetrie &x, bool reverse)
+{
+    switch (x.sens)
+    {
+    case HORIZONTALE:
+        x.sens = VERTICALE;
+        break;
+    default:
+        x.sens = HORIZONTALE;
+        break;
+    }
+}
 
 // OperateurSymetrie
-
 OperateurSymetrie::OperateurSymetrie(Piece &source, const pair<int, int> &position, OrientationSymetrie sens)
     : PieceOperateur(source, position), sens{sens} {}
 
-
-
-void PieceOperateur::mapPosition(pair<int, int> &pos)
+void OperateurSymetrie::visit(OperateurDeplacement &x, Piece &origin, bool reverse)
 {
-    if(OperateurDeplacement *op = dynamic_cast<OperateurDeplacement *>(this)){
-        switch (op->sens)
-        {
-        case NORD:
-            pos.second--;
-            break;
-        case SUD:
-            pos.second++;
-            break;
-        case EST:
-            pos.first++;
-            break;
-        case OUEST:
-            pos.first--;
-            break;
-        default:
-            break;
-        }
-    } else if (OperateurRotation *op = dynamic_cast<OperateurRotation *>(this)){
-        int x = pos.first;
-        int y = pos.second;
-        int x_c = this->position.first;
-        int y_c = this->position.second;
-        x -= x_c;
-        y -= y_c;
-
-        int xtemp = x;
-        int ytemp = y;
-
-        switch (op->sens)
-        {
-        case HORAIRE:
-            x = -ytemp;
-            y = xtemp;
-            x += x_c;
-            y += y_c;
-            pos = {x, y};
-            break;
-        case ANTI_HORAIRE:
-            x = ytemp;
-            y = -xtemp;
-            x += x_c;
-            y += y_c;
-            pos = {x, y};
-            break;
-        default:
-            break;
-        }
-    }
-
+    mapPosition(x, reverse);  
+    changeSens(x, reverse);  
+    x.source.accept(*this, origin, reverse);
 }
 
-void PieceOperateur::mapPositionReverse(pair<int, int> &pos)
+void OperateurSymetrie::visit(OperateurRotation &x, Piece &origin, bool reverse)
 {
-    if(OperateurDeplacement *op = dynamic_cast<OperateurDeplacement *>(this)){
-        switch (op->sens)
-        {
-        case NORD:
-            pos.second++;
-            break;
-        case SUD:
-            pos.second--;
-            break;
-        case EST:
-            pos.first--;
-            break;
-        case OUEST:
-            pos.first++;
-            break;
-        default:
-            break;
-        }
-    } else if (OperateurRotation *op = dynamic_cast<OperateurRotation *>(this)){
-        int x = pos.first;
-        int y = pos.second;
-        int x_c = this->position.first;
-        int y_c = this->position.second;
-        x -= x_c;
-        y -= y_c;
+    mapPosition(x, reverse);
+    changeSens(x, reverse);    
+    x.source.accept(*this, origin, reverse);
+}
 
-        int xtemp = x;
-        int ytemp = y;
+void OperateurSymetrie::visit(OperateurSymetrie &x, Piece &origin, bool reverse)
+{
+    mapPosition(x, reverse);    
+    x.source.accept(*this, origin, reverse);
+}
 
-        switch (op->sens)
-        {
-        case ANTI_HORAIRE:
-            x = -ytemp;
-            y = xtemp;
-            x += x_c;
-            y += y_c;
-            pos = {x, y};
-            break;
-        case HORAIRE:
-            x = ytemp;
-            y = -xtemp;
-            x += x_c;
-            y += y_c;
-            pos = {x, y};
-            break;
-        default:
-            break;
-        }
+void OperateurSymetrie::visit(PieceConcrete &p, Piece &origin, bool reverse)
+{
+    mapPosition(p, reverse);
+    if(reverse) {
+        p.maps->getActions().pop_back();
+    } else {
+        Actions *action = new Actions(*this, &origin, p);
+        p.maps->getActions().push_back(action);
     }
 }
 
-void PieceOperateur::changeSensRot(PieceOperateur *x, OrientationRotation sens)
+void OperateurSymetrie::accept(PieceOperateur &v, Piece &origin, bool reverse)
 {
-    if(OperateurDeplacement *op = dynamic_cast<OperateurDeplacement *>(x)){
-        switch(sens)
-        {
-        case HORAIRE:
-            switch (op->sens)
-            {
-            case NORD:
-                op->sens = EST;
-                break;
-            case EST:
-                op->sens = SUD;
-                break;
-            case SUD:
-                op->sens = OUEST;
-                break;
-            case OUEST:
-                op->sens = NORD;
-                break;
-            default:
-                break;
-            }
-            break;
-        case ANTI_HORAIRE:
-            switch (op->sens)
-            {
-            case NORD:
-                op->sens = OUEST;
-                break;
-            case OUEST:
-                op->sens = SUD;
-                break;
-            case SUD:
-                op->sens = EST;
-                break;
-            case EST:
-                op->sens = NORD;
-                break;
-            default:
-                break;
-            }
-            break;
-        }
-    }else if(OperateurSymetrie *op = dynamic_cast<OperateurSymetrie *>(x)){
-        switch(op->sens)
-        {
+    v.visit(*this, origin, reverse);
+}
+
+void OperateurSymetrie::mapPosition(OperateurDeplacement &op, bool reverse)
+{
+    mapPosition(op.position, reverse);
+}
+void OperateurSymetrie::mapPosition(OperateurRotation &op, bool reverse)
+{
+    mapPosition(op.position, reverse);
+}
+void OperateurSymetrie::mapPosition(OperateurSymetrie &op, bool reverse)
+{
+    mapPosition(op.position, reverse);
+}
+void OperateurSymetrie::mapPosition(PieceConcrete &op, bool reverse)
+{   
+    for (pair<int, int> &x : op.coordinates)
+        mapPosition(x, reverse);
+}
+OrientationSymetrie OperateurSymetrie::getReverseSens(){
+    switch (this->sens)
+    {
+    case HORIZONTALE:
+        return VERTICALE;
+    default:
+        return HORIZONTALE;
+    }
+}
+void OperateurSymetrie::mapPosition(pair<int, int> &p, bool reverse){
+    int x = p.first;
+    int y = p.second;
+    int x_c = this->position.first;
+    int y_c = this->position.second;
+    OrientationSymetrie tmp = this->sens;
+    // if(reverse) tmp = getReverseSens();
+    switch (tmp)
+    {
         case HORIZONTALE:
-            op->sens = VERTICALE;
+            y = 2 * y_c - y;
             break;
         case VERTICALE:
-            op->sens = HORIZONTALE;
+            x = 2 * x_c - x;
             break;
         default:
             break;
-        }
     }
+    p = {x, y};   
+}
+
+void OperateurSymetrie::changeSens(OperateurDeplacement &x, bool reverse)
+{
+    switch(this->sens){
+        case HORIZONTALE:
+            switch(x.sens){
+                case NORD:
+                    x.sens = SUD;
+                    break;
+                case SUD:
+                    x.sens = NORD;
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case VERTICALE: 
+            switch(x.sens){
+                case EST:
+                    x.sens = OUEST;
+                    break;
+                case OUEST:
+                    x.sens = EST;
+                    break;
+                default:
+                    break;
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+void OperateurSymetrie::changeSens(OperateurRotation &x, bool reverse)
+{
+    x.sens = (x.sens == HORAIRE) ? ANTI_HORAIRE : HORAIRE;
 }
