@@ -267,6 +267,7 @@ void OperateurRotation::changeSens(OperateurDeplacement &x, bool reverse)
 
 void OperateurRotation::changeSens(OperateurSymetrie &x, bool reverse)
 {
+    (void)reverse;
     switch (x.sens)
     {
     case HORIZONTALE:
@@ -345,6 +346,7 @@ OrientationSymetrie OperateurSymetrie::getReverseSens(){
     }
 }
 void OperateurSymetrie::mapPosition(pair<int, int> &p, bool reverse){
+    (void)reverse;
     int x = p.first;
     int y = p.second;
     int x_c = this->position.first;
@@ -367,6 +369,7 @@ void OperateurSymetrie::mapPosition(pair<int, int> &p, bool reverse){
 
 void OperateurSymetrie::changeSens(OperateurDeplacement &x, bool reverse)
 {
+    (void)reverse;
     switch(this->sens){
         case HORIZONTALE:
             switch(x.sens){
@@ -399,5 +402,6 @@ void OperateurSymetrie::changeSens(OperateurDeplacement &x, bool reverse)
 
 void OperateurSymetrie::changeSens(OperateurRotation &x, bool reverse)
 {
+    (void)reverse;
     x.sens = (x.sens == HORAIRE) ? ANTI_HORAIRE : HORAIRE;
 }

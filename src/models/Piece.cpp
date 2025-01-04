@@ -25,6 +25,8 @@ void PieceConcrete::accept(PieceOperateur &v, Piece &origin, bool reverse)
 
 PieceOperateur *PieceConcrete::getSens(const pair<int, int> &coord, Piece &origin) const
 {
+    (void)coord;
+    (void)origin;
     return nullptr;
 }
 

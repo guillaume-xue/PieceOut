@@ -77,9 +77,9 @@ public:
     ~OperateurDeplacement() { cout << "OperateurDeplacement deleted" << endl; }
     OrientationDeplacement getReverseSens();
 
-    void changeSens(OperateurDeplacement &x, bool reverse) override {};
-    void changeSens(OperateurRotation &x, bool reverse) override {};
-    void changeSens(OperateurSymetrie &x, bool reverse) override {};
+    void changeSens(OperateurDeplacement &x, bool reverse) override { (void)x; (void)reverse; };
+    void changeSens(OperateurRotation &x, bool reverse) override { (void)x; (void)reverse; };
+    void changeSens(OperateurSymetrie &x, bool reverse) override { (void)x; (void)reverse; };
 };
 
 class OperateurRotation : public PieceOperateur 
@@ -112,7 +112,7 @@ public:
     OrientationRotation getReverseSens();
 
     void changeSens(OperateurDeplacement &x, bool reverse) override;
-    void changeSens(OperateurRotation &x, bool reverse) override {};
+    void changeSens(OperateurRotation &x, bool reverse) override { (void)x; (void)reverse; };
     void changeSens(OperateurSymetrie &x, bool reverse) override;
 };
 
@@ -143,7 +143,7 @@ public:
 
     void changeSens(OperateurDeplacement &x, bool reverse) override;
     void changeSens(OperateurRotation &x, bool reverse) override;
-    void changeSens(OperateurSymetrie &x, bool reverse) override {};
+    void changeSens(OperateurSymetrie &x, bool reverse) override { (void)x; (void)reverse; };
 };
 
 #endif
