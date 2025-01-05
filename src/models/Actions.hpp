@@ -16,6 +16,7 @@ public:
     PieceConcrete &getPieceConcrete() { return pc; }
     Piece *getOrigin() { return origin; }
     PieceOperateur &getPiece() { return piece; }
+    void clean() { origin = nullptr; }
 };
 
 #endif

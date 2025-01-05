@@ -29,6 +29,7 @@ public:
   int getGlobalMarginY() { return GLOBAL_MARGIN_Y; }
   int getSizeCarre() { return SIZE_CARRE; }
   int getMarginCarre() { return MARGIN_CARRE; }
+  void clear();
 };
 
 #endif

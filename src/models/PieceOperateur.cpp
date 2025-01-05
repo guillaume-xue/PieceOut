@@ -127,6 +127,11 @@ OrientationDeplacement OperateurDeplacement::getReverseSens(){
     }
 }
 
+void OperateurDeplacement::clean() {
+    source.clean();
+    delete this;
+}
+
 // OperateurRotation
 OperateurRotation::OperateurRotation(Piece &source, const pair<int, int> &position, OrientationRotation sens)
     : PieceOperateur(source, position), sens{sens} {}
@@ -279,6 +284,11 @@ void OperateurRotation::changeSens(OperateurSymetrie &x, bool reverse)
     }
 }
 
+void OperateurRotation::clean() {
+    source.clean();
+    delete this;
+}
+
 // OperateurSymetrie
 OperateurSymetrie::OperateurSymetrie(Piece &source, const pair<int, int> &position, OrientationSymetrie sens)
     : PieceOperateur(source, position), sens{sens} {}
@@ -404,4 +414,9 @@ void OperateurSymetrie::changeSens(OperateurRotation &x, bool reverse)
 {
     (void)reverse;
     x.sens = (x.sens == HORAIRE) ? ANTI_HORAIRE : HORAIRE;
+}
+
+void OperateurSymetrie::clean() {
+    source.clean();
+    delete this;
 }

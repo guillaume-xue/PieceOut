@@ -16,9 +16,11 @@ public:
     void trigger(const pair<int, int> &coord);
     virtual void trigger(const pair<int, int> &coord, Piece &origin) = 0;
     virtual const vector<pair<int, int>> &getCoordinates() const = 0;
+    virtual const vector<pair<int, int>> &getEndPos() const = 0;
     virtual void accept(PieceOperateur &v, Piece &origin, bool reverse) = 0;
     virtual PieceOperateur *getSens(const pair<int, int> &coord, Piece &origin) const = 0;
     virtual ~Piece() { cout << "Piece deleted" << endl; }
+    virtual void clean() = 0;
 };
 
 class PieceConcrete : public Piece
@@ -26,12 +28,15 @@ class PieceConcrete : public Piece
 public:
     vector<pair<int, int>> coordinates;
     Maps *maps;
+    vector<pair<int, int>> endPos = {};
     PieceConcrete(const vector<pair<int, int>> &coords, Maps *map);
     const vector<pair<int, int>> &getCoordinates() const override { return coordinates; }
+    const vector<pair<int, int>> &getEndPos() const override { return endPos; }
     void trigger(const pair<int, int> &coord, Piece &origin) { (void)coord; (void)origin; };
     void accept(PieceOperateur &v, Piece &origin, bool reverse) override;
     PieceOperateur *getSens(const pair<int, int> &coord, Piece &origin) const override;
     ~PieceConcrete() { cout << "PieceConcrete deleted" << endl; }
+    void clean() override;
 };
 
 #endif

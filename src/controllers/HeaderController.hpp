@@ -10,7 +10,7 @@ private:
 public:
   HeaderController();
   ~HeaderController();
-  void update(MouseController &mouseController, HeaderVue &headerVue, MenuController &menuController, Maps &map);
+  void update(MouseController &mouseController, HeaderVue &headerVue, MenuController &menuController, Maps &map, MapVue &mapVue);
 };
 
 #endif // __HEADERCONTROLLER_HPP__

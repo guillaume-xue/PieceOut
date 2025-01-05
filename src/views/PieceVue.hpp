@@ -19,6 +19,7 @@ private:
   Texture directionTexture;
   Texture rotateTexture;
   Texture symetricTexture;
+  Texture croix;
 
   Color color;
 
@@ -27,7 +28,7 @@ private:
   Sprite rotateSpriteInverse;
   Sprite symetricSprite;
   Sprite symetricSpriteHoriz;
-
+  Sprite croixSprite;
 public:
   PieceVue();
   ~PieceVue();
@@ -35,9 +36,11 @@ public:
   void initTexture();
   void initSprite();
   void draw(RenderWindow &window, Piece &piece, int pos_x, int pos_y);
+  void draw2(RenderWindow &window, Piece &piece, int pos_x, int pos_y);
   vector<Sprite> getDirectionsSprite() { return directionsSprite; }
   Sprite getRotateSprite() { return rotateSprite; }
   Sprite getSymetricSprite() { return symetricSprite; }
+  void clear();
 };
 
 #endif

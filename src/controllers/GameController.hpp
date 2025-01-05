@@ -45,6 +45,7 @@ public:
   void run();
   void update(RenderWindow &window);
   void draw(RenderWindow &window);
+  void clear();
 };
 
 #endif

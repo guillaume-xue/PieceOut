@@ -41,3 +41,13 @@ void MenuVue::draw(RenderWindow &window)
   for (Text *x : textes)
     window.draw(*x);
 }
+
+void MenuVue::clear()
+{
+  for (RectangleShape *x : carres)
+    delete x;
+  carres.clear();
+  for (Text *x : textes)
+    delete x;
+  textes.clear();
+}

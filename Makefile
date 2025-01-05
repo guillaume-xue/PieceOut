@@ -13,7 +13,8 @@ EXECUTABLE = main
 
 # Règles
 all: $(EXECUTABLE)
-
+	./$(EXECUTABLE)
+	
 $(EXECUTABLE): $(OBJECTS)
 	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
 
@@ -34,5 +35,8 @@ test_main: $(SOURCESTEST) $(HEADERS)
 
 clean:
 	rm -f $(OBJECTS) $(EXECUTABLE) $(DIRMAIN)/*.o *.o $(DIRTEST)/**/*.o Main Main_test
+
+valgrind: all
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./$(EXECUTABLE)
 
 .PHONY: all clean

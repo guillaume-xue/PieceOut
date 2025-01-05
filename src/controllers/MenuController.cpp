@@ -30,6 +30,41 @@ void MenuController::update(MouseController mouseController, vector<RectangleSha
           mapVue.init(32, map);
           init_map = true;
           break;
+        case 2:
+          map.map3();
+          mapVue.init(32, map);
+          init_map = true;
+          break;
+        case 3:
+          map.map4();
+          mapVue.init(32, map);
+          init_map = true;
+          break;
+        case 4:
+          map.map5();
+          mapVue.init(32, map);
+          init_map = true;
+          break;
+        case 5:
+          map.map6();
+          mapVue.init(32, map);
+          init_map = true;
+          break;
+        case 6:
+          map.map7();
+          mapVue.init(32, map);
+          init_map = true;
+          break;
+        case 7:
+          map.map8();
+          mapVue.init(32, map);
+          init_map = true;
+          break;
+        case 8:
+          map.map9();
+          mapVue.init(32, map);
+          init_map = true;
+          break;
         default:
           init_map = false;
           break;
@@ -38,3 +73,4 @@ void MenuController::update(MouseController mouseController, vector<RectangleSha
     }
   }
 }
+

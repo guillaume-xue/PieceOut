@@ -4,7 +4,6 @@ GameController::GameController()
 {
   headerVue.init(nbPix_x);
   menuVue.init(nbPix_x, nbPix_y, 96);
-  // mapVue.init(32, map);
 }
 
 GameController::~GameController() {}
@@ -18,6 +17,7 @@ void GameController::run()
     update(window);
     draw(window);
   }
+  clear();
 }
 
 void GameController::update(RenderWindow &window)
@@ -29,10 +29,14 @@ void GameController::update(RenderWindow &window)
         if (!isMousePressed)
         {
             isMousePressed = true;
-            headerController.update(mouseController, headerVue, menuController, map);
+            headerController.update(mouseController, headerVue, menuController, map, mapVue);
             menuController.update(mouseController, menuVue.getCarres(), map, mapVue);
             if(menuController.getInitMap())
-              pieceController.update(mouseController, map, mapVue);
+              if(pieceController.update(mouseController, map, mapVue)){
+                menuController.setInitMap(false);
+                mapVue.clear();
+                map.clean();
+              }
         }
     }
     else
@@ -60,4 +64,10 @@ void GameController::draw(RenderWindow &window)
   }
 
   window.display();
+}
+
+void GameController::clear()
+{
+  menuVue.clear();
+  mapVue.clear();
 }

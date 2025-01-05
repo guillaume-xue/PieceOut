@@ -6,7 +6,7 @@ PieceController::~PieceController()
 {
 }
 
-void PieceController::update(MouseController &mouseController, Maps &map, MapVue &mapVue)
+bool PieceController::update(MouseController &mouseController, Maps &map, MapVue &mapVue)
 {
   if (mouseController.isButtonPressed(Mouse::Left))
   {
@@ -16,5 +16,11 @@ void PieceController::update(MouseController &mouseController, Maps &map, MapVue
     coord.first /= mapVue.getSizeCarre() + mapVue.getMarginCarre();
     coord.second /= mapVue.getSizeCarre() + mapVue.getMarginCarre();
     map.trigger(coord);
+    if(map.isEnd()){
+      cout << "End of the game" << endl;
+      map.clean();
+      return true;
+    }
   }
+  return false;
 }

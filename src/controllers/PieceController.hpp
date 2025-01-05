@@ -13,7 +13,7 @@ class PieceController
 public:
   PieceController();
   ~PieceController();
-  void update(MouseController &mouseController, Maps &map, MapVue &mapVue);
+  bool update(MouseController &mouseController, Maps &map, MapVue &mapVue);
 };
 
 #endif
