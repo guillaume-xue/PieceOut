@@ -10,10 +10,17 @@ using namespace sf;
 
 class PieceController
 {
-public:
+private:
+  static PieceController* instance;
   PieceController();
   ~PieceController();
-  bool update(MouseController &mouseController, Maps &map, MapVue &mapVue);
+
+public:
+  static PieceController* getInstance();
+  PieceController(const PieceController&) = delete;
+  void operator=(const PieceController&) = delete;
+  static void destroyInstance();
+  bool update(MouseController *mouseController, Maps &map, MapVue &mapVue);
 };
 
 #endif

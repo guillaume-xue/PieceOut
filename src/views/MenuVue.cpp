@@ -2,12 +2,12 @@
 
 MenuVue::MenuVue()
 {
-  cout << "MenuVue created" << endl;
+  // cout << "MenuVue created" << endl;
 }
 
 MenuVue::~MenuVue()
 {
-  cout << "MenuVue deleted" << endl;
+  // cout << "MenuVue deleted" << endl;
 }
 
 void MenuVue::init(int nbPix_x, int nbPix_y, int size)

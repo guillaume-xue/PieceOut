@@ -20,7 +20,7 @@ public:
     const vector<pair<int, int>> &getEndPos() const { return source.getEndPos(); }
     void trigger(const pair<int, int> &relativePos, Piece &origin);
 
-    ~PieceOperateur() { cout << "PieceOperateur deleted" << endl; }
+    ~PieceOperateur();
 
     virtual void mapPosition(PieceConcrete &op, bool reverse) = 0;
     virtual void mapPosition(OperateurDeplacement &op, bool reverse) = 0;
@@ -56,7 +56,7 @@ public:
     void mapPosition(OperateurSymetrie &op, bool reverse) override;
     void mapPosition(pair<int, int> &p, bool reverse) override;
     PieceOperateur *getSens(const pair<int, int> &coord, Piece &origin) const override;
-    ~OperateurDeplacement() { cout << "OperateurDeplacement deleted" << endl; }
+    ~OperateurDeplacement();
     OrientationDeplacement getReverseSens();
 
     void changeSens(OperateurDeplacement &x, bool reverse) override { (void)x; (void)reverse; };
@@ -82,7 +82,7 @@ public:
     void mapPosition(OperateurSymetrie &op, bool reverse) override;
     void mapPosition(pair<int, int> &p, bool reverse) override;
     PieceOperateur *getSens(const pair<int, int> &coord, Piece &origin) const override;
-    ~OperateurRotation() { cout << "OperateurRotation deleted" << endl; }
+    ~OperateurRotation();
     OrientationRotation getReverseSens();
 
     void changeSens(OperateurDeplacement &x, bool reverse) override;
@@ -109,7 +109,7 @@ public:
     void mapPosition(pair<int, int> &p, bool reverse) override;
 
     PieceOperateur *getSens(const pair<int, int> &coord, Piece &origin) const override;
-    ~OperateurSymetrie() { cout << "OperateurSymetrie deleted" << endl; }
+    ~OperateurSymetrie();
     OrientationSymetrie getReverseSens();
 
     void changeSens(OperateurDeplacement &x, bool reverse) override;

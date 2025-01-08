@@ -14,9 +14,14 @@ class MouseController : public Mouse
 private:
   Vector2i mousePos;
   Vector2f mouseWorldPos;
-
-public:
+  static MouseController *instance;
   MouseController();
+  ~MouseController();
+public:
+  static MouseController *getInstance();
+  MouseController(const MouseController &) = delete;
+  void operator=(const MouseController &) = delete;
+  static void destroyInstance();
   void updateMousePosition(RenderWindow &window);
   Vector2f getMouseWorldPos();
 };

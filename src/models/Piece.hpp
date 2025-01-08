@@ -19,7 +19,7 @@ public:
     virtual const vector<pair<int, int>> &getEndPos() const = 0;
     virtual void accept(PieceOperateur &v, Piece &origin, bool reverse) = 0;
     virtual PieceOperateur *getSens(const pair<int, int> &coord, Piece &origin) const = 0;
-    virtual ~Piece() { cout << "Piece deleted" << endl; }
+    virtual ~Piece();
     virtual void clean() = 0;
 };
 
@@ -35,7 +35,7 @@ public:
     void trigger(const pair<int, int> &coord, Piece &origin) { (void)coord; (void)origin; };
     void accept(PieceOperateur &v, Piece &origin, bool reverse) override;
     PieceOperateur *getSens(const pair<int, int> &coord, Piece &origin) const override;
-    ~PieceConcrete() { cout << "PieceConcrete deleted" << endl; }
+    ~PieceConcrete();
     void clean() override;
 };
 

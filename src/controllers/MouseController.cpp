@@ -1,9 +1,35 @@
 #include "MouseController.hpp"
 
+MouseController *MouseController::instance = nullptr;
+
 MouseController::MouseController()
 {
+  // cout << "MouseController created" << endl;
   mousePos = Vector2i(0, 0);
   mouseWorldPos = Vector2f(0, 0);
+}
+
+MouseController::~MouseController()
+{
+  cout << "MouseController deleted" << endl;
+}
+
+MouseController *MouseController::getInstance()
+{
+  if (instance == nullptr)
+  {
+    instance = new MouseController();
+  }
+  return instance;
+}
+
+void MouseController::destroyInstance()
+{
+  if (instance != nullptr)
+  {
+    delete instance;
+    instance = nullptr;
+  }
 }
 
 void MouseController::updateMousePosition(RenderWindow &window)

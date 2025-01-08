@@ -2,12 +2,12 @@
 
 PieceVue::PieceVue()
 {
-  cout << "PieceVue created" << endl;
+  // cout << "PieceVue created" << endl;
 }
 
 PieceVue::~PieceVue()
 {
-  cout << "PieceVue deleted" << endl;
+  // cout << "PieceVue deleted" << endl;
 }
 
 void PieceVue::init(float size)

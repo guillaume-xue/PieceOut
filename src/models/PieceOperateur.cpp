@@ -4,6 +4,10 @@
 PieceOperateur::PieceOperateur(Piece &source, const pair<int, int> &position)
     : source{source}, position{position} {}
 
+PieceOperateur::~PieceOperateur() {
+    // cout << "PieceOperateur deleted" << endl;
+}
+
 void PieceOperateur::trigger(const pair<int, int> &relativePos, Piece &origin)
 {
     if (relativePos == position) {
@@ -41,6 +45,10 @@ PieceOperateur* OperateurSymetrie::getSens(const pair<int, int> &coord, Piece &o
 // OperateurDeplacement
 OperateurDeplacement::OperateurDeplacement(Piece &source, const pair<int, int> &position, OrientationDeplacement sens)
     : PieceOperateur(source, position), sens{sens} {}
+
+OperateurDeplacement::~OperateurDeplacement() {
+    // cout << "OperateurDeplacement deleted" << endl;
+}
 
 void OperateurDeplacement::visit(OperateurDeplacement &x, Piece &origin, bool reverse)
 {
@@ -135,6 +143,10 @@ void OperateurDeplacement::clean() {
 // OperateurRotation
 OperateurRotation::OperateurRotation(Piece &source, const pair<int, int> &position, OrientationRotation sens)
     : PieceOperateur(source, position), sens{sens} {}
+
+OperateurRotation::~OperateurRotation() {
+    // cout << "OperateurRotation deleted" << endl;
+}
 
 void OperateurRotation::visit(OperateurDeplacement &x, Piece &origin, bool reverse)
 {
@@ -292,6 +304,10 @@ void OperateurRotation::clean() {
 // OperateurSymetrie
 OperateurSymetrie::OperateurSymetrie(Piece &source, const pair<int, int> &position, OrientationSymetrie sens)
     : PieceOperateur(source, position), sens{sens} {}
+
+OperateurSymetrie::~OperateurSymetrie() {
+    // cout << "OperateurSymetrie deleted" << endl;
+}
 
 void OperateurSymetrie::visit(OperateurDeplacement &x, Piece &origin, bool reverse)
 {

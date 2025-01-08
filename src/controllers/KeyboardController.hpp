@@ -13,11 +13,18 @@ class KeyboardController : public Keyboard
 {
 private:
   Event event;
+  static KeyboardController *instance;
+  KeyboardController();
+  ~KeyboardController();
 
 public:
-  KeyboardController();
+  static KeyboardController *getInstance();
+  KeyboardController(const KeyboardController &) = delete;
+  void operator=(const KeyboardController &) = delete;
+  static void destroyInstance();
+
   void updateKeyboardEvent(RenderWindow &window);
-  Event getEvent();
+
 };
 
 #endif

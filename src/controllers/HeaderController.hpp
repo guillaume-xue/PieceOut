@@ -7,10 +7,16 @@
 class HeaderController
 {
 private:
-public:
+  static HeaderController *instance;
   HeaderController();
   ~HeaderController();
-  void update(MouseController &mouseController, HeaderVue &headerVue, MenuController &menuController, Maps &map, MapVue &mapVue);
+
+public:
+  static HeaderController *getInstance();
+  HeaderController(const HeaderController &) = delete;
+  void operator=(const HeaderController &) = delete;
+  static void destroyInstance();
+  void update(MouseController *mouseController, HeaderVue &headerVue, MenuController *menuController, Maps &map, MapVue &mapVue);
 };
 
-#endif // __HEADERCONTROLLER_HPP__
+#endif 

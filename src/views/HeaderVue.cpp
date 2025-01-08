@@ -2,12 +2,12 @@
 
 HeaderVue::HeaderVue()
 {
-  cout << "HeaderVue created" << endl;
+  // cout << "HeaderVue created" << endl;
 }
 
 HeaderVue::~HeaderVue()
 {
-  cout << "HeaderVue deleted" << endl;
+  // cout << "HeaderVue deleted" << endl;
 }
 
 void HeaderVue::init(int nbPix_x)

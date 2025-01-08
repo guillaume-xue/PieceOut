@@ -24,14 +24,18 @@ using namespace sf;
 class GameController
 {
 private:
+  static GameController* instance;
+  GameController();
+  ~GameController();
+
   unsigned int nbPix_x = 858;
   unsigned int nbPix_y = 640;
   bool isMousePressed = false;
-  MenuController menuController;
-  PieceController pieceController;
-  KeyboardController keyboardController;
-  MouseController mouseController;
-  HeaderController headerController;
+  MenuController *menuController;
+  PieceController *pieceController;
+  KeyboardController *keyboardController;
+  MouseController *mouseController;
+  HeaderController *headerController;
 
   HeaderVue headerVue;
   MapVue mapVue;
@@ -40,8 +44,11 @@ private:
   Maps map;
 
 public:
-  GameController();
-  ~GameController();
+  static GameController* getInstance();
+  GameController(const GameController&) = delete;
+  void operator=(const GameController&) = delete;
+  static void destroyInstance();
+  
   void run();
   void update(RenderWindow &window);
   void draw(RenderWindow &window);

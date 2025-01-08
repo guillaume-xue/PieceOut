@@ -2,12 +2,12 @@
 
 MapVue::MapVue()
 {
-  cout << "MapVue created" << endl;
+  // cout << "MapVue created" << endl;
 }
 
 MapVue::~MapVue()
 {
-  cout << "MapVue deleted" << endl;
+  // cout << "MapVue deleted" << endl;
 }
 
 void MapVue::init(float size, Maps &map)

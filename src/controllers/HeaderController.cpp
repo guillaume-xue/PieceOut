@@ -1,8 +1,10 @@
 #include "HeaderController.hpp"
 
+HeaderController *HeaderController::instance = nullptr;
+
 HeaderController::HeaderController()
 {
-  cout << "HeaderController created" << endl;
+  // cout << "HeaderController created" << endl;
 }
 
 HeaderController::~HeaderController()
@@ -10,20 +12,38 @@ HeaderController::~HeaderController()
   cout << "HeaderController deleted" << endl;
 }
 
-void HeaderController::update(MouseController &mouseController, HeaderVue &headerVue, MenuController &menuController, Maps &map, MapVue &mapVue)
+HeaderController *HeaderController::getInstance()
 {
-  if (headerVue.getHomeButton().getGlobalBounds().contains(mouseController.getMouseWorldPos()))
+  if (instance == nullptr)
   {
-    if (mouseController.isButtonPressed(Mouse::Left))
+    instance = new HeaderController();
+  }
+  return instance;
+}
+
+void HeaderController::destroyInstance()
+{
+  if (instance != nullptr)
+  {
+    delete instance;
+    instance = nullptr;
+  }
+}
+
+void HeaderController::update(MouseController *mouseController, HeaderVue &headerVue, MenuController *menuController, Maps &map, MapVue &mapVue)
+{
+  if (headerVue.getHomeButton().getGlobalBounds().contains(mouseController->getMouseWorldPos()))
+  {
+    if (mouseController->isButtonPressed(Mouse::Left))
     {
-      menuController.setInitMap(false);
+      menuController->setInitMap(false);
       map.clean();
       mapVue.clear();
     }
   }
-  if(headerVue.getRetourButton().getGlobalBounds().contains(mouseController.getMouseWorldPos()))
+  if(headerVue.getRetourButton().getGlobalBounds().contains(mouseController->getMouseWorldPos()))
   {
-    if(mouseController.isButtonPressed(Mouse::Left))
+    if(mouseController->isButtonPressed(Mouse::Left))
     {
       map.undo();
     }

@@ -1,22 +1,32 @@
 #include "MenuController.hpp"
 
-MenuController::MenuController()
+MenuController *MenuController::instance = nullptr;
+
+MenuController *MenuController::getInstance()
 {
-  cout << "MenuController created" << endl;
+  if (instance == nullptr)
+  {
+    instance = new MenuController();
+  }
+  return instance;
 }
 
-MenuController::~MenuController()
+void MenuController::destroyInstance()
 {
-  cout << "MenuController deleted" << endl;
+  if (instance != nullptr)
+  {
+    delete instance;
+    instance = nullptr;
+  }
 }
 
-void MenuController::update(MouseController mouseController, vector<RectangleShape *> carres, Maps &map, MapVue &mapVue)
+void MenuController::update(MouseController *mouseController, vector<RectangleShape *> carres, Maps &map, MapVue &mapVue)
 {
-  if (mouseController.isButtonPressed(Mouse::Left) && !init_map)
+  if (mouseController->isButtonPressed(Mouse::Left) && !init_map)
   {
     for (size_t i = 0; i < carres.size(); i++)
     {
-      if (carres[i]->getGlobalBounds().contains(mouseController.getMouseWorldPos()))
+      if (carres[i]->getGlobalBounds().contains(mouseController->getMouseWorldPos()))
       {
         switch (i)
         {

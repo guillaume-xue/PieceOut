@@ -2,7 +2,8 @@
 
 int main()
 {
-  GameController gameController;
-  gameController.run();
+  GameController* gameController = GameController::getInstance();
+  gameController->run();
+  GameController::destroyInstance();
   return EXIT_SUCCESS;
 }
