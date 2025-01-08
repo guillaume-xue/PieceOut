@@ -1,9 +1,48 @@
 #include "Maps.hpp"
+#include "OperateurDeplacementFactory.hpp"
+#include "OperateurRotationFactory.hpp"
+#include "OperateurSymetrieFactory.hpp"
+
+Maps *Maps::instance = nullptr;
+
+static OperateurDeplacementFactory deplacementFactoryNORD = OperateurDeplacementFactory(NORD);
+static OperateurDeplacementFactory deplacementFactorySUD = OperateurDeplacementFactory(SUD);
+static OperateurDeplacementFactory deplacementFactoryEST = OperateurDeplacementFactory(EST);
+static OperateurDeplacementFactory deplacementFactoryOUEST = OperateurDeplacementFactory(OUEST);
+static OperateurRotationFactory rotationFactoryHORAIRE = OperateurRotationFactory(HORAIRE);
+static OperateurRotationFactory rotationFactoryANTI_HORAIRE = OperateurRotationFactory(ANTI_HORAIRE);
+static OperateurSymetrieFactory symetrieFactoryHORIZONTALE = OperateurSymetrieFactory(HORIZONTALE);
+static OperateurSymetrieFactory symetrieFactoryVERTICALE = OperateurSymetrieFactory(VERTICALE);
+
 
 Maps::Maps()
 {
     cout << "Maps created" << endl;
 }
+Maps::~Maps()
+{
+    cout << "Maps deleted" << endl;
+}
+
+Maps *Maps::getInstance()
+{
+    if (instance == nullptr)
+    {
+        instance = new Maps();
+    }
+    return instance;
+}
+
+void Maps::destroyInstance()
+{
+    if (instance != nullptr)
+    {
+        instance->clean();
+        delete instance;
+        instance = nullptr;
+    }
+}
+
 
 void Maps::clean(){
     for (Piece *p : pieces)
@@ -48,7 +87,7 @@ void Maps::map8()
     vector<pair<int, int>> coords{{0, 0}};
     PieceConcrete *piece = new PieceConcrete(coords, this);
     piece->endPos = {{4, 0}};
-    Piece *p = new OperateurDeplacement(*piece, {0, 0}, EST);
+    Piece *p = deplacementFactoryEST.createPiece(*piece, {0, 0});
     pieces.push_back(p);
     piecesEnd.push_back(p);
 
@@ -67,14 +106,27 @@ void Maps::map9()
                                   {0, 2}, {1, 2}, {2, 2}};
     PieceConcrete *piece = new PieceConcrete(coords, this);
     piece->endPos = {{-1, -1}};
-    Piece *p = new OperateurDeplacement(*piece, {0, 0}, OUEST);
-    Piece *p2 = new OperateurDeplacement(*p, {2, 0}, NORD);
-    Piece *p3 = new OperateurDeplacement(*p2, {0, 2}, SUD);
-    Piece *p4 = new OperateurDeplacement(*p3, {2, 2}, EST);
+    Piece *p = deplacementFactoryOUEST.createPiece(*piece, {0, 0});
+    Piece *p2 = deplacementFactoryNORD.createPiece(*p, {2, 0});
+    Piece *p3 = deplacementFactorySUD.createPiece(*p2, {0, 2});
+    Piece *p4 = deplacementFactoryEST.createPiece(*p3, {2, 2});
     pieces.push_back(p4);
     piecesEnd.push_back(p4);
-    pieces.push_back(R_rota_oneDir(this));
-    pieces.push_back(L_rota_sym_oneDir(this));
+
+    vector<pair<int, int>> coords2{{6, 7}, {7, 7}, {8, 7}};
+    PieceConcrete *piece2 = new PieceConcrete(coords2, this);
+    Piece *p5 = rotationFactoryHORAIRE.createPiece(*piece2, {6, 7});
+    Piece *p6 = rotationFactoryANTI_HORAIRE.createPiece(*p5, {7, 7});
+    Piece *p7 = deplacementFactoryOUEST.createPiece(*p6, {8, 7});
+    pieces.push_back(p7);
+
+    vector<pair<int, int>> coords3{{1, 7}, {2, 6}, {0, 5}, {0, 9}, {0, 7}};
+    PieceConcrete *piece3 = new PieceConcrete(coords3, this);
+    Piece *p8 = deplacementFactoryNORD.createPiece(*piece3, {0, 9});
+    Piece *p9 = symetrieFactoryHORIZONTALE.createPiece(*p8, {1, 7});
+    Piece *p10 = symetrieFactoryVERTICALE.createPiece(*p9, {2, 6});
+
+    pieces.push_back(p10);
 
     plateau = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}, {8, 0}, {9, 0},
                {0, 1}, {1, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 1}, {6, 1}, {7, 1}, {8, 1}, {9, 1},
@@ -173,42 +225,9 @@ bool Maps::verify(Actions *origin)
     return true;
 }
 
-Piece *R_rota_oneDir(Maps *map){
-    vector<pair<int, int>> coords{{6, 7}, {7, 7}, {8, 7}};
-    PieceConcrete *piece = new PieceConcrete(coords, map);
-    Piece *p = new OperateurRotation(*piece, {6, 7}, HORAIRE);
-    Piece *p2 = new OperateurRotation(*p, {7, 7}, ANTI_HORAIRE);
-    Piece *p3 = new OperateurDeplacement(*p2, {8, 7}, OUEST);
-    return p3;
-}
-
-Piece *L_rota_sym_oneDir(Maps *map){
-    vector<pair<int, int>> coords{{1, 7}, {2, 6}, {0, 5}, {0, 9}, {0, 7}};
-    PieceConcrete *piece = new PieceConcrete(coords, map);
-    Piece *p = new OperateurDeplacement(*piece, {0, 9}, NORD);
-    Piece *p2 = new OperateurSymetrie(*p, {1, 7}, HORIZONTALE);
-    Piece *p3 = new OperateurSymetrie(*p2, {2, 6}, VERTICALE);
-    return p3;
-}
-
 
 void Maps::map1()
 {
-    vector<pair<int, int>> coords{  {2, 5},
-                                    {2 ,6}};
-    PieceConcrete *piece = new PieceConcrete(coords, this);
-    piece->endPos = {{2, 0}, {2, 1}};
-    Piece *p = new OperateurDeplacement(*piece, {2, 5}, NORD);
-    Piece *p2 = new OperateurDeplacement(*p, {2, 6}, SUD);
-    pieces.push_back(p2);
-    piecesEnd.push_back(p2);
-    vector<pair<int, int>> coords2{ {1, 2}, 
-                                    {1, 3}, {2, 3}, 
-                                    {1, 4}};
-    PieceConcrete *piece2 = new PieceConcrete(coords2, this);
-    Piece *p3 = new OperateurRotation(*piece2, {1, 3}, ANTI_HORAIRE);
-    pieces.push_back(p3);
-
     plateau = {                 {2, 0},
                                 {2, 1},
                         {1, 2}, {2, 2},
@@ -216,12 +235,29 @@ void Maps::map1()
                         {1, 4}, {2, 4},
                                 {2, 5},
                                 {2, 6}};
-    
     for (const auto &coord : plateau)
     {
         plateauSet.insert(coord);
     }
     sizePlateau = findMaxFirstAndSecond(plateau);
+
+    vector<pair<int, int>> coords{  {2, 5},
+                                    {2 ,6}};
+    PieceConcrete *piece = new PieceConcrete(coords, this);
+    piece->endPos = {{2, 0}, {2, 1}};
+
+    Piece *p = deplacementFactoryNORD.createPiece(*piece, {2, 5});
+    Piece *p2 = deplacementFactorySUD.createPiece(*p, {2, 6});
+    pieces.push_back(p2);
+    piecesEnd.push_back(p2);
+
+    vector<pair<int, int>> coords2{ {1, 2}, 
+                                    {1, 3}, {2, 3}, 
+                                    {1, 4}};
+    PieceConcrete *piece2 = new PieceConcrete(coords2, this);
+    Piece *p3 = rotationFactoryANTI_HORAIRE.createPiece(*piece2, {1, 3});
+    pieces.push_back(p3);
+
 }
 
 void Maps::map2()
@@ -233,7 +269,6 @@ void Maps::map2()
                         {1, 4}, {2, 4}, {3, 4}, {4, 4},
                         {1, 5}, {2, 5}, {3, 5}, {4, 5},
                         {1, 6}, {2, 6}, {3, 6}, {4, 6}};
-    
     for (const auto &coord : plateau)
     {
         plateauSet.insert(coord);
@@ -243,27 +278,27 @@ void Maps::map2()
     vector<pair<int, int>> coords{{1, 0}, {1, 1}, {1, 2}};
     PieceConcrete *piece = new PieceConcrete(coords, this);
     piece->endPos = {{4, 4}, {4, 5}, {4, 6}};
-    Piece *p = new OperateurDeplacement(*piece, {1, 0}, NORD);
-    Piece *p2 = new OperateurDeplacement(*p, {1, 2}, SUD);
-    Piece *p3 = new OperateurRotation(*p2, {1, 1}, ANTI_HORAIRE);
+    Piece *p = deplacementFactoryNORD.createPiece(*piece, {1, 0});
+    Piece *p2 = deplacementFactorySUD.createPiece(*p, {1, 2});
+    Piece *p3 = rotationFactoryANTI_HORAIRE.createPiece(*p2, {1, 1});
     pieces.push_back(p3);
     piecesEnd.push_back(p3);
 
     vector<pair<int, int>> coords2{{2, 0}, {2, 1}, {2, 2}, {3, 0}};
     PieceConcrete *piece2 = new PieceConcrete(coords2, this);
     piece2->endPos = {{3, 4}, {3, 5}, {3, 6}, {2, 6}};
-    Piece *p4 = new OperateurDeplacement(*piece2, {2, 0}, NORD);
-    Piece *p5 = new OperateurDeplacement(*p4, {2, 2}, SUD);
-    Piece *p6 = new OperateurRotation(*p5, {2, 1}, ANTI_HORAIRE);
+    Piece *p4 = deplacementFactoryNORD.createPiece(*piece2, {2, 0});
+    Piece *p5 = deplacementFactorySUD.createPiece(*p4, {2, 2});
+    Piece *p6 = rotationFactoryANTI_HORAIRE.createPiece(*p5, {2, 1});
     pieces.push_back(p6);
     piecesEnd.push_back(p6);
 
     vector<pair<int, int>> coords3{{3, 1}, {4, 0}, {4, 1}, {4, 2}};
     PieceConcrete *piece3 = new PieceConcrete(coords3, this);
     piece3->endPos = {{1, 4}, {1, 5}, {1, 6}, {2, 5}};
-    Piece *p7 = new OperateurDeplacement(*piece3, {4, 0}, NORD);
-    Piece *p8 = new OperateurDeplacement(*p7, {4, 2}, SUD);
-    Piece *p9 = new OperateurRotation(*p8, {4, 1}, ANTI_HORAIRE);
+    Piece *p7 = deplacementFactoryNORD.createPiece(*piece3, {4, 0});
+    Piece *p8 = deplacementFactorySUD.createPiece(*p7, {4, 2});
+    Piece *p9 = rotationFactoryANTI_HORAIRE.createPiece(*p8, {4, 1});
     pieces.push_back(p9);
     piecesEnd.push_back(p9);
 }
@@ -276,7 +311,6 @@ void Maps::map3()
                         {1, 3}, {2, 3}, {3, 3}, {4, 3}, {5, 3},
                         {1, 4}, {2, 4}, {3, 4}, {4, 4}, {5, 4},
                         {1, 5}, {2, 5}, {3, 5}, {4, 5}, {5, 5}};
-    
     for (const auto &coord : plateau)
     {
         plateauSet.insert(coord);
@@ -286,31 +320,31 @@ void Maps::map3()
     vector<pair<int, int>> coords{{1, 4}, {1, 5}, {2, 4}, {2, 5}};
     PieceConcrete *piece = new PieceConcrete(coords, this);
     piece->endPos = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
-    Piece *p = new OperateurDeplacement(*piece, {1, 4}, NORD);
-    Piece *p2 = new OperateurDeplacement(*p, {2, 4}, EST);
-    Piece *p3 = new OperateurDeplacement(*p2, {2, 5}, SUD);
-    Piece *p4 = new OperateurDeplacement(*p3, {1, 5}, OUEST);
+    Piece *p = deplacementFactoryNORD.createPiece(*piece, {1, 4});
+    Piece *p2 = deplacementFactoryEST.createPiece(*p, {2, 4});
+    Piece *p3 = deplacementFactorySUD.createPiece(*p2, {2, 5});
+    Piece *p4 = deplacementFactoryOUEST.createPiece(*p3, {1, 5});
     pieces.push_back(p4);
     piecesEnd.push_back(p4);
 
     vector<pair<int, int>> coords2{{2, 0}, {2, 1}, {2, 2}, {3, 2}};
     PieceConcrete *piece2 = new PieceConcrete(coords2, this);
-    Piece *p5 = new OperateurDeplacement(*piece2, {2, 0}, NORD);
-    Piece *p6 = new OperateurDeplacement(*p5, {2, 2}, SUD);
-    Piece *p7 = new OperateurSymetrie(*p6, {2, 1}, HORIZONTALE);
+    Piece *p5 = deplacementFactoryNORD.createPiece(*piece2, {2, 0});
+    Piece *p6 = deplacementFactorySUD.createPiece(*p5, {2, 2});
+    Piece *p7 = symetrieFactoryHORIZONTALE.createPiece(*p6, {2, 1});
     pieces.push_back(p7);
 
     vector<pair<int, int>> coords3{{5, 2}, {5, 3}, {5, 4}};
     PieceConcrete *piece3 = new PieceConcrete(coords3, this);
-    Piece *p8 = new OperateurDeplacement(*piece3, {5, 2}, NORD);
-    Piece *p9 = new OperateurDeplacement(*p8, {5, 4}, SUD);
+    Piece *p8 = deplacementFactoryNORD.createPiece(*piece3, {5, 2});
+    Piece *p9 = deplacementFactorySUD.createPiece(*p8, {5, 4});
     pieces.push_back(p9);
 
     vector<pair<int, int>> coords4{{4, 3}, {4, 4}, {4, 5}, {3, 5}};
     PieceConcrete *piece4 = new PieceConcrete(coords4, this);
-    Piece *p10 = new OperateurDeplacement(*piece4, {4, 3}, NORD);
-    Piece *p11 = new OperateurDeplacement(*p10, {4, 5}, SUD);
-    Piece *p12 = new OperateurRotation(*p11, {4, 4}, ANTI_HORAIRE);
+    Piece *p10 = deplacementFactoryNORD.createPiece(*piece4, {4, 3});
+    Piece *p11 = deplacementFactorySUD.createPiece(*p10, {4, 5});
+    Piece *p12 = rotationFactoryANTI_HORAIRE.createPiece(*p11, {4, 4});
     pieces.push_back(p12);
 
 }

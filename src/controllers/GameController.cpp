@@ -12,6 +12,7 @@ GameController::GameController()
   keyboardController = KeyboardController::getInstance();
   mouseController = MouseController::getInstance();
   headerController = HeaderController::getInstance();
+  map = Maps::getInstance();
 }
 
 GameController::~GameController()
@@ -55,7 +56,7 @@ void GameController::update(RenderWindow &window)
           if(pieceController->update(mouseController, map, mapVue)){
             menuController->setInitMap(false);
             mapVue.clear();
-            map.clean();
+            map->clean();
           }
       }
     }
@@ -105,4 +106,5 @@ void GameController::clear()
   KeyboardController::destroyInstance();
   MouseController::destroyInstance();
   HeaderController::destroyInstance();
+  Maps::destroyInstance();
 }

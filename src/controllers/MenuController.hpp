@@ -31,7 +31,7 @@ public:
   void operator=(const MenuController&) = delete;
   static void destroyInstance();
 
-  void update(MouseController *mouseController, vector<RectangleShape *> carres, Maps &map, MapVue &mapVue);
+  void update(MouseController *mouseController, vector<RectangleShape *> carres, Maps *map, MapVue &mapVue);
   bool getInitMap() { return init_map; }
   void setInitMap(bool b) { init_map = b; }
 };

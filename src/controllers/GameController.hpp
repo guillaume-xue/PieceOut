@@ -41,7 +41,7 @@ private:
   MapVue mapVue;
   MenuVue menuVue;
 
-  Maps map;
+  Maps *map;
 
 public:
   static GameController* getInstance();

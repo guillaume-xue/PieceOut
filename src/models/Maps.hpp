@@ -17,9 +17,16 @@ private:
     vector<Piece *> piecesEnd;
     pair<int, int> sizePlateau;
     vector<Actions *> actions;
-public:
+
+    static Maps *instance;
     Maps();
-    ~Maps() { cout << "Maps deleted" << endl; }
+    ~Maps();
+public:
+    static Maps *getInstance();
+    Maps(const Maps &) = delete;
+    void operator=(const Maps &) = delete;
+    static void destroyInstance();
+
     void map1();
     void map2();
     void map3();
@@ -40,8 +47,5 @@ public:
     void clean();
     bool isEnd();
 };
-
-Piece *R_rota_oneDir(Maps *maps);
-Piece *L_rota_sym_oneDir(Maps *maps);
 
 #endif

@@ -20,7 +20,7 @@ public:
   PieceController(const PieceController&) = delete;
   void operator=(const PieceController&) = delete;
   static void destroyInstance();
-  bool update(MouseController *mouseController, Maps &map, MapVue &mapVue);
+  bool update(MouseController *mouseController, Maps *map, MapVue &mapVue);
 };
 
 #endif

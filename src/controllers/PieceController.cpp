@@ -26,7 +26,7 @@ void PieceController::destroyInstance()
   }
 }
 
-bool PieceController::update(MouseController *mouseController, Maps &map, MapVue &mapVue)
+bool PieceController::update(MouseController *mouseController, Maps *map, MapVue &mapVue)
 {
   if (mouseController->isButtonPressed(Mouse::Left))
   {
@@ -35,10 +35,10 @@ bool PieceController::update(MouseController *mouseController, Maps &map, MapVue
     coord.second -= mapVue.getGlobalMarginY();
     coord.first /= mapVue.getSizeCarre() + mapVue.getMarginCarre();
     coord.second /= mapVue.getSizeCarre() + mapVue.getMarginCarre();
-    map.trigger(coord);
-    if(map.isEnd()){
+    map->trigger(coord);
+    if(map->isEnd()){
       cout << "End of the game" << endl;
-      map.clean();
+      map->clean();
       return true;
     }
   }

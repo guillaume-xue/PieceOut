@@ -22,8 +22,8 @@ private:
 public:
   MapVue();
   ~MapVue();
-  void init(float size, Maps &map);
-  void draw(RenderWindow &window, Maps &map);
+  void init(float size, Maps *map);
+  void draw(RenderWindow &window, Maps *map);
   vector<PieceVue *> getPieces() { return pieces; }
   int getGlobalMarginX() { return GLOBAL_MARGIN_X; }
   int getGlobalMarginY() { return GLOBAL_MARGIN_Y; }

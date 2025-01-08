@@ -30,14 +30,14 @@ void HeaderController::destroyInstance()
   }
 }
 
-void HeaderController::update(MouseController *mouseController, HeaderVue &headerVue, MenuController *menuController, Maps &map, MapVue &mapVue)
+void HeaderController::update(MouseController *mouseController, HeaderVue &headerVue, MenuController *menuController, Maps *map, MapVue &mapVue)
 {
   if (headerVue.getHomeButton().getGlobalBounds().contains(mouseController->getMouseWorldPos()))
   {
     if (mouseController->isButtonPressed(Mouse::Left))
     {
       menuController->setInitMap(false);
-      map.clean();
+      map->clean();
       mapVue.clear();
     }
   }
@@ -45,7 +45,7 @@ void HeaderController::update(MouseController *mouseController, HeaderVue &heade
   {
     if(mouseController->isButtonPressed(Mouse::Left))
     {
-      map.undo();
+      map->undo();
     }
   }
 }

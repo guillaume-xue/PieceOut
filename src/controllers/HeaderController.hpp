@@ -16,7 +16,7 @@ public:
   HeaderController(const HeaderController &) = delete;
   void operator=(const HeaderController &) = delete;
   static void destroyInstance();
-  void update(MouseController *mouseController, HeaderVue &headerVue, MenuController *menuController, Maps &map, MapVue &mapVue);
+  void update(MouseController *mouseController, HeaderVue &headerVue, MenuController *menuController, Maps *map, MapVue &mapVue);
 };
 
 #endif 

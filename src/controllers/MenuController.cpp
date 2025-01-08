@@ -20,7 +20,7 @@ void MenuController::destroyInstance()
   }
 }
 
-void MenuController::update(MouseController *mouseController, vector<RectangleShape *> carres, Maps &map, MapVue &mapVue)
+void MenuController::update(MouseController *mouseController, vector<RectangleShape *> carres, Maps *map, MapVue &mapVue)
 {
   if (mouseController->isButtonPressed(Mouse::Left) && !init_map)
   {
@@ -31,47 +31,47 @@ void MenuController::update(MouseController *mouseController, vector<RectangleSh
         switch (i)
         {
         case 0:
-          map.map1();
+          map->map1();
           mapVue.init(32, map);
           init_map = true;
           break;
         case 1:
-          map.map2();
+          map->map2();
           mapVue.init(32, map);
           init_map = true;
           break;
         case 2:
-          map.map3();
+          map->map3();
           mapVue.init(32, map);
           init_map = true;
           break;
         case 3:
-          map.map4();
+          map->map4();
           mapVue.init(32, map);
           init_map = true;
           break;
         case 4:
-          map.map5();
+          map->map5();
           mapVue.init(32, map);
           init_map = true;
           break;
         case 5:
-          map.map6();
+          map->map6();
           mapVue.init(32, map);
           init_map = true;
           break;
         case 6:
-          map.map7();
+          map->map7();
           mapVue.init(32, map);
           init_map = true;
           break;
         case 7:
-          map.map8();
+          map->map8();
           mapVue.init(32, map);
           init_map = true;
           break;
         case 8:
-          map.map9();
+          map->map9();
           mapVue.init(32, map);
           init_map = true;
           break;
