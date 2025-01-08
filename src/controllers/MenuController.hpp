@@ -7,23 +7,23 @@
 #include "MouseController.hpp"
 #include "../models/Maps.hpp"
 #include "../views/MapVue.hpp"
+#include "../utils/Observer.hpp"
 
 using namespace std;
 using namespace sf;
 
-class MenuController
+class MenuController: public Observer
 {
 private:
   static MenuController* instance;
-  MenuController() {
-    cout << "MenuController created" << endl;
-  };
-  ~MenuController() {
-    cout << "MenuController deleted" << endl;
-  };
+  MenuController();
+  ~MenuController();
   bool init_map = false;
 
-  
+  MouseController *mouseController;
+  Maps *map;
+  MapVue *mapVue;
+  vector<RectangleShape *> carres;
 
 public:
   static MenuController* getInstance();
@@ -31,9 +31,10 @@ public:
   void operator=(const MenuController&) = delete;
   static void destroyInstance();
 
-  void update(MouseController *mouseController, vector<RectangleShape *> carres, Maps *map, MapVue &mapVue);
   bool getInitMap() { return init_map; }
   void setInitMap(bool b) { init_map = b; }
+  void init(MouseController *mouseController, Maps *map, MapVue *mapVue, vector<RectangleShape *> carres);
+  void update() override;
 };
 
 #endif

@@ -2,7 +2,7 @@
 
 MenuVue::MenuVue()
 {
-  // cout << "MenuVue created" << endl;
+  cout << "MenuVue created" << endl;
 }
 
 MenuVue::~MenuVue()

@@ -2,7 +2,7 @@
 
 PieceVue::PieceVue()
 {
-  // cout << "PieceVue created" << endl;
+  cout << "PieceVue created" << endl;
 }
 
 PieceVue::~PieceVue()

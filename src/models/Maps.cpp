@@ -17,7 +17,7 @@ static OperateurSymetrieFactory symetrieFactoryVERTICALE = OperateurSymetrieFact
 
 Maps::Maps()
 {
-    cout << "Maps created" << endl;
+    // cout << "Maps created" << endl;
 }
 Maps::~Maps()
 {
@@ -322,8 +322,8 @@ void Maps::map3()
     piece->endPos = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
     Piece *p = deplacementFactoryNORD.createPiece(*piece, {1, 4});
     Piece *p2 = deplacementFactoryEST.createPiece(*p, {2, 4});
-    Piece *p3 = deplacementFactorySUD.createPiece(*p2, {2, 5});
-    Piece *p4 = deplacementFactoryOUEST.createPiece(*p3, {1, 5});
+    Piece *p3 = deplacementFactoryOUEST.createPiece(*p2, {2, 5});
+    Piece *p4 = deplacementFactorySUD.createPiece(*p3, {1, 5});
     pieces.push_back(p4);
     piecesEnd.push_back(p4);
 

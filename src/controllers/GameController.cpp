@@ -13,6 +13,13 @@ GameController::GameController()
   mouseController = MouseController::getInstance();
   headerController = HeaderController::getInstance();
   map = Maps::getInstance();
+  
+  // keyboardController->addObserver(this);
+  headerController->init(mouseController, menuController, map, &mapVue, &headerVue);
+  menuController->init(mouseController, map, &mapVue, menuVue.getCarres());
+  pieceController->init(this, mouseController, menuController, map, &mapVue);
+
+  // mouseController->addObserver(this);
 }
 
 GameController::~GameController()
@@ -45,26 +52,6 @@ void GameController::update(RenderWindow &window)
 {
   keyboardController->updateKeyboardEvent(window);
   mouseController->updateMousePosition(window);
-  if (mouseController->isButtonPressed(Mouse::Left))
-    {
-      if (!isMousePressed)
-      {
-        isMousePressed = true;
-        headerController->update(mouseController, headerVue, menuController, map, mapVue);
-        menuController->update(mouseController, menuVue.getCarres(), map, mapVue);
-        if(menuController->getInitMap())
-          if(pieceController->update(mouseController, map, mapVue)){
-            menuController->setInitMap(false);
-            mapVue.clear();
-            map->clean();
-          }
-      }
-    }
-    else
-    {
-        isMousePressed = false;
-    }
-  
 }
 
 void GameController::draw(RenderWindow &window)
@@ -107,4 +94,37 @@ void GameController::clear()
   MouseController::destroyInstance();
   HeaderController::destroyInstance();
   Maps::destroyInstance();
+}
+
+// void GameController::update()
+// {
+  // Réagir aux événements de la souris et du clavier
+  // if (mouseController->isButtonPressed(Mouse::Left))
+  // {
+  //   if (!isMousePressed)
+  //   {
+  //     isMousePressed = true;
+  //     headerController->update(mouseController, headerVue, menuController, map, mapVue);
+  //     menuController->update(mouseController, menuVue.getCarres(), map, mapVue);
+  //     if (menuController->getInitMap())
+  //       if (pieceController->update(mouseController, map, mapVue))
+  //       {
+          
+  //       }
+  //   }
+  // }
+  // else
+  // {
+  //   isMousePressed = false;
+  // }
+  // cout << "GameController update" << endl;
+  // mouseController->observerFinished();
+  // cout << "GameController update finished" << endl;
+  // keyboardController->observerFinished();
+// }
+
+void GameController::endMap(){
+  menuController->setInitMap(false);
+  mapVue.clear();
+  map->clean();
 }

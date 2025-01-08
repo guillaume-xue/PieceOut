@@ -2,7 +2,7 @@
 
 MapVue::MapVue()
 {
-  // cout << "MapVue created" << endl;
+  cout << "MapVue created" << endl;
 }
 
 MapVue::~MapVue()

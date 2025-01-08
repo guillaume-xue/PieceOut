@@ -5,11 +5,12 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "../utils/Subject.hpp"
 
 using namespace std;
 using namespace sf;
 
-class KeyboardController : public Keyboard
+class KeyboardController : public Keyboard, public Subject
 {
 private:
   Event event;

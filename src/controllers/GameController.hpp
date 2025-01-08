@@ -6,6 +6,8 @@
 #include <vector>
 #include <string>
 
+#include "../utils/Observer.hpp"
+
 #include "MenuController.hpp"
 #include "PieceController.hpp"
 #include "KeyboardController.hpp"
@@ -20,6 +22,7 @@
 
 using namespace std;
 using namespace sf;
+class PieceController;
 
 class GameController
 {
@@ -53,6 +56,8 @@ public:
   void update(RenderWindow &window);
   void draw(RenderWindow &window);
   void clear();
+  // void update() override;
+  void endMap();
 };
 
 #endif

@@ -3,20 +3,28 @@
 
 #include "../views/HeaderVue.hpp"
 #include "../controllers/MenuController.hpp"
+#include "../utils/Observer.hpp"
 
-class HeaderController
+class HeaderController: public Observer
 {
 private:
   static HeaderController *instance;
   HeaderController();
   ~HeaderController();
 
+  MouseController *mouseController;
+  MenuController *menuController;
+  Maps *map;
+  MapVue *mapVue;
+  HeaderVue *headerVue;
+
 public:
   static HeaderController *getInstance();
   HeaderController(const HeaderController &) = delete;
   void operator=(const HeaderController &) = delete;
   static void destroyInstance();
-  void update(MouseController *mouseController, HeaderVue &headerVue, MenuController *menuController, Maps *map, MapVue &mapVue);
+  void init(MouseController *mouseController, MenuController *menuController, Maps *map, MapVue *mapVue, HeaderVue *headerVue);
+  void update() override;
 };
 
 #endif 

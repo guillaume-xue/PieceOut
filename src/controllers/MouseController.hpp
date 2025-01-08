@@ -5,15 +5,17 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "../utils/Subject.hpp"
 
 using namespace std;
 using namespace sf;
 
-class MouseController : public Mouse
+class MouseController : public Mouse, public Subject
 {
 private:
   Vector2i mousePos;
   Vector2f mouseWorldPos;
+  bool isMousePressed = false; // Drapeau pour suivre l'état du clic de la souris
   static MouseController *instance;
   MouseController();
   ~MouseController();

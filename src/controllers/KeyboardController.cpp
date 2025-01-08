@@ -38,4 +38,5 @@ void KeyboardController::updateKeyboardEvent(RenderWindow &window)
         (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape)) // fermeture de la fenêtre
       window.close();
   }
+  notifyObservers();
 }

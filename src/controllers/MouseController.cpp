@@ -36,6 +36,19 @@ void MouseController::updateMousePosition(RenderWindow &window)
 {
   mousePos = Mouse::getPosition(window);
   mouseWorldPos = window.mapPixelToCoords(mousePos);
+
+  if (Mouse::isButtonPressed(Mouse::Left))
+  {
+    if (!isMousePressed)
+    {
+      isMousePressed = true;
+      notifyObservers();
+    }
+  }
+  else
+  {
+    isMousePressed = false;
+  }
 }
 
 Vector2f MouseController::getMouseWorldPos()
