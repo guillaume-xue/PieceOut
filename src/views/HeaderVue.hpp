@@ -24,6 +24,7 @@ public:
   void draw(RenderWindow &window);
   Sprite getHomeButton();
   Sprite getRetourButton();
+  void clear();
 };
 
 #endif

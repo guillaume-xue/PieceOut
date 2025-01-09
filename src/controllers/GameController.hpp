@@ -7,6 +7,7 @@
 #include <string>
 
 #include "../utils/Observer.hpp"
+#include "../utils/CommandManager.hpp"
 
 #include "MenuController.hpp"
 #include "PieceController.hpp"
@@ -39,6 +40,7 @@ private:
   KeyboardController *keyboardController;
   MouseController *mouseController;
   HeaderController *headerController;
+  CommandManager *commandManager;
 
   HeaderVue headerVue;
   MapVue mapVue;

@@ -48,3 +48,12 @@ Sprite HeaderVue::getRetourButton()
 {
   return retour;
 }
+
+void HeaderVue::clear()
+{
+  homeButton.setTexture(sf::Texture());
+  retour.setTexture(sf::Texture());
+  homeTexture.~Texture();
+  retourTexture.~Texture();
+  header.~RectangleShape();
+}

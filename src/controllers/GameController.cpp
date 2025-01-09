@@ -13,11 +13,13 @@ GameController::GameController()
   mouseController = MouseController::getInstance();
   headerController = HeaderController::getInstance();
   map = Maps::getInstance();
+  commandManager = CommandManager::getInstance();
   
   // keyboardController->addObserver(this);
   headerController->init(mouseController, menuController, map, &mapVue, &headerVue);
   menuController->init(mouseController, map, &mapVue, menuVue.getCarres());
   pieceController->init(this, mouseController, menuController, map, &mapVue);
+  map->init(commandManager);
 
   // mouseController->addObserver(this);
 }
@@ -45,6 +47,7 @@ void GameController::run()
     update(window);
     draw(window);
   }
+  window.~RenderWindow();
   clear();
 }
 
@@ -94,6 +97,7 @@ void GameController::clear()
   MouseController::destroyInstance();
   HeaderController::destroyInstance();
   Maps::destroyInstance();
+  CommandManager::destroyInstance();
 }
 
 // void GameController::update()

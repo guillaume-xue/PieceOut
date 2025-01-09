@@ -2,11 +2,11 @@
 #define MAPS
 
 #include "PieceOperateur.hpp"
-#include "Actions.hpp"
 #include <climits>
 #include <set>
-
+#include "../utils/CommandManager.hpp"
 using namespace std;
+
 
 class Maps
 {
@@ -16,7 +16,7 @@ private:
     vector<Piece *> pieces;
     vector<Piece *> piecesEnd;
     pair<int, int> sizePlateau;
-    vector<Actions *> actions;
+    CommandManager *commandManager;
 
     static Maps *instance;
     Maps();
@@ -41,11 +41,12 @@ public:
     vector<Piece *> getPieces() { return pieces; }
     vector<Piece *> getPiecesEnd() { return piecesEnd; }
     pair<int, int> getSizePlateau() { return sizePlateau; }
-    vector<Actions *> &getActions() { return actions; }
+    CommandManager* getCm() { return commandManager; }
     void undo();
-    bool verify(Actions *origin);
+    bool verify(Command *origin);
     void clean();
     bool isEnd();
+    void init(CommandManager *cm);
 };
 
 #endif

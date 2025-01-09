@@ -3,6 +3,8 @@
 
 #include "Piece.hpp"
 #include "Maps.hpp"
+#include "../utils/MovePieceCommand.hpp"
+#include "../utils/Command.hpp"
 
 class OperateurDeplacement;
 class OperateurRotation;

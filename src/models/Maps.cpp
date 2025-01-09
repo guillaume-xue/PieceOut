@@ -49,12 +49,7 @@ void Maps::clean(){
     {
         p->clean();
     }
-    for (Actions *a : actions)
-    {
-        a->clean();
-        delete a;
-    }
-    actions.clear();
+    commandManager->clean();
     plateauSet.clear();
     pieces.clear();
     plateau.clear();
@@ -149,11 +144,10 @@ void Maps::trigger(const pair<int, int> &relativePos)
 {
     for (Piece *p : pieces)
     {
-        // cout << "Maps::trigger" << endl;
         p->trigger(relativePos);
     }
-    if(!actions.empty()){
-        if(!verify(actions.back())){
+    if(!commandManager->isEmpty()){
+        if(!verify(commandManager->getTop())){
             cout << "Maps::trigger: invalid move" << endl;
             undo();
         }
@@ -181,18 +175,15 @@ bool Maps::isEnd(){
 
 void Maps::undo()
 {
-    if(actions.empty()){
-        return;
-    }
-    actions.back()->getOrigin()->accept(actions.back()->getPiece(), *actions.back()->getOrigin(), true);
+    commandManager->undoCommand();
 }
 
-bool Maps::verify(Actions *origin)
+bool Maps::verify(Command *origin)
 {
     set<pair<int, int>> visited;
     for (Piece *p : pieces)
     {
-        if (p != origin->getOrigin())
+        if (p != origin->getPiece())
         {
             Piece *tmp = p;
             while(true){
@@ -225,6 +216,10 @@ bool Maps::verify(Actions *origin)
     return true;
 }
 
+void Maps::init(CommandManager *cm)
+{
+    this->commandManager = cm;
+}
 
 void Maps::map1()
 {

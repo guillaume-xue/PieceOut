@@ -71,12 +71,10 @@ void OperateurDeplacement::visit(OperateurSymetrie &x, Piece &origin, bool rever
 void OperateurDeplacement::visit(PieceConcrete &p, Piece &origin, bool reverse)
 {
     mapPosition(p, reverse);
-    if(reverse) {
-        p.maps->getActions().pop_back();
-    } else {
-        Actions *action = new Actions(*this, &origin, p);
-        p.maps->getActions().push_back(action);
-    }
+    if(!reverse) {
+        Command *command = new MovePieceCommand(&origin, p, *this);
+        p.maps->getCm()->executeCommand(command);
+    } 
 }
 
 void OperateurDeplacement::accept(PieceOperateur &v, Piece &origin, bool reverse)
@@ -171,12 +169,10 @@ void OperateurRotation::visit(OperateurSymetrie &x, Piece &origin, bool reverse)
 void OperateurRotation::visit(PieceConcrete &p, Piece &origin, bool reverse)
 {
     mapPosition(p, reverse);
-    if(reverse) {
-        p.maps->getActions().pop_back();
-    } else {
-        Actions *action = new Actions(*this, &origin, p);
-        p.maps->getActions().push_back(action);
-    }
+    if(!reverse) {
+        Command *command = new MovePieceCommand(&origin, p, *this);
+        p.maps->getCm()->executeCommand(command);
+    } 
 }
 
 void OperateurRotation::accept(PieceOperateur &v, Piece &origin, bool reverse)
@@ -332,12 +328,10 @@ void OperateurSymetrie::visit(OperateurSymetrie &x, Piece &origin, bool reverse)
 void OperateurSymetrie::visit(PieceConcrete &p, Piece &origin, bool reverse)
 {
     mapPosition(p, reverse);
-    if(reverse) {
-        p.maps->getActions().pop_back();
-    } else {
-        Actions *action = new Actions(*this, &origin, p);
-        p.maps->getActions().push_back(action);
-    }
+    if(!reverse) {
+        Command *command = new MovePieceCommand(&origin, p, *this);
+        p.maps->getCm()->executeCommand(command);
+    } 
 }
 
 void OperateurSymetrie::accept(PieceOperateur &v, Piece &origin, bool reverse)

@@ -2,7 +2,6 @@
 CXX = g++
 CXXFLAGS = -std=c++11 -Wall -Wextra -Wpedantic -g
 LDFLAGS = -lsfml-system -lsfml-graphics -lsfml-window
-MACLDFLAGS = install_name_tool -add_rpath /usr/local/lib ebaucheVue
 DIRMAIN = src
 DIRTEST = test
 SOURCES = $(wildcard $(DIRMAIN)/**/*.cpp) $(wildcard $(DIRMAIN)/*.cpp)
@@ -23,15 +22,9 @@ $(EXECUTABLE): $(OBJECTS)
 
 mac: $(SOURCES) $(HEADERS)
 	$(CXX) $(CXXFLAGS) -c $(SOURCES)
-	g++ -o Main *.o $(LDFLAGS)
+	g++ -o main *.o $(LDFLAGS)
 	install_name_tool -add_rpath /usr/local/lib Main
-	./Main
-
-test_main: $(SOURCESTEST) $(HEADERS)
-	$(CXX) $(CXXFLAGS) -c $(SOURCESTEST) $(SOURCES)
-	g++ -o Main_test *.o $(LDFLAGS)
-	install_name_tool -add_rpath /usr/local/lib Main_test
-	./Main_test
+	./main
 
 clean:
 	rm -f $(OBJECTS) $(EXECUTABLE) $(DIRMAIN)/*.o *.o $(DIRTEST)/**/*.o Main Main_test
