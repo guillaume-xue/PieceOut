@@ -58,7 +58,5 @@ void HeaderController::update()
       map->undo();
     }
   }
-  // cout << "HeaderController update" << endl;
   mouseController->observerFinished();
-  // cout << "HeaderController update finished" << endl;
 }

@@ -15,13 +15,10 @@ GameController::GameController()
   map = Maps::getInstance();
   commandManager = CommandManager::getInstance();
   
-  // keyboardController->addObserver(this);
   headerController->init(mouseController, menuController, map, &mapVue, &headerVue);
   menuController->init(mouseController, map, &mapVue, menuVue.getCarres());
   pieceController->init(this, mouseController, menuController, map, &mapVue);
   map->init(commandManager);
-
-  // mouseController->addObserver(this);
 }
 
 GameController::~GameController()
@@ -38,6 +35,15 @@ GameController* GameController::getInstance()
   return instance;
 }
 
+void GameController::destroyInstance()
+{
+  if (instance != nullptr)
+  {
+    delete instance;
+    instance = nullptr;
+  }
+}
+
 void GameController::run()
 {
   RenderWindow window{VideoMode{nbPix_x, nbPix_y}, "Piece Out"};
@@ -47,7 +53,6 @@ void GameController::run()
     update(window);
     draw(window);
   }
-  window.~RenderWindow();
   clear();
 }
 
@@ -77,15 +82,6 @@ void GameController::draw(RenderWindow &window)
   window.display();
 }
 
-void GameController::destroyInstance()
-{
-  if (instance != nullptr)
-  {
-    delete instance;
-    instance = nullptr;
-  }
-}
-
 
 void GameController::clear()
 {
@@ -100,35 +96,18 @@ void GameController::clear()
   CommandManager::destroyInstance();
 }
 
-// void GameController::update()
-// {
-  // Réagir aux événements de la souris et du clavier
-  // if (mouseController->isButtonPressed(Mouse::Left))
-  // {
-  //   if (!isMousePressed)
-  //   {
-  //     isMousePressed = true;
-  //     headerController->update(mouseController, headerVue, menuController, map, mapVue);
-  //     menuController->update(mouseController, menuVue.getCarres(), map, mapVue);
-  //     if (menuController->getInitMap())
-  //       if (pieceController->update(mouseController, map, mapVue))
-  //       {
-          
-  //       }
-  //   }
-  // }
-  // else
-  // {
-  //   isMousePressed = false;
-  // }
-  // cout << "GameController update" << endl;
-  // mouseController->observerFinished();
-  // cout << "GameController update finished" << endl;
-  // keyboardController->observerFinished();
-// }
-
 void GameController::endMap(){
   menuController->setInitMap(false);
   mapVue.clear();
   map->clean();
+}
+
+void GameController::drawEndText(Text &endText, RectangleShape &endOverlay)
+{
+  RenderWindow window{VideoMode{nbPix_x, nbPix_y}, "Piece Out"};
+  window.clear(Color::Black);
+  window.draw(endOverlay);
+  window.draw(endText);
+  window.display();
+  sleep(seconds(3));
 }

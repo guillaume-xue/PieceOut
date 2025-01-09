@@ -5,8 +5,8 @@
 #include <climits>
 #include <set>
 #include "../utils/CommandManager.hpp"
-using namespace std;
 
+using namespace std;
 
 class Maps
 {
@@ -42,10 +42,10 @@ public:
     vector<Piece *> getPiecesEnd() { return piecesEnd; }
     pair<int, int> getSizePlateau() { return sizePlateau; }
     CommandManager* getCm() { return commandManager; }
+    bool isEnd();
     void undo();
     bool verify(Command *origin);
     void clean();
-    bool isEnd();
     void init(CommandManager *cm);
 };
 

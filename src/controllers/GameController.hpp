@@ -58,8 +58,8 @@ public:
   void update(RenderWindow &window);
   void draw(RenderWindow &window);
   void clear();
-  // void update() override;
   void endMap();
+  void drawEndText(Text &endText, RectangleShape &endOverlay);
 };
 
 #endif

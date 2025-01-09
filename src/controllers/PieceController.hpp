@@ -25,6 +25,12 @@ private:
   Maps *map;
   MapVue *mapVue;
 
+  Text endText;
+  Font font;
+  Clock endClock;
+  RectangleShape endOverlay;
+  bool showEndText = false;
+
 public:
   static PieceController* getInstance();
   PieceController(const PieceController&) = delete;

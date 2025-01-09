@@ -62,7 +62,7 @@ pair<int, int> findMaxFirstAndSecond(const vector<pair<int, int>> &vec)
     int maxFirst = INT_MIN;
     int maxSecond = INT_MIN;
 
-    for (const auto &p : vec)
+    for (const pair<int, int> &p : vec)
     {
         if (p.first > maxFirst)
         {
@@ -75,69 +75,6 @@ pair<int, int> findMaxFirstAndSecond(const vector<pair<int, int>> &vec)
     }
 
     return {maxFirst + 1, maxSecond + 1};
-}
-
-void Maps::map8()
-{
-    vector<pair<int, int>> coords{{0, 0}};
-    PieceConcrete *piece = new PieceConcrete(coords, this);
-    piece->endPos = {{4, 0}};
-    Piece *p = deplacementFactoryEST.createPiece(*piece, {0, 0});
-    pieces.push_back(p);
-    piecesEnd.push_back(p);
-
-    plateau = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}};
-    for (const auto &coord : plateau)
-    {
-        plateauSet.insert(coord);
-    }
-    sizePlateau = findMaxFirstAndSecond(plateau);
-}
-
-void Maps::map9()
-{
-    vector<pair<int, int>> coords{{0, 0}, {1, 0}, {2, 0}, 
-                                  {0, 1}, {1, 1}, {2, 1}, 
-                                  {0, 2}, {1, 2}, {2, 2}};
-    PieceConcrete *piece = new PieceConcrete(coords, this);
-    piece->endPos = {{-1, -1}};
-    Piece *p = deplacementFactoryOUEST.createPiece(*piece, {0, 0});
-    Piece *p2 = deplacementFactoryNORD.createPiece(*p, {2, 0});
-    Piece *p3 = deplacementFactorySUD.createPiece(*p2, {0, 2});
-    Piece *p4 = deplacementFactoryEST.createPiece(*p3, {2, 2});
-    pieces.push_back(p4);
-    piecesEnd.push_back(p4);
-
-    vector<pair<int, int>> coords2{{6, 7}, {7, 7}, {8, 7}};
-    PieceConcrete *piece2 = new PieceConcrete(coords2, this);
-    Piece *p5 = rotationFactoryHORAIRE.createPiece(*piece2, {6, 7});
-    Piece *p6 = rotationFactoryANTI_HORAIRE.createPiece(*p5, {7, 7});
-    Piece *p7 = deplacementFactoryOUEST.createPiece(*p6, {8, 7});
-    pieces.push_back(p7);
-
-    vector<pair<int, int>> coords3{{1, 7}, {2, 6}, {0, 5}, {0, 9}, {0, 7}};
-    PieceConcrete *piece3 = new PieceConcrete(coords3, this);
-    Piece *p8 = deplacementFactoryNORD.createPiece(*piece3, {0, 9});
-    Piece *p9 = symetrieFactoryHORIZONTALE.createPiece(*p8, {1, 7});
-    Piece *p10 = symetrieFactoryVERTICALE.createPiece(*p9, {2, 6});
-
-    pieces.push_back(p10);
-
-    plateau = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}, {8, 0}, {9, 0},
-               {0, 1}, {1, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 1}, {6, 1}, {7, 1}, {8, 1}, {9, 1},
-               {0, 2}, {1, 2}, {2, 2}, {3, 2}, {4, 2}, {5, 2}, {6, 2}, {7, 2}, {8, 2}, {9, 2},
-               {0, 3}, {1, 3}, {2, 3}, {3, 3}, {4, 3}, {5, 3}, {6, 3}, {7, 3}, {8, 3}, {9, 3},
-               {0, 4}, {1, 4}, {2, 4}, {3, 4}, {4, 4}, {5, 4}, {6, 4}, {7, 4}, {8, 4}, {9, 4},
-               {0, 5}, {1, 5}, {2, 5}, {3, 5}, {4, 5}, {5, 5}, {6, 5}, {7, 5}, {8, 5}, {9, 5},
-               {0, 6}, {1, 6}, {2, 6}, {3, 6}, {4, 6}, {5, 6}, {6, 6}, {7, 6}, {8, 6}, {9, 6},
-               {0, 7}, {1, 7}, {2, 7}, {3, 7}, {4, 7}, {5, 7}, {6, 7}, {7, 7}, {8, 7}, {9, 7},
-               {0, 8}, {1, 8}, {2, 8}, {3, 8}, {4, 8}, {5, 8}, {6, 8}, {7, 8}, {8, 8}, {9, 8},
-               {0, 9}, {1, 9}, {2, 9}, {3, 9}, {4, 9}, {5, 9}, {6, 9}, {7, 9}, {8, 9}, {9, 9}};
-    for (const auto &coord : plateau)
-    {
-        plateauSet.insert(coord);
-    }
-    sizePlateau = findMaxFirstAndSecond(plateau);
 }
 
 void Maps::trigger(const pair<int, int> &relativePos)
@@ -157,14 +94,15 @@ void Maps::trigger(const pair<int, int> &relativePos)
 bool Maps::isEnd(){
     for (Piece *p : piecesEnd)
     {
-        set <pair<int, int>> visited;
-        for (const auto &coord : p->getEndPos())
+        set<pair<int, int>> visited;
+        for (const pair<int, int> &coord : p->getEndPos())
         {
             visited.insert(coord);
         }
-        for (const auto &coord : p->getCoordinates())
+        for (const pair<int, int> &coord : p->getCoordinates())
         {
-            if(visited.count(coord) == 0){
+            if (visited.count(coord) == 0)
+            {
                 return false;
                 break;
             }
@@ -188,7 +126,7 @@ bool Maps::verify(Command *origin)
             Piece *tmp = p;
             while(true){
                 if(PieceConcrete *piece = dynamic_cast<PieceConcrete *>(tmp)){
-                    for (const auto &coord : piece->getCoordinates())
+                    for (const pair<int, int> &coord : piece->getCoordinates())
                     {
                         visited.insert(coord);
                     }
@@ -204,12 +142,14 @@ bool Maps::verify(Command *origin)
             }
         }
     }
-    for (const auto &coord : origin->getPieceConcrete().getCoordinates())
+    for (const pair<int, int> &coord : origin->getPieceConcrete().getCoordinates())
     {
-        if(visited.count(coord) > 0){
+        if (visited.count(coord) > 0)
+        {
             return false;
         }
-        if(plateauSet.count(coord) == 0){
+        if (plateauSet.count(coord) == 0)
+        {
             return false;
         }
     }
@@ -230,7 +170,7 @@ void Maps::map1()
                         {1, 4}, {2, 4},
                                 {2, 5},
                                 {2, 6}};
-    for (const auto &coord : plateau)
+    for (const pair<int, int> &coord : plateau)
     {
         plateauSet.insert(coord);
     }
@@ -264,7 +204,7 @@ void Maps::map2()
                         {1, 4}, {2, 4}, {3, 4}, {4, 4},
                         {1, 5}, {2, 5}, {3, 5}, {4, 5},
                         {1, 6}, {2, 6}, {3, 6}, {4, 6}};
-    for (const auto &coord : plateau)
+    for (const pair<int, int> &coord : plateau)
     {
         plateauSet.insert(coord);
     }
@@ -306,7 +246,7 @@ void Maps::map3()
                         {1, 3}, {2, 3}, {3, 3}, {4, 3}, {5, 3},
                         {1, 4}, {2, 4}, {3, 4}, {4, 4}, {5, 4},
                         {1, 5}, {2, 5}, {3, 5}, {4, 5}, {5, 5}};
-    for (const auto &coord : plateau)
+    for (const pair<int, int> &coord : plateau)
     {
         plateauSet.insert(coord);
     }
@@ -362,5 +302,68 @@ void Maps::map6()
 void Maps::map7()
 {
 
+}
+
+void Maps::map8()
+{
+    vector<pair<int, int>> coords{{0, 0}};
+    PieceConcrete *piece = new PieceConcrete(coords, this);
+    piece->endPos = {{4, 0}};
+    Piece *p = deplacementFactoryEST.createPiece(*piece, {0, 0});
+    pieces.push_back(p);
+    piecesEnd.push_back(p);
+
+    plateau = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}};
+    for (const pair<int, int> &coord : plateau)
+    {
+        plateauSet.insert(coord);
+    }
+    sizePlateau = findMaxFirstAndSecond(plateau);
+}
+
+void Maps::map9()
+{
+    vector<pair<int, int>> coords{{0, 0}, {1, 0}, {2, 0}, 
+                                  {0, 1}, {1, 1}, {2, 1}, 
+                                  {0, 2}, {1, 2}, {2, 2}};
+    PieceConcrete *piece = new PieceConcrete(coords, this);
+    piece->endPos = {{-1, -1}};
+    Piece *p = deplacementFactoryOUEST.createPiece(*piece, {0, 0});
+    Piece *p2 = deplacementFactoryNORD.createPiece(*p, {2, 0});
+    Piece *p3 = deplacementFactorySUD.createPiece(*p2, {0, 2});
+    Piece *p4 = deplacementFactoryEST.createPiece(*p3, {2, 2});
+    pieces.push_back(p4);
+    piecesEnd.push_back(p4);
+
+    vector<pair<int, int>> coords2{{6, 7}, {7, 7}, {8, 7}};
+    PieceConcrete *piece2 = new PieceConcrete(coords2, this);
+    Piece *p5 = rotationFactoryHORAIRE.createPiece(*piece2, {6, 7});
+    Piece *p6 = rotationFactoryANTI_HORAIRE.createPiece(*p5, {7, 7});
+    Piece *p7 = deplacementFactoryOUEST.createPiece(*p6, {8, 7});
+    pieces.push_back(p7);
+
+    vector<pair<int, int>> coords3{{1, 7}, {2, 6}, {0, 5}, {0, 9}, {0, 7}};
+    PieceConcrete *piece3 = new PieceConcrete(coords3, this);
+    Piece *p8 = deplacementFactoryNORD.createPiece(*piece3, {0, 9});
+    Piece *p9 = symetrieFactoryHORIZONTALE.createPiece(*p8, {1, 7});
+    Piece *p10 = symetrieFactoryVERTICALE.createPiece(*p9, {2, 6});
+
+    pieces.push_back(p10);
+
+    plateau = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}, {8, 0}, {9, 0},
+               {0, 1}, {1, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 1}, {6, 1}, {7, 1}, {8, 1}, {9, 1},
+               {0, 2}, {1, 2}, {2, 2}, {3, 2}, {4, 2}, {5, 2}, {6, 2}, {7, 2}, {8, 2}, {9, 2},
+               {0, 3}, {1, 3}, {2, 3}, {3, 3}, {4, 3}, {5, 3}, {6, 3}, {7, 3}, {8, 3}, {9, 3},
+               {0, 4}, {1, 4}, {2, 4}, {3, 4}, {4, 4}, {5, 4}, {6, 4}, {7, 4}, {8, 4}, {9, 4},
+               {0, 5}, {1, 5}, {2, 5}, {3, 5}, {4, 5}, {5, 5}, {6, 5}, {7, 5}, {8, 5}, {9, 5},
+               {0, 6}, {1, 6}, {2, 6}, {3, 6}, {4, 6}, {5, 6}, {6, 6}, {7, 6}, {8, 6}, {9, 6},
+               {0, 7}, {1, 7}, {2, 7}, {3, 7}, {4, 7}, {5, 7}, {6, 7}, {7, 7}, {8, 7}, {9, 7},
+               {0, 8}, {1, 8}, {2, 8}, {3, 8}, {4, 8}, {5, 8}, {6, 8}, {7, 8}, {8, 8}, {9, 8},
+               {0, 9}, {1, 9}, {2, 9}, {3, 9}, {4, 9}, {5, 9}, {6, 9}, {7, 9}, {8, 9}, {9, 9}};
+    for (const pair<int, int> &coord : plateau)
+    {
+        plateauSet.insert(coord);
+    }
+    sizePlateau = findMaxFirstAndSecond(plateau);
 }
 

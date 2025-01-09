@@ -5,6 +5,18 @@ PieceController* PieceController::instance = nullptr;
 PieceController::PieceController() 
 {
   // cout << "PieceController created" << endl;
+  if (!font.loadFromFile("resources/font/04B_30__.TTF"))
+  {
+    cout << "Error loading font" << endl;
+  }
+  endText.setFont(font);
+  endText.setString("Finish");
+  endText.setCharacterSize(50);
+  endText.setFillColor(Color::Red);
+  endText.setPosition(400, 300);
+
+    endOverlay.setSize(sf::Vector2f(858, 640));
+  endOverlay.setFillColor(sf::Color(0, 0, 0, 150));
 }
 
 PieceController::~PieceController() 
@@ -42,7 +54,8 @@ void PieceController::init(GameController *gameController, MouseController *mous
 
 void PieceController::update()
 {
-  if(menuController->getInitMap()){
+  if (menuController->getInitMap())
+  {
     if (mouseController->isButtonPressed(Mouse::Left))
     {
       pair<int, int> coord = make_pair(mouseController->getMouseWorldPos().x, mouseController->getMouseWorldPos().y);
@@ -52,14 +65,13 @@ void PieceController::update()
       coord.second /= mapVue->getSizeCarre() + mapVue->getMarginCarre();
       map->trigger(coord);
       if(map->isEnd()){
-        cout << "End of the game" << endl;
         map->clean();
         gameController->endMap();
+
+        gameController->drawEndText(endText,endOverlay);
+        
       }
     }
   }
-  
-  // cout << "PieceController update" << endl;
   mouseController->observerFinished();
-  // cout << "PieceController update finished" << endl;
 }

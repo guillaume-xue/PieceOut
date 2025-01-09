@@ -43,7 +43,6 @@ void MenuController::update()
 {
   if (mouseController->isButtonPressed(Mouse::Left) && !init_map)
   {
-    // cout << "Mouse pressed" << endl;
     for (size_t i = 0; i < carres.size(); i++)
     {
       if (carres[i]->getGlobalBounds().contains(mouseController->getMouseWorldPos()))
