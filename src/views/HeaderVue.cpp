@@ -23,13 +23,13 @@ void HeaderVue::init(int nbPix_x)
   header.setFillColor(Color::White);
   header.setPosition(0, 0);
 
-  if(!retourTexture.loadFromFile("resources/return.png"))
+  if (!retourTexture.loadFromFile("resources/return.png"))
   {
     cout << "Error loading return.png" << endl;
   }
   retour.setTexture(retourTexture);
-  retour.setScale(0.1, 0.1);
-  retour.setPosition(50, 5);
+  retour.setScale(0.09, 0.09);
+  retour.setPosition(50, 10);
 }
 
 void HeaderVue::draw(RenderWindow &window)

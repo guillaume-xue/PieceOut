@@ -59,7 +59,7 @@ void PieceVue::initSprite()
   symetricSpriteHoriz.setTexture(symetricTexture);
   symetricSpriteHoriz.setScale(new_size, new_size);
   symetricSpriteHoriz.setRotation(90);
-  
+
   croixSprite.setTexture(croix);
   croixSprite.setScale(new_size, new_size);
 }
@@ -141,7 +141,8 @@ void PieceVue::draw2(RenderWindow &window, Piece &piece, int pos_x, int pos_y)
   for (pair<int, int> x : piece.getEndPos())
   {
     RectangleShape carre(Vector2f(size + margin, size + margin));
-    carre.setFillColor(color);                                                                    // Couleur du carré
+    Color newColor(color.r, color.g, color.b, 100);
+    carre.setFillColor(newColor);                                                                 // Couleur du carré
     carre.setPosition(pos_x + (x.first * (size + margin)), pos_y + (x.second * (size + margin))); // Position du carré
     window.draw(carre);
   }
@@ -156,4 +157,3 @@ void PieceVue::clear()
 {
   directionsSprite.clear();
 }
-
